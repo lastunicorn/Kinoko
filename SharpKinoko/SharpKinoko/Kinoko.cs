@@ -19,26 +19,55 @@ using System.Diagnostics;
 
 namespace DustInTheWind.SharpKinoko
 {
+    /// <summary>
+    /// Runs a task and measures the time necessary to finish. The task is run multiple times and an
+    /// average is calculated.
+    /// </summary>
     public class Kinoko
     {
+        /// <summary>
+        /// The task that is tested by Kinoko.
+        /// </summary>
         private KinokoTask task;
 
+        /// <summary>
+        /// Gets or sets the task that is tested by Kinoko.
+        /// </summary>
         public KinokoTask Task
         {
             get { return task; }
             set { task = value; }
         }
 
+        /// <summary>
+        /// The number of times the task is run within the test. (To minimize the measurement errors.)
+        /// </summary>
         private int taskRunCount;
 
+        /// <summary>
+        /// Gets or sets the number of times the task is run within the test. The task should be run multiple
+        /// times to minimize the measurement errors.
+        /// </summary>
         public int TaskRunCount
         {
             get { return taskRunCount; }
-            set { taskRunCount = value; }
+            set
+            {
+                if (value < 1)
+                    throw new Exception("The task run count should be an integer greater then 0.");
+
+                taskRunCount = value;
+            }
         }
 
+        /// <summary>
+        /// The results of the test. It is null if no test was run.
+        /// </summary>
         private KinokoResult result;
 
+        /// <summary>
+        /// Gets the results of the test. It is null if no test was run.
+        /// </summary>
         public KinokoResult Result
         {
             get { return result; }
@@ -87,11 +116,9 @@ namespace DustInTheWind.SharpKinoko
         #endregion
 
 
-        public Kinoko()
-        {
-
-        }
-
+        /// <summary>
+        /// Runs the task and measures the times.
+        /// </summary>
         public void Run()
         {
             if (task == null)
