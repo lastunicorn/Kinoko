@@ -14,7 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.SharpKinoko
+using NUnit.Framework;
+
+namespace DustInTheWind.SharpKinoko.Tests
 {
-   internal delegate void BeforeTaskRun(int stepIndex);
+    [TestFixture]
+    public class KinokoTests
+    {
+        [Test]
+        public void Test()
+        {
+        }
+    }
 }

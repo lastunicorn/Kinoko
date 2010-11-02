@@ -1,5 +1,21 @@
-﻿using System.Diagnostics;
+﻿// Kinoko
+// Copyright (C) 2010 Dust in the Wind
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
+using System.Diagnostics;
 
 namespace DustInTheWind.SharpKinoko
 {
@@ -105,31 +121,6 @@ namespace DustInTheWind.SharpKinoko
 
             result.Calculate();
             this.result = result;
-
-
-            //double[] times = new double[testRepeateCount];
-
-            //// The Task is run multiple times and then an avarage is calculated.
-
-            //for (int i = 0; i < testRepeateCount; i++)
-            //{
-            //    // Announce that the Task is about to be run.
-            //    OnBeforeTaskRun(new BeforeTaskRunEventArgs(i));
-
-            //    // Run the Task.
-            //    Stopwatch stopwatch = Stopwatch.StartNew();
-            //    task();
-            //    stopwatch.Stop();
-
-            //    // Store the time in which the task run.
-            //    times[i] = stopwatch.ElapsedMilliseconds;
-
-            //    // Announce that the Task was run.
-            //    if (afterTaskRun != null)
-            //        afterTaskRun(i, times[i]);
-            //}
-
-            //return Math.Avarage(times);
         }
     }
 }
