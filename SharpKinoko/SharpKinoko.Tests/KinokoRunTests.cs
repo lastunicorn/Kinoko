@@ -14,10 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//using Rhino.Mocks;
 using System.Threading;
 using NUnit.Framework;
-using System.Collections.Generic;
 using Rhino.Mocks;
 
 namespace DustInTheWind.SharpKinoko.Tests
@@ -36,25 +34,6 @@ namespace DustInTheWind.SharpKinoko.Tests
         }
 
         [Test]
-        public void Test()
-        {
-            KinokoTask task = mocks.StrictMock<KinokoTask>();
-
-            kinoko.Task = task;
-
-            using (mocks.Record())
-            {
-                task.Invoke();
-                LastCall.Repeat.Twice();
-            }
-
-            using (mocks.Playback())
-            {
-                kinoko.Run();
-            }
-        }
-
-        [Test]
         [ExpectedException(typeof(TaskNotSetException))]
         public void TestRun_NoTask()
         {
@@ -64,34 +43,40 @@ namespace DustInTheWind.SharpKinoko.Tests
         [Test]
         public void TestRun_TaskRun1()
         {
-            int callCount = 0;
-            KinokoTask task = new KinokoTask(delegate
-            {
-                callCount++;
-            });
+            KinokoTask task = mocks.StrictMock<KinokoTask>();
 
             kinoko.Task = task;
 
-            kinoko.Run();
+            using (mocks.Record())
+            {
+                task.Invoke();
+                LastCall.Repeat.Once();
+            }
 
-            Assert.That(callCount, Is.EqualTo(1));
+            using (mocks.Playback())
+            {
+                kinoko.Run();
+            }
         }
 
         [Test]
         public void TestRun_TaskRunN([Values(1, 2, 3, 4, 5, 10)]int n)
         {
-            int callCount = 0;
-            KinokoTask task = new KinokoTask(delegate
-            {
-                callCount++;
-            });
+            KinokoTask task = mocks.StrictMock<KinokoTask>();
 
             kinoko.Task = task;
             kinoko.TaskRunCount = n;
 
-            kinoko.Run();
+            using (mocks.Record())
+            {
+                task.Invoke();
+                LastCall.Repeat.Times(n);
+            }
 
-            Assert.That(callCount, Is.EqualTo(n));
+            using (mocks.Playback())
+            {
+                kinoko.Run();
+            }
         }
 
 
@@ -110,25 +95,22 @@ namespace DustInTheWind.SharpKinoko.Tests
         [Test]
         public void TestRun_TaskRun_ResultN([Values(1, 2, 3, 4, 5, 10)]int n)
         {
-            int callCount = 0;
-            KinokoTask task = new KinokoTask(delegate
-            {
-                callCount++;
-            });
+            KinokoTask task = new KinokoTask(delegate { });
 
             kinoko.Task = task;
             kinoko.TaskRunCount = n;
 
             kinoko.Run();
 
-            Assert.That(kinoko.Result.Times.Length, Is.EqualTo(n));
+            Assert.That(kinoko.Result.Measurements.Length, Is.EqualTo(n));
         }
 
         [Test]
-        public void TestRun_TaskRun_ResultTimes()
+        public void TestRun_TaskRun_ResultMeasurements()
         {
             int callIndex = 0;
             double[] times = new double[] { 100, 150, 50 };
+
             KinokoTask task = new KinokoTask(delegate
             {
                 Thread.Sleep((int)times[callIndex++]);
@@ -139,13 +121,15 @@ namespace DustInTheWind.SharpKinoko.Tests
 
             kinoko.Run();
 
+            // In this assert is not working the "Within()" method correctly.
             //Assert.That(kinoko.Result.Times, Is.All.EqualTo(times).Within(1));
 
-            Assert.That(kinoko.Result.Times, Is.Not.Null);
-            Assert.That(kinoko.Result.Times.Length, Is.EqualTo(times.Length));
+            // The above assert is replaced by the folowing ones.
+            Assert.That(kinoko.Result.Measurements, Is.Not.Null);
+            Assert.That(kinoko.Result.Measurements.Length, Is.EqualTo(times.Length));
             for (int i = 0; i < times.Length; i++)
             {
-                Assert.That(kinoko.Result.Times[i], Is.EqualTo(times[i]).Within(1));
+                Assert.That(kinoko.Result.Measurements[i], Is.EqualTo(times[i]).Within(1));
             }
         }
 
@@ -153,18 +137,19 @@ namespace DustInTheWind.SharpKinoko.Tests
         public void TestRun_TaskRun_ResultCalculateAverage()
         {
             int callIndex = 0;
-            double[] times = new double[] { 100, 150, 50 };
+            double[] times = new double[] { 142, 152, 57, 84 };
             KinokoTask task = new KinokoTask(delegate
             {
                 Thread.Sleep((int)times[callIndex++]);
             });
 
             kinoko.Task = task;
-            kinoko.TaskRunCount = 3;
+            kinoko.TaskRunCount = times.Length;
 
             kinoko.Run();
 
-            Assert.That(kinoko.Result.Average, Is.EqualTo(100).Within(2));
+            // (142 + 152 + 57 + 84) / 4 = 108.75
+            Assert.That(kinoko.Result.Average, Is.EqualTo(108.75).Within(2));
         }
     }
 }

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{27F45E14-B0D3-40DE-8BB3-907CC1C99F8A}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -35,12 +35,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AfterTaskRun.cs" />
     <Compile Include="AfterTaskRunEventArgs.cs" />
-    <Compile Include="BeforeTaskRun.cs" />
     <Compile Include="BeforeTaskRunEventArgs.cs" />
     <Compile Include="KinokoException.cs" />
     <Compile Include="KinokoResult.cs" />

@@ -14,8 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 namespace DustInTheWind.SharpKinoko
 {
+    /// <summary>
+    /// Represents the task that is tested by Kinoko.
+    /// </summary>
     public delegate void KinokoTask();
 }

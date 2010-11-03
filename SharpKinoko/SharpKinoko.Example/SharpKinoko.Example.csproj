@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A215B48F-1EF6-4BBE-8D31-DF89AF3055F6}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{3E4B2B22-38E9-4AD8-8F6D-92091A9429F6}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DustInTheWind.SharpKinoko.Tests</RootNamespace>
-    <AssemblyName>SharpKinoko.Tests</AssemblyName>
+    <RootNamespace>DustInTheWind.SharpKinoko.Example</RootNamespace>
+    <AssemblyName>SharpKinoko.Example</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,14 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
-    <Reference Include="Rhino.Mocks, Version=3.5.0.1337, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL" />
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KinokoEventTests.cs" />
-    <Compile Include="KinokoRunTests.cs" />
-    <Compile Include="KinokoTests.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -46,10 +42,6 @@
       <Project>{27F45E14-B0D3-40DE-8BB3-907CC1C99F8A}</Project>
       <Name>SharpKinoko</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="RefBin\Rhino.Mocks.dll" />
-    <Content Include="RefBin\Rhino.Mocks.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

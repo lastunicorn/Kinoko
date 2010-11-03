@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SharpKinoko.Tests")]
+[assembly: AssemblyTitle("Example")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Dust in the Wind")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8da42ffd-7836-47d3-bd53-3093e5c02893")]
+[assembly: Guid("439576ba-b7ce-408d-bb5d-cf5145e1b2ed")]
 
 // Version information for an assembly consists of the following four values:
 //

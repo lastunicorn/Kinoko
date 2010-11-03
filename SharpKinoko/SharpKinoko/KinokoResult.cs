@@ -18,35 +18,61 @@ using System.Collections.Generic;
 
 namespace DustInTheWind.SharpKinoko
 {
+    /// <summary>
+    /// Contains the measurements taken by Kinoko after it runs the task.
+    /// </summary>
     public class KinokoResult
     {
-        private List<double> times;
+        /// <summary>
+        /// The time measurements of every run of the task.
+        /// </summary>
+        private List<double> measurements;
 
-        public double[] Times
+        /// <summary>
+        /// Gets an array with the time measurements of every run of the task.
+        /// </summary>
+        public double[] Measurements
         {
-            get { return times.ToArray(); }
+            get { return measurements.ToArray(); }
         }
 
+        /// <summary>
+        /// The average value in miliseconds of the time measurements.
+        /// </summary>
         private double average;
+
+        /// <summary>
+        /// Gets the average value in miliseconds of the time measurements.
+        /// </summary>
         public double Average
         {
             get { return average; }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KinokoResult"/> class.
+        /// </summary>
         public KinokoResult()
         {
-            times = new List<double>();
+            measurements = new List<double>();
             average = 0D;
         }
 
-        public void AddValue(double time)
+        /// <summary>
+        /// Adds a new time measurement to the list of time measurements.
+        /// </summary>
+        /// <param name="time">The time measurement value.</param>
+        public void AddMeasurement(double time)
         {
-            times.Add(time);
+            measurements.Add(time);
         }
 
+        /// <summary>
+        /// Calculates all usefull values from the measured data.
+        /// </summary>
         public void Calculate()
         {
-            average = Math.Avarage(times);
+            average = Math.Average(measurements);
         }
     }
 }

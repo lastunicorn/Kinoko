@@ -156,7 +156,7 @@ namespace DustInTheWind.SharpKinoko
 
                 // Store the time in which the task run.
                 double millis = stopwatch.Elapsed.TotalMilliseconds;
-                result.AddValue(millis);
+                result.AddMeasurement(millis);
 
                 // Announce that the Task was run.
                 OnAfterTaskRun(new AfterTaskRunEventArgs(i, millis));

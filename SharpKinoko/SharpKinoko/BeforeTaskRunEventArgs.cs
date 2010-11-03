@@ -19,12 +19,18 @@ using System;
 namespace DustInTheWind.SharpKinoko
 {
     /// <summary>
-    /// Provides data for <see cref="BeforeTaskRun"/> event.
+    /// Provides data for <see cref="Kinoko.BeforeTaskRun"/> event.
     /// </summary>
     public class BeforeTaskRunEventArgs : EventArgs
     {
+        /// <summary>
+        /// The index of the current run of the task.
+        /// </summary>
         private int stepIndex;
 
+        /// <summary>
+        /// Gets the index of the current run of the task.
+        /// </summary>
         public int StepIndex
         {
             get { return stepIndex; }
@@ -33,24 +39,11 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// Initializes a new instance of the <see cref="BeforeTaskRunEventArgs"/> class.
         /// </summary>
+        /// <param name="stepIndex">The index of the current run of the task.</param>
         public BeforeTaskRunEventArgs(int stepIndex)
             : base()
         {
             this.stepIndex = stepIndex;
         }
-
-        //public override bool Equals(object obj)
-        //{
-        //    if (obj is BeforeTaskRunEventArgs)
-        //    {
-        //        BeforeTaskRunEventArgs eva = (BeforeTaskRunEventArgs)obj;
-
-        //        return eva.stepIndex == stepIndex;
-        //    }
-        //    else
-        //    {
-        //        throw new ArgumentException("obj is not a BeforeTaskRunEventArgs object.");
-        //    }
-        //}
     }
 }

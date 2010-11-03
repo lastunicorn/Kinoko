@@ -20,7 +20,7 @@ namespace DustInTheWind.SharpKinoko
 {
     internal class Math
     {
-        public static double Avarage(double[] values)
+        public static double Average(double[] values)
         {
             double sum = 0;
 
@@ -32,7 +32,7 @@ namespace DustInTheWind.SharpKinoko
             return sum / (double)values.Length;
         }
 
-        public static double Avarage(IList<double> values)
+        public static double Average(IList<double> values)
         {
             double sum = 0;
 
@@ -44,7 +44,7 @@ namespace DustInTheWind.SharpKinoko
             return sum / (double)values.Count;
         }
 
-        public static double Avarage(IEnumerable<double> values)
+        public static double Average(IEnumerable<double> values)
         {
             double sum = 0;
             int count = 0;
