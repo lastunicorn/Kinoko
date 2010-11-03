@@ -20,7 +20,7 @@ using NUnit.Framework;
 namespace DustInTheWind.SharpKinoko.Tests
 {
     [TestFixture]
-    public class KinokoTests
+    public class KinokoEventTests
     {
         private Kinoko kinoko;
 

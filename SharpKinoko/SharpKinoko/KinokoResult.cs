@@ -1,4 +1,4 @@
-﻿// Kinoko
+﻿// SharpKinoko
 // Copyright (C) 2010 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -21,6 +21,11 @@ namespace DustInTheWind.SharpKinoko
     public class KinokoResult
     {
         private List<double> times;
+
+        public double[] Times
+        {
+            get { return times.ToArray(); }
+        }
 
         private double average;
         public double Average

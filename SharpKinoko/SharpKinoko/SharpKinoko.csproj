@@ -42,10 +42,12 @@
     <Compile Include="AfterTaskRunEventArgs.cs" />
     <Compile Include="BeforeTaskRun.cs" />
     <Compile Include="BeforeTaskRunEventArgs.cs" />
+    <Compile Include="KinokoException.cs" />
     <Compile Include="KinokoResult.cs" />
     <Compile Include="KinokoTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Kinoko.cs" />
+    <Compile Include="TaskNotSetException.cs" />
     <Compile Include="Utils\Math.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
