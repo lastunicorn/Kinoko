@@ -18,20 +18,40 @@
 using System.Threading;
 using NUnit.Framework;
 using System.Collections.Generic;
+using Rhino.Mocks;
 
 namespace DustInTheWind.SharpKinoko.Tests
 {
     [TestFixture]
     public class KinokoRunTests
     {
-        //private MockRepository mocks;
+        private MockRepository mocks;
         private Kinoko kinoko;
 
         [SetUp]
         public void SetUp()
         {
-            //mocks = new MockRepository();
+            mocks = new MockRepository();
             kinoko = new Kinoko();
+        }
+
+        [Test]
+        public void Test()
+        {
+            KinokoTask task = mocks.StrictMock<KinokoTask>();
+
+            kinoko.Task = task;
+
+            using (mocks.Record())
+            {
+                task.Invoke();
+                LastCall.Repeat.Twice();
+            }
+
+            using (mocks.Playback())
+            {
+                kinoko.Run();
+            }
         }
 
         [Test]
@@ -126,76 +146,6 @@ namespace DustInTheWind.SharpKinoko.Tests
             for (int i = 0; i < times.Length; i++)
             {
                 Assert.That(kinoko.Result.Times[i], Is.EqualTo(times[i]).Within(1));
-            }
-
-            //Assert.That(kinoko.Result.Times, Has.Some.EqualTo(times).Within(1.1));
-            //Assert.That(kinoko.Result.Times, Is.All.EqualTo(times).Using<double>(new System.Comparison<double>(delegate(double a, double b) { return (System.Math.Abs(a - b) < 1) ? 1, ; })));
-            //Assert.That(kinoko.Result.Times, Is.All.EqualTo(times).Using<double[]>(new ToleranceDoubleComparer(1)));
-        }
-
-        private class ToleranceDoubleComparer1 : IEqualityComparer<double>
-        {
-            private double tolerance;
-
-            public ToleranceDoubleComparer1(double tolerance)
-            {
-                this.tolerance = tolerance;
-            }
-
-            public bool Equals(double a, double b)
-            {
-                if (a - b > tolerance || a - b < -tolerance)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-
-
-            public int GetHashCode(double obj)
-            {
-                return obj.GetHashCode();
-            }
-        }
-
-        private class ToleranceDoubleComparer : IEqualityComparer<double[]>
-        {
-            private double tolerance;
-
-            public ToleranceDoubleComparer(double tolerance)
-            {
-                this.tolerance = tolerance;
-            }
-
-            public bool Equals(double[] a, double[] b)
-            {
-                if (a == null && b == null)
-                    return true;
-
-                if (a == null || b == null)
-                    return false;
-
-                if (!a.Length.Equals(b.Length))
-                    return false;
-
-                for (int i = 0; i < a.Length; i++)
-                {
-                    if (a[i] - b[i] > tolerance || a[i] - b[i] < -tolerance)
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-
-
-            public int GetHashCode(double[] obj)
-            {
-                return obj.GetHashCode();
             }
         }
 
