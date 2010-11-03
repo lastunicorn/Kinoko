@@ -29,10 +29,11 @@ namespace DustInTheWind.SharpKinoko.Example
             Console.WriteLine("C# Kinoko Usage Example");
             Console.WriteLine("===============================================================================");
             Console.WriteLine("This example is running a task that just sleeps for {0} milliseconds.", sleepTime);
-            Console.WriteLine("The additional time, less then a millisecond, represents the measurement error:");
-            Console.WriteLine(" 1) the time necessary to actually call the task method;");
-            Console.WriteLine(" 2) the measurement error of the Stopwatch class;");
-            Console.WriteLine(" 3) the error of the Thread.Sleep() method");
+            Console.WriteLine("Kinoko will measure a time a little bigger then the right one (around");
+            Console.WriteLine("1 milisecond bigger). It represents the measurement error cumulated from:");
+            Console.WriteLine("  1) the time necessary to actually call the task method;");
+            Console.WriteLine("  2) the measurement error of the Stopwatch class;");
+            Console.WriteLine("  3) the error of the Thread.Sleep() method");
             Console.WriteLine();
 
             Kinoko kinoko = new Kinoko();
