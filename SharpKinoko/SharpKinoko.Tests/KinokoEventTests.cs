@@ -16,65 +16,82 @@
 
 using System;
 using NUnit.Framework;
+using Rhino.Mocks;
+using System.Threading;
 
 namespace DustInTheWind.SharpKinoko.Tests
 {
     [TestFixture]
     public class KinokoEventTests
     {
+        private MockRepository mocks;
         private Kinoko kinoko;
+        private int taskRunTime = 50;
 
         [SetUp]
         public void SetUp()
         {
+            mocks = new MockRepository();
             kinoko = new Kinoko();
+            kinoko.Task = new KinokoTask(delegate { Thread.Sleep(taskRunTime); });
         }
 
         [Test]
-        public void TestConstructor1()
+        public void TestBeforeTaskRun([Values(1, 2, 3)]int taskRunCount)
         {
+            EventHandler<BeforeTaskRunEventArgs> eva = mocks.StrictMock<EventHandler<BeforeTaskRunEventArgs>>();
+            kinoko.BeforeTaskRun += eva;
+
+            using (mocks.Record())
+            {
+                for (int i = 0; i < taskRunCount; i++)
+                {
+                    eva(kinoko, new BeforeTaskRunEventArgs(i));
+                    LastCall.Repeat.Once().Constraints(
+                        Rhino.Mocks.Constraints.Is.Same(kinoko),
+                        new Rhino.Mocks.Constraints.PropertyConstraint("StepIndex", Rhino.Mocks.Constraints.Is.Equal(i))
+                        );
+                }
+            }
+
+            using (mocks.Playback())
+            {
+                kinoko.TaskRunCount = taskRunCount;
+                kinoko.Run();
+            }
         }
 
         [Test]
-        public void TestInitial_Task()
+        public void TestAfterTaskRun([Values(1, 2, 3)]int taskRunCount)
         {
-            Assert.That(kinoko.Task, Is.Null);
-        }
+            EventHandler<AfterTaskRunEventArgs> eva = mocks.StrictMock<EventHandler<AfterTaskRunEventArgs>>();
+            kinoko.AfterTaskRun += eva;
 
-        [Test]
-        public void TestInitial_TaskRunCount()
-        {
-            Assert.That(kinoko.TaskRunCount, Is.EqualTo(1));
-        }
+            int tolerance = 2;
 
-        [Test]
-        public void TestInitial_Result()
-        {
-            Assert.That(kinoko.Result, Is.Null);
-        }
+            using (mocks.Record())
+            {
+                for (int i = 0; i < taskRunCount; i++)
+                {
+                    eva(null, null);
+                    LastCall.Repeat.Once().IgnoreArguments().Constraints(
+                        Rhino.Mocks.Constraints.Is.Same(kinoko),
+                        new Rhino.Mocks.Constraints.And(
+                            Rhino.Mocks.Constraints.Is.NotNull(),
+                            new Rhino.Mocks.Constraints.And(
+                                new Rhino.Mocks.Constraints.PropertyConstraint("StepIndex", Rhino.Mocks.Constraints.Is.Equal(i)),
+                                new Rhino.Mocks.Constraints.PropertyConstraint("Time", Rhino.Mocks.Constraints.Is.Matching<double>(new Predicate<double>(delegate(double d) { return d > taskRunTime - tolerance && d < taskRunTime + tolerance; })))
+                            )
+                        )
+                        );
+                }
+            }
 
-        [Test]
-        public void TestTask()
-        {
-            KinokoTask task = new KinokoTask(delegate { });
-            kinoko.Task = task;
-
-            Assert.That(kinoko.Task, Is.SameAs(task));
-        }
-
-        [Test]
-        public void TestTaskRunCount1()
-        {
-            kinoko.TaskRunCount = 10;
-
-            Assert.That(kinoko.TaskRunCount, Is.EqualTo(10));
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestTaskRunCount2([Values(0, -1, -2, -10)]int taskRunCount)
-        {
-            kinoko.TaskRunCount = taskRunCount;
+            using (mocks.Playback())
+            {
+                kinoko.TaskRunCount = taskRunCount;
+                kinoko.Run();
+            }
         }
     }
 }

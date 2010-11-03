@@ -17,6 +17,7 @@
 //using Rhino.Mocks;
 using System.Threading;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace DustInTheWind.SharpKinoko.Tests
 {
@@ -118,7 +119,84 @@ namespace DustInTheWind.SharpKinoko.Tests
 
             kinoko.Run();
 
-            Assert.That(kinoko.Result.Times, Is.All.EqualTo(times).Within(1));
+            //Assert.That(kinoko.Result.Times, Is.All.EqualTo(times).Within(1));
+
+            Assert.That(kinoko.Result.Times, Is.Not.Null);
+            Assert.That(kinoko.Result.Times.Length, Is.EqualTo(times.Length));
+            for (int i = 0; i < times.Length; i++)
+            {
+                Assert.That(kinoko.Result.Times[i], Is.EqualTo(times[i]).Within(1));
+            }
+
+            //Assert.That(kinoko.Result.Times, Has.Some.EqualTo(times).Within(1.1));
+            //Assert.That(kinoko.Result.Times, Is.All.EqualTo(times).Using<double>(new System.Comparison<double>(delegate(double a, double b) { return (System.Math.Abs(a - b) < 1) ? 1, ; })));
+            //Assert.That(kinoko.Result.Times, Is.All.EqualTo(times).Using<double[]>(new ToleranceDoubleComparer(1)));
+        }
+
+        private class ToleranceDoubleComparer1 : IEqualityComparer<double>
+        {
+            private double tolerance;
+
+            public ToleranceDoubleComparer1(double tolerance)
+            {
+                this.tolerance = tolerance;
+            }
+
+            public bool Equals(double a, double b)
+            {
+                if (a - b > tolerance || a - b < -tolerance)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+
+            public int GetHashCode(double obj)
+            {
+                return obj.GetHashCode();
+            }
+        }
+
+        private class ToleranceDoubleComparer : IEqualityComparer<double[]>
+        {
+            private double tolerance;
+
+            public ToleranceDoubleComparer(double tolerance)
+            {
+                this.tolerance = tolerance;
+            }
+
+            public bool Equals(double[] a, double[] b)
+            {
+                if (a == null && b == null)
+                    return true;
+
+                if (a == null || b == null)
+                    return false;
+
+                if (!a.Length.Equals(b.Length))
+                    return false;
+
+                for (int i = 0; i < a.Length; i++)
+                {
+                    if (a[i] - b[i] > tolerance || a[i] - b[i] < -tolerance)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+
+            public int GetHashCode(double[] obj)
+            {
+                return obj.GetHashCode();
+            }
         }
 
         [Test]

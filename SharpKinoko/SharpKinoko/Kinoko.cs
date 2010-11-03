@@ -22,6 +22,7 @@ namespace DustInTheWind.SharpKinoko
     /// <summary>
     /// Runs a task and measures the time necessary to finish. The task is run multiple times and an
     /// average is calculated.
+    /// The class is not thread safe.
     /// </summary>
     public class Kinoko
     {
@@ -73,47 +74,50 @@ namespace DustInTheWind.SharpKinoko
             get { return result; }
         }
 
-        //#region Event BeforeTaskRun
+        #region Event BeforeTaskRun
 
-        ///// <summary>
-        ///// Event raised when ... Well, is raised when it should be raised. Ok?
-        ///// </summary>
-        //public event EventHandler<BeforeTaskRunEventArgs> BeforeTaskRun;
+        /// <summary>
+        /// Event raised before every call of the task.
+        /// </summary>
+        public event EventHandler<BeforeTaskRunEventArgs> BeforeTaskRun;
 
-        ///// <summary>
-        ///// Raises the <see cref="BeforeTaskRun"/> event.
-        ///// </summary>
-        ///// <param name="e">An <see cref="BeforeTaskRunEventArgs"/> object that contains the event data.</param>
-        //protected virtual void OnBeforeTaskRun(BeforeTaskRunEventArgs e)
-        //{
-        //    if (BeforeTaskRun != null)
-        //    {
-        //        BeforeTaskRun(this, e);
-        //    }
-        //}
+        /// <summary>
+        /// Raises the <see cref="BeforeTaskRun"/> event.
+        /// </summary>
+        /// <param name="e">An <see cref="BeforeTaskRunEventArgs"/> object that contains the event data.</param>
+        protected virtual void OnBeforeTaskRun(BeforeTaskRunEventArgs e)
+        {
+            if (BeforeTaskRun != null)
+            {
+                BeforeTaskRun(this, e);
+            }
+        }
 
-        //#endregion
+        #endregion
 
-        //#region Event AfterTaskRunEvent
+        #region Event AfterTaskRunEvent
 
-        ///// <summary>
-        ///// Event raised when ... Well, is raised when it should be raised. Ok?
-        ///// </summary>
-        //public event EventHandler<AfterTaskRunEventArgs> AfterTaskRun;
+        /// <summary>
+        /// Event raised after every call of the task.
+        /// </summary>
+        public event EventHandler<AfterTaskRunEventArgs> AfterTaskRun;
 
-        ///// <summary>
-        ///// Raises the <see cref="AfterTaskRun"/> event.
-        ///// </summary>
-        ///// <param name="e">An <see cref="AfterTaskRunEventArgs"/> object that contains the event data.</param>
-        //protected virtual void OnAfterTaskRun(AfterTaskRunEventArgs e)
-        //{
-        //    if (AfterTaskRun != null)
-        //    {
-        //        AfterTaskRun(this, e);
-        //    }
-        //}
+        /// <summary>
+        /// Raises the <see cref="AfterTaskRun"/> event.
+        /// </summary>
+        /// <param name="e">An <see cref="AfterTaskRunEventArgs"/> object that contains the event data.</param>
+        protected virtual void OnAfterTaskRun(AfterTaskRunEventArgs e)
+        {
+            if (AfterTaskRun != null)
+            {
+                AfterTaskRun(this, e);
+            }
+        }
 
-        //#endregion
+        #endregion
+
+
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Kinoko"/> class.
@@ -123,6 +127,11 @@ namespace DustInTheWind.SharpKinoko
             taskRunCount = 1;
         }
 
+        #endregion
+
+
+        #region Run
+
         /// <summary>
         /// Runs the task multiple times and measures the times.
         /// </summary>
@@ -131,13 +140,14 @@ namespace DustInTheWind.SharpKinoko
             if (task == null)
                 throw new TaskNotSetException();
 
+            this.result = null;
             KinokoResult result = new KinokoResult();
 
             // Run the task multiple times.
             for (int i = 0; i < taskRunCount; i++)
             {
-                //    // Announce that the Task is about to be run.
-                //    OnBeforeTaskRun(new BeforeTaskRunEventArgs(i));
+                // Announce that the Task is about to be run.
+                OnBeforeTaskRun(new BeforeTaskRunEventArgs(i));
 
                 // Run the Task.
                 Stopwatch stopwatch = Stopwatch.StartNew();
@@ -148,12 +158,14 @@ namespace DustInTheWind.SharpKinoko
                 double millis = stopwatch.Elapsed.TotalMilliseconds;
                 result.AddValue(millis);
 
-                //    // Announce that the Task was run.
-                //    OnAfterTaskRun(new AfterTaskRunEventArgs(i, millis));
+                // Announce that the Task was run.
+                OnAfterTaskRun(new AfterTaskRunEventArgs(i, millis));
             }
 
             result.Calculate();
             this.result = result;
         }
+
+        #endregion
     }
 }

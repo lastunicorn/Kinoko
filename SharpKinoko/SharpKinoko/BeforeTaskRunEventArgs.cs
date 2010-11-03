@@ -38,5 +38,19 @@ namespace DustInTheWind.SharpKinoko
         {
             this.stepIndex = stepIndex;
         }
+
+        //public override bool Equals(object obj)
+        //{
+        //    if (obj is BeforeTaskRunEventArgs)
+        //    {
+        //        BeforeTaskRunEventArgs eva = (BeforeTaskRunEventArgs)obj;
+
+        //        return eva.stepIndex == stepIndex;
+        //    }
+        //    else
+        //    {
+        //        throw new ArgumentException("obj is not a BeforeTaskRunEventArgs object.");
+        //    }
+        //}
     }
 }
