@@ -117,7 +117,7 @@ namespace DustInTheWind.SharpKinoko.Tests
             });
 
             kinoko.Task = task;
-            kinoko.TaskRunCount = 3;
+            kinoko.TaskRunCount = times.Length;
 
             kinoko.Run();
 
