@@ -24,6 +24,9 @@ namespace DustInTheWind.SharpKinoko
     /// average is calculated.
     /// The class is not thread safe.
     /// </summary>
+    /// <remarks>
+    /// Every time the <see cref="M:Run"/> method is called, the old result is discarded.
+    /// </remarks>
     public class Kinoko
     {
         /// <summary>
@@ -74,6 +77,7 @@ namespace DustInTheWind.SharpKinoko
             get { return result; }
         }
 
+
         #region Event BeforeTaskRun
 
         /// <summary>
@@ -120,11 +124,30 @@ namespace DustInTheWind.SharpKinoko
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Kinoko"/> class.
+        /// Initializes a new instance of the <see cref="Kinoko"/> class with
+        /// default values.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public Kinoko()
+            : this(null, 1)
         {
-            taskRunCount = 1;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Kinoko"/> class with
+        /// the task that is to be tested and
+        /// the number of times the test should be performed.
+        /// </summary>
+        /// <param name="task">The task that is to be tested.</param>
+        /// <param name="taskRunCount">The number of times the task is run.</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public Kinoko(KinokoTask task, int taskRunCount)
+        {
+            if (taskRunCount < 1)
+                throw new ArgumentOutOfRangeException("value", "The task run count should be an integer greater then 0.");
+
+            this.task = task;
+            this.taskRunCount = taskRunCount;
         }
 
         #endregion
@@ -133,8 +156,11 @@ namespace DustInTheWind.SharpKinoko
         #region Run
 
         /// <summary>
-        /// Runs the task multiple times and measures the times.
+        /// Runs the task multiple times and measures the time intervals spent.
         /// </summary>
+        /// <remarks>
+        /// After the test is finished, the <see cref="M:KinokoResult.Calculate"/> method is automatically called. 
+        /// </remarks>
         public void Run()
         {
             if (task == null)
