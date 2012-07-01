@@ -38,6 +38,7 @@
       <Private>False</Private>
       <Package>nunit</Package>
     </Reference>
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -51,6 +52,9 @@
     <Compile Include="TaskMeasurerTests\MeasuredEventTests.cs" />
     <Compile Include="TaskMeasurerTests\MeasuringEventTests.cs" />
     <Compile Include="KinokoTests\RunTests.cs" />
+    <Compile Include="AssemblyTasksProviderTests\GetAllTestMethodsTests.cs" />
+    <Compile Include="AssemblyTasksProviderTests\LoadTests.cs" />
+    <Compile Include="AssemblyTasksProviderTests\GetTasksTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpKinoko\SharpKinoko.csproj">
@@ -69,7 +73,7 @@
   <ItemGroup>
     <Folder Include="KinokoTests\" />
     <Folder Include="KinokoResultTests\" />
-    <Folder Include="TasksProviderTests\" />
     <Folder Include="TaskMeasurerTests\" />
+    <Folder Include="AssemblyTasksProviderTests\" />
   </ItemGroup>
 </Project>

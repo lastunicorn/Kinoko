@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpKinoko.Tests", "SharpK
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpKinoko.Example", "SharpKinoko.Example\SharpKinoko.Example.csproj", "{3E4B2B22-38E9-4AD8-8F6D-92091A9429F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyWithMethodsForTesting", "AssemblyWithMethodsForTesting\AssemblyWithMethodsForTesting.csproj", "{ED6A506A-16AC-4151-8F0C-B63AA2FB9E94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{A215B48F-1EF6-4BBE-8D31-DF89AF3055F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A215B48F-1EF6-4BBE-8D31-DF89AF3055F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A215B48F-1EF6-4BBE-8D31-DF89AF3055F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED6A506A-16AC-4151-8F0C-B63AA2FB9E94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED6A506A-16AC-4151-8F0C-B63AA2FB9E94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED6A506A-16AC-4151-8F0C-B63AA2FB9E94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED6A506A-16AC-4151-8F0C-B63AA2FB9E94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = SharpKinoko\SharpKinoko.csproj
