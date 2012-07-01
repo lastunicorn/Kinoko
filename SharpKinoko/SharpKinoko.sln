@@ -9,16 +9,28 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpKinoko.Example", "Shar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyWithMethodsForTesting", "AssemblyWithMethodsForTesting\AssemblyWithMethodsForTesting.csproj", "{ED6A506A-16AC-4151-8F0C-B63AA2FB9E94}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpKinoko.Console", "SharpKinoko.Console\SharpKinoko.Console.csproj", "{2FD7F5D5-A5D1-44E0-8264-13CC6848A87E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{27F45E14-B0D3-40DE-8BB3-907CC1C99F8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{27F45E14-B0D3-40DE-8BB3-907CC1C99F8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27F45E14-B0D3-40DE-8BB3-907CC1C99F8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27F45E14-B0D3-40DE-8BB3-907CC1C99F8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FD7F5D5-A5D1-44E0-8264-13CC6848A87E}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2FD7F5D5-A5D1-44E0-8264-13CC6848A87E}.Debug|Any CPU.Build.0 = Debug|x86
+		{2FD7F5D5-A5D1-44E0-8264-13CC6848A87E}.Debug|x86.ActiveCfg = Debug|x86
+		{2FD7F5D5-A5D1-44E0-8264-13CC6848A87E}.Debug|x86.Build.0 = Debug|x86
+		{2FD7F5D5-A5D1-44E0-8264-13CC6848A87E}.Release|Any CPU.ActiveCfg = Release|x86
+		{2FD7F5D5-A5D1-44E0-8264-13CC6848A87E}.Release|Any CPU.Build.0 = Release|x86
+		{2FD7F5D5-A5D1-44E0-8264-13CC6848A87E}.Release|x86.ActiveCfg = Release|x86
+		{2FD7F5D5-A5D1-44E0-8264-13CC6848A87E}.Release|x86.Build.0 = Release|x86
 		{3E4B2B22-38E9-4AD8-8F6D-92091A9429F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3E4B2B22-38E9-4AD8-8F6D-92091A9429F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E4B2B22-38E9-4AD8-8F6D-92091A9429F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,7 +45,7 @@ Global
 		{ED6A506A-16AC-4151-8F0C-B63AA2FB9E94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = SharpKinoko\SharpKinoko.csproj
+		StartupItem = SharpKinoko.Console\SharpKinoko.Console.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.inheritsSet = null

@@ -1,4 +1,4 @@
-// SharpKinoko
+﻿// SharpKinoko
 // Copyright (C) 2010 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -14,14 +14,36 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using System.Threading;
 
-namespace DustInTheWind.SharpKinoko
+namespace DustInTheWind.SharpKinoko.Example
 {
-    [AttributeUsage(AttributeTargets.Method)]
-    public class KinokoTaskAttribute : Attribute
+    public class SomethingToTest
     {
-        public KinokoTaskAttribute()
+        [KinokoTask]
+        public void Sleep30()
+        {
+            Thread.Sleep(30);
+        }
+
+        [KinokoTask]
+        public void EmptyForLoop100000()
+        {
+            for (int i = 0; i < 100000; i++)
+            {
+            }
+        }
+
+        [KinokoTask]
+        public void CallEmptyMethodInForLoop100000()
+        {
+            for (int i = 0; i < 100000; i++)
+            {
+                SomeMethod();
+            }
+        }
+
+        private void SomeMethod()
         {
         }
     }
