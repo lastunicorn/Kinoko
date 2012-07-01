@@ -19,10 +19,10 @@ using System.Threading;
 using NUnit.Framework;
 using Rhino.Mocks;
 
-namespace DustInTheWind.SharpKinoko.Tests
+namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
 {
     [TestFixture]
-    public class KinokoEventTests
+    public class EventTests
     {
         private MockRepository mocks;
         private Kinoko kinoko;

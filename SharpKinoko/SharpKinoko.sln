@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpKinoko", "SharpKinoko\SharpKinoko.csproj", "{27F45E14-B0D3-40DE-8BB3-907CC1C99F8A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpKinoko.Tests", "SharpKinoko.Tests\SharpKinoko.Tests.csproj", "{A215B48F-1EF6-4BBE-8D31-DF89AF3055F6}"
@@ -17,14 +17,52 @@ Global
 		{27F45E14-B0D3-40DE-8BB3-907CC1C99F8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27F45E14-B0D3-40DE-8BB3-907CC1C99F8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27F45E14-B0D3-40DE-8BB3-907CC1C99F8A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A215B48F-1EF6-4BBE-8D31-DF89AF3055F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A215B48F-1EF6-4BBE-8D31-DF89AF3055F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A215B48F-1EF6-4BBE-8D31-DF89AF3055F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A215B48F-1EF6-4BBE-8D31-DF89AF3055F6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3E4B2B22-38E9-4AD8-8F6D-92091A9429F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3E4B2B22-38E9-4AD8-8F6D-92091A9429F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E4B2B22-38E9-4AD8-8F6D-92091A9429F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E4B2B22-38E9-4AD8-8F6D-92091A9429F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A215B48F-1EF6-4BBE-8D31-DF89AF3055F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A215B48F-1EF6-4BBE-8D31-DF89AF3055F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A215B48F-1EF6-4BBE-8D31-DF89AF3055F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A215B48F-1EF6-4BBE-8D31-DF89AF3055F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = SharpKinoko\SharpKinoko.csproj
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.inheritsSet = null
+		$1.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $2
+		$2.IndentSwitchBody = True
+		$2.AnonymousMethodBraceStyle = NextLine
+		$2.PropertyBraceStyle = NextLine
+		$2.PropertyGetBraceStyle = NextLine
+		$2.PropertySetBraceStyle = NextLine
+		$2.EventBraceStyle = NextLine
+		$2.EventAddBraceStyle = NextLine
+		$2.EventRemoveBraceStyle = NextLine
+		$2.StatementBraceStyle = NextLine
+		$2.PlaceElseOnNewLine = True
+		$2.PlaceCatchOnNewLine = True
+		$2.PlaceFinallyOnNewLine = True
+		$2.PlaceWhileOnNewLine = True
+		$2.BeforeMethodDeclarationParentheses = False
+		$2.BeforeMethodCallParentheses = False
+		$2.BeforeConstructorDeclarationParentheses = False
+		$2.BeforeIndexerDeclarationBracket = False
+		$2.BeforeDelegateDeclarationParentheses = False
+		$2.NewParentheses = False
+		$2.SpacesBeforeBrackets = False
+		$2.inheritsSet = Mono
+		$2.inheritsScope = text/x-csharp
+		$2.scope = text/x-csharp
+		$0.TextStylePolicy = $3
+		$3.FileWidth = 120
+		$3.RemoveTrailingWhitespace = True
+		$3.EolMarker = Windows
+		$3.inheritsSet = VisualStudio
+		$3.inheritsScope = text/plain
+		$3.scope = text/plain
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -129,7 +129,7 @@ namespace DustInTheWind.SharpKinoko
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public Kinoko()
-            : this(null, 1)
+            : this(null, 3)
         {
         }
 

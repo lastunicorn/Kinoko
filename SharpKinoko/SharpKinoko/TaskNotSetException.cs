@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace DustInTheWind.SharpKinoko
 {
     /// <summary>
-    /// Exception raised by <see cref="Kinoko"/> class if the Run method has been called without
+    /// Exception raised by <see cref="Kinoko"/> class if the <see cref="Kinoko.Run"/> method has been called without
     /// previously setting a task to be tested.
     /// </summary>
     [Serializable]

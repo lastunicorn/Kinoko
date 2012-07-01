@@ -1,4 +1,4 @@
-﻿// SharpKinoko
+// SharpKinoko
 // Copyright (C) 2010 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -14,10 +14,26 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.SharpKinoko
+using System;
+using NUnit.Framework;
+
+namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
 {
-    /// <summary>
-    /// Represents the task that is tested by <see cref="Kinoko"/>.
-    /// </summary>
-    public delegate void KinokoTask();
+    [TestFixture]
+    public class ResultTests
+    {
+        private Kinoko kinoko;
+
+        [SetUp]
+        public void SetUp()
+        {
+            kinoko = new Kinoko();
+        }
+
+        [Test]
+        public void Result_is_initially_null()
+        {
+            Assert.That(kinoko.Result, Is.Null);
+        }
+    }
 }

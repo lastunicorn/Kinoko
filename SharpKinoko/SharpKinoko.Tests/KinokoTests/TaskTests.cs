@@ -1,4 +1,4 @@
-﻿// SharpKinoko
+// SharpKinoko
 // Copyright (C) 2010 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -13,14 +13,13 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests
+namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
 {
     [TestFixture]
-    public class KinokoTests
+    public class TaskTests
     {
         private Kinoko kinoko;
 
@@ -31,43 +30,18 @@ namespace DustInTheWind.SharpKinoko.Tests
         }
 
         [Test]
-        public void TestConstructor1()
-        {
-        }
-
-        [Test]
-        public void TestInitial_Task()
+        public void Task_is_initially_null()
         {
             Assert.That(kinoko.Task, Is.Null);
         }
 
         [Test]
-        public void TestInitial_TaskRunCount()
-        {
-            Assert.That(kinoko.TaskRunCount, Is.EqualTo(1));
-        }
-
-        [Test]
-        public void TestInitial_Result()
-        {
-            Assert.That(kinoko.Result, Is.Null);
-        }
-
-        [Test]
-        public void TestTask()
+        public void Task_can_be_set_when_not_running()
         {
             KinokoTask task = new KinokoTask(delegate { });
             kinoko.Task = task;
 
             Assert.That(kinoko.Task, Is.SameAs(task));
-        }
-
-        [Test]
-        public void TestTaskRunCount1()
-        {
-            kinoko.TaskRunCount = 10;
-
-            Assert.That(kinoko.TaskRunCount, Is.EqualTo(10));
         }
 
         [Test]
@@ -78,3 +52,4 @@ namespace DustInTheWind.SharpKinoko.Tests
         }
     }
 }
+

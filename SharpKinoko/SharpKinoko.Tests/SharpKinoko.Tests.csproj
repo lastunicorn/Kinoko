@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +10,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DustInTheWind.SharpKinoko.Tests</RootNamespace>
     <AssemblyName>SharpKinoko.Tests</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -31,15 +30,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
-    <Reference Include="Rhino.Mocks, Version=3.5.0.1337, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="Moq">
+      <HintPath>..\ExternalTools\Moq\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.Mocks">
+      <HintPath>RefBin\Rhino.Mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.5.10.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <Private>False</Private>
+      <Package>nunit</Package>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KinokoEventTests.cs" />
-    <Compile Include="KinokoRunTests.cs" />
-    <Compile Include="KinokoTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="KinokoTests\TaskTests.cs" />
+    <Compile Include="KinokoTests\TaskRunCountTests.cs" />
+    <Compile Include="KinokoTests\ResultTests.cs" />
+    <Compile Include="KinokoTests\RunTests.cs" />
+    <Compile Include="KinokoTests\EventTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpKinoko\SharpKinoko.csproj">
@@ -59,4 +68,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="KinokoTests\" />
+    <Folder Include="KinokoResultTests\" />
+  </ItemGroup>
 </Project>

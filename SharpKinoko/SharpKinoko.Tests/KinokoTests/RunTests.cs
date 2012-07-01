@@ -16,76 +16,55 @@
 
 using System.Threading;
 using NUnit.Framework;
-using Rhino.Mocks;
+using System.Collections;
 
-namespace DustInTheWind.SharpKinoko.Tests
+namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
 {
     [TestFixture]
-    public class KinokoRunTests
+    public class RunTests
     {
-        private MockRepository mocks;
         private Kinoko kinoko;
 
         [SetUp]
         public void SetUp()
         {
-            mocks = new MockRepository();
             kinoko = new Kinoko();
         }
 
         [Test]
         [ExpectedException(typeof(TaskNotSetException))]
-        public void TestRun_NoTask()
+        public void TestRun_throws_if_no_task_was_provided()
         {
             kinoko.Run();
         }
 
         [Test]
-        public void TestRun_TaskRun1()
+        public void Run_calls_the_task()
         {
-            KinokoTask task = mocks.StrictMock<KinokoTask>();
+            bool isCalled = false;
+            kinoko.Task = () => isCalled = true;
 
-            kinoko.Task = task;
+            kinoko.Run();
 
-            using (mocks.Record())
-            {
-                task.Invoke();
-                LastCall.Repeat.Once();
-            }
-
-            using (mocks.Playback())
-            {
-                kinoko.Run();
-            }
+            Assert.That(isCalled, Is.True);
         }
 
         [Test]
-        public void TestRun_TaskRunN([Values(1, 2, 3, 4, 5, 10)]int n)
+        public void Run_calls_the_task_multiple_times([Values(1, 2, 3, 4, 5, 10)]int n)
         {
-            KinokoTask task = mocks.StrictMock<KinokoTask>();
-
-            kinoko.Task = task;
+            int calledCount = 0;
+            kinoko.Task = () => calledCount++;
             kinoko.TaskRunCount = n;
 
-            using (mocks.Record())
-            {
-                task.Invoke();
-                LastCall.Repeat.Times(n);
-            }
+            kinoko.Run();
 
-            using (mocks.Playback())
-            {
-                kinoko.Run();
-            }
+            Assert.That(calledCount, Is.EqualTo(n));
         }
 
-
         [Test]
-        public void TestRun_TaskRun_ResultNotNull()
+        public void Run_creates_Result()
         {
-            KinokoTask task = new KinokoTask(delegate { });
-
-            kinoko.Task = task;
+            kinoko.Task = () => {};
 
             kinoko.Run();
 
@@ -93,23 +72,22 @@ namespace DustInTheWind.SharpKinoko.Tests
         }
 
         [Test]
-        public void TestRun_TaskRun_ResultN([Values(1, 2, 3, 4, 5, 10)]int n)
+        public void Result_contains_correct_number_of_measurements([Values(1, 2, 3, 4, 5, 10)]int n)
         {
-            KinokoTask task = new KinokoTask(delegate { });
-
-            kinoko.Task = task;
+            kinoko.Task = () => {};
             kinoko.TaskRunCount = n;
 
             kinoko.Run();
 
+            Assert.That(kinoko.Result.Measurements, Is.Not.Null);
             Assert.That(kinoko.Result.Measurements.Length, Is.EqualTo(n));
         }
 
         [Test]
-        public void TestRun_TaskRun_ResultMeasurements()
+        public void Result_Measurements_contains_correct_values()
         {
             int callIndex = 0;
-            double[] times = new double[] { 100, 150, 50 };
+            double[] times = new double[] { 60, 80, 40 };
 
             KinokoTask task = new KinokoTask(delegate
             {
@@ -121,16 +99,7 @@ namespace DustInTheWind.SharpKinoko.Tests
 
             kinoko.Run();
 
-            // In this assert is not working the "Within()" method correctly.
-            //Assert.That(kinoko.Result.Times, Is.All.EqualTo(times).Within(1));
-
-            // The above assert is replaced by the folowing ones.
-            Assert.That(kinoko.Result.Measurements, Is.Not.Null);
-            Assert.That(kinoko.Result.Measurements.Length, Is.EqualTo(times.Length));
-            for (int i = 0; i < times.Length; i++)
-            {
-                Assert.That(kinoko.Result.Measurements[i], Is.EqualTo(times[i]).Within(1));
-            }
+            AssertAreEqual(times, kinoko.Result.Measurements);
         }
 
         [Test]
@@ -150,6 +119,16 @@ namespace DustInTheWind.SharpKinoko.Tests
 
             // (142 + 152 + 57 + 84) / 4 = 108.75
             Assert.That(kinoko.Result.Average, Is.EqualTo(108.75).Within(2));
+        }
+
+        private void AssertAreEqual(IList expected, IList actual)
+        {
+            Assert.That(actual, Is.Not.Null);
+            Assert.That(actual.Count, Is.EqualTo(expected.Count));
+            for (int i = 0; i < expected.Count; i++)
+            {
+                Assert.That(actual[i], Is.EqualTo(expected[i]).Within(1));
+            }
         }
     }
 }
