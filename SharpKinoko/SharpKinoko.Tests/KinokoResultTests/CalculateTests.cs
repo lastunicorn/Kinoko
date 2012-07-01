@@ -13,42 +13,36 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
+namespace DustInTheWind.SharpKinoko.Tests.KinokoResultTests
 {
     [TestFixture]
-    public class TaskTests
+    public class CalculateTests
     {
-        private Kinoko kinoko;
+        private KinokoResult result;
 
         [SetUp]
         public void SetUp()
         {
-            kinoko = new Kinoko();
+            result = new KinokoResult();
         }
 
         [Test]
-        public void Task_is_initially_null()
+        public void Calculate_calculates_average()
         {
-            Assert.That(kinoko.Task, Is.Null);
-        }
+            double[] measurements = new double[] { 142, 152, 57, 84 };
+            for (int i = 0; i < measurements.Length; i++)
+            {
+                result.AddMeasurement(measurements[i]);
+            }
 
-        [Test]
-        public void Task_can_be_set_when_not_running()
-        {
-            KinokoTask task = new KinokoTask(delegate { });
-            kinoko.Task = task;
+            result.Calculate();
 
-            Assert.That(kinoko.Task, Is.SameAs(task));
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestTaskRunCount2([Values(0, -1, -2, -10)]int taskRunCount)
-        {
-            kinoko.RepeatMeasurementCount = taskRunCount;
+            // (142 + 152 + 57 + 84) / 4 = 108.75
+            Assert.That(result.Average, Is.EqualTo(108.75).Within(1));
         }
     }
 }

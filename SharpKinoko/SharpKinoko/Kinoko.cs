@@ -44,23 +44,23 @@ namespace DustInTheWind.SharpKinoko
         }
 
         /// <summary>
-        /// The number of times the task is run within the test. (To minimize the measurement errors.)
+        /// The number of times the measurements are performed. (To minimize the measurement errors.)
         /// </summary>
-        private int taskRunCount;
+        private int repeatMeasurementCount;
 
         /// <summary>
-        /// Gets or sets the number of times the task is run within the test. The task should be run multiple
+        /// Gets or sets the number of times the measurements are performed. The tasks should be run multiple
         /// times to minimize the measurement errors.
         /// </summary>
-        public int TaskRunCount
+        public int RepeatMeasurementCount
         {
-            get { return taskRunCount; }
+            get { return repeatMeasurementCount; }
             set
             {
                 if (value < 1)
                     throw new ArgumentOutOfRangeException("value", "The task run count should be an integer greater then 0.");
 
-                taskRunCount = value;
+                repeatMeasurementCount = value;
             }
         }
 
@@ -78,43 +78,43 @@ namespace DustInTheWind.SharpKinoko
         }
 
 
-        #region Event BeforeTaskRun
+        #region Event Measuring
 
         /// <summary>
         /// Event raised before every call of the task.
         /// </summary>
-        public event EventHandler<BeforeTaskRunEventArgs> BeforeTaskRun;
+        public event EventHandler<MeasuringEventArgs> Measuring;
 
         /// <summary>
-        /// Raises the <see cref="BeforeTaskRun"/> event.
+        /// Raises the <see cref="Measuring"/> event.
         /// </summary>
-        /// <param name="e">An <see cref="BeforeTaskRunEventArgs"/> object that contains the event data.</param>
-        protected virtual void OnBeforeTaskRun(BeforeTaskRunEventArgs e)
+        /// <param name="e">An <see cref="MeasuringEventArgs"/> object that contains the event data.</param>
+        protected virtual void OnMeasuring(MeasuringEventArgs e)
         {
-            if (BeforeTaskRun != null)
+            if (Measuring != null)
             {
-                BeforeTaskRun(this, e);
+                Measuring(this, e);
             }
         }
 
         #endregion
 
-        #region Event AfterTaskRunEvent
+        #region Event Measured
 
         /// <summary>
         /// Event raised after every call of the task.
         /// </summary>
-        public event EventHandler<AfterTaskRunEventArgs> AfterTaskRun;
+        public event EventHandler<MeasuredEventArgs> Measured;
 
         /// <summary>
-        /// Raises the <see cref="AfterTaskRun"/> event.
+        /// Raises the <see cref="Measured"/> event.
         /// </summary>
-        /// <param name="e">An <see cref="AfterTaskRunEventArgs"/> object that contains the event data.</param>
-        protected virtual void OnAfterTaskRun(AfterTaskRunEventArgs e)
+        /// <param name="e">An <see cref="MeasuredEventArgs"/> object that contains the event data.</param>
+        protected virtual void OnMeasured(MeasuredEventArgs e)
         {
-            if (AfterTaskRun != null)
+            if (Measured != null)
             {
-                AfterTaskRun(this, e);
+                Measured(this, e);
             }
         }
 
@@ -129,7 +129,7 @@ namespace DustInTheWind.SharpKinoko
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public Kinoko()
-            : this(null, 3)
+            : this(null as KinokoTask, 3)
         {
         }
 
@@ -139,15 +139,25 @@ namespace DustInTheWind.SharpKinoko
         /// the number of times the test should be performed.
         /// </summary>
         /// <param name="task">The task that is to be tested.</param>
-        /// <param name="taskRunCount">The number of times the task is run.</param>
+        /// <param name="repeatMeasurementCount">The number of times the measurements are performed.</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public Kinoko(KinokoTask task, int taskRunCount)
+        public Kinoko(KinokoTask task, int repeatMeasurementCount)
         {
-            if (taskRunCount < 1)
-                throw new ArgumentOutOfRangeException("value", "The task run count should be an integer greater then 0.");
+            if (repeatMeasurementCount < 1)
+                throw new ArgumentOutOfRangeException("taskRunCount", "The task run count should be an integer greater then 0.");
 
             this.task = task;
-            this.taskRunCount = taskRunCount;
+            this.repeatMeasurementCount = repeatMeasurementCount;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DustInTheWind.SharpKinoko.Kinoko"/> class.
+        /// </summary>
+        /// <param name='tasksProvider'>Provides a list of tasks to be run.</param>
+        /// <param name="repeatMeasurementCount">The number of times the measurements are performed.</param>
+        public Kinoko(ITasksProvider tasksProvider, int repeatMeasurementCount)
+        {
+            tasksProvider.GetTasks();
         }
 
         #endregion
@@ -167,29 +177,47 @@ namespace DustInTheWind.SharpKinoko
                 throw new TaskNotSetException();
 
             this.result = null;
+
+            KinokoResult result = PerformMeasurements();
+            result.Calculate();
+
+            this.result = result;
+        }
+
+        private KinokoResult PerformMeasurements()
+        {
             KinokoResult result = new KinokoResult();
 
-            // Run the task multiple times.
-            for (int i = 0; i < taskRunCount; i++)
+            for (int i = 0; i < repeatMeasurementCount; i++)
             {
-                // Announce that the Task is about to be run.
-                OnBeforeTaskRun(new BeforeTaskRunEventArgs(i));
-
-                // Run the Task.
-                Stopwatch stopwatch = Stopwatch.StartNew();
-                task();
-                stopwatch.Stop();
-
-                // Store the time in which the task run.
-                double millis = stopwatch.Elapsed.TotalMilliseconds;
-                result.AddMeasurement(millis);
-
-                // Announce that the Task was run.
-                OnAfterTaskRun(new AfterTaskRunEventArgs(i, millis));
+                double milliseconds = PerformMeasurement(i);
+                result.AddMeasurement(milliseconds);
             }
 
-            result.Calculate();
-            this.result = result;
+            return result;
+        }
+
+        private double PerformMeasurement(int measurementCount)
+        {
+            // Announce that the Task is about to be run.
+            OnMeasuring(new MeasuringEventArgs(measurementCount));
+
+            double milliseconds = Measure();
+
+            // Announce that the Task was run.
+            OnMeasured(new MeasuredEventArgs(measurementCount, milliseconds));
+
+            return milliseconds;
+        }
+
+
+        private double Measure()
+        {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            task();
+            stopwatch.Stop();
+
+            return stopwatch.Elapsed.TotalMilliseconds;
         }
 
         #endregion

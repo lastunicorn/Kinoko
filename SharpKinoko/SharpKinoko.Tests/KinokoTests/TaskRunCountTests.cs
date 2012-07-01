@@ -32,22 +32,22 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         [Test]
         public void TaskRunCount_is_initially_3()
         {
-            Assert.That(kinoko.TaskRunCount, Is.EqualTo(3));
+            Assert.That(kinoko.RepeatMeasurementCount, Is.EqualTo(3));
         }
 
         [Test]
         public void TaskRunCount_can_be_Set_when_not_running()
         {
-            kinoko.TaskRunCount = 10;
+            kinoko.RepeatMeasurementCount = 10;
 
-            Assert.That(kinoko.TaskRunCount, Is.EqualTo(10));
+            Assert.That(kinoko.RepeatMeasurementCount, Is.EqualTo(10));
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void TaskRunCount_throws_if_set_to_negative_or_zero_values([Values(0, -1, -2, -10)]int taskRunCount)
         {
-            kinoko.TaskRunCount = taskRunCount;
+            kinoko.RepeatMeasurementCount = taskRunCount;
         }
     }
 }

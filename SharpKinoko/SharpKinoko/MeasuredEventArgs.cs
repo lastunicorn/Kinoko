@@ -19,9 +19,9 @@ using System;
 namespace DustInTheWind.SharpKinoko
 {
     /// <summary>
-    /// Provides data for <see cref="Kinoko.AfterTaskRun"/> event.
+    /// Provides data for <see cref="Kinoko.Measured"/> event.
     /// </summary>
-    public class AfterTaskRunEventArgs : EventArgs
+    public class MeasuredEventArgs : EventArgs
     {
         /// <summary>
         /// The index of the current run of the task.
@@ -50,11 +50,11 @@ namespace DustInTheWind.SharpKinoko
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AfterTaskRunEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="MeasuredEventArgs"/> class.
         /// </summary>
         /// <param name="stepIndex">The index of the current run of the task.</param>
         /// <param name="time">The time necessary to completely run the task.</param>
-        public AfterTaskRunEventArgs(int stepIndex, double time)
+        public MeasuredEventArgs(int stepIndex, double time)
             : base()
         {
             this.stepIndex = stepIndex;

@@ -54,7 +54,7 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         {
             int calledCount = 0;
             kinoko.Task = () => calledCount++;
-            kinoko.TaskRunCount = n;
+            kinoko.RepeatMeasurementCount = n;
 
             kinoko.Run();
 
@@ -75,7 +75,7 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         public void Result_contains_correct_number_of_measurements([Values(1, 2, 3, 4, 5, 10)]int n)
         {
             kinoko.Task = () => {};
-            kinoko.TaskRunCount = n;
+            kinoko.RepeatMeasurementCount = n;
 
             kinoko.Run();
 
@@ -95,30 +95,11 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
             });
 
             kinoko.Task = task;
-            kinoko.TaskRunCount = times.Length;
+            kinoko.RepeatMeasurementCount = times.Length;
 
             kinoko.Run();
 
             AssertAreEqual(times, kinoko.Result.Measurements);
-        }
-
-        [Test]
-        public void TestRun_TaskRun_ResultCalculateAverage()
-        {
-            int callIndex = 0;
-            double[] times = new double[] { 142, 152, 57, 84 };
-            KinokoTask task = new KinokoTask(delegate
-            {
-                Thread.Sleep((int)times[callIndex++]);
-            });
-
-            kinoko.Task = task;
-            kinoko.TaskRunCount = times.Length;
-
-            kinoko.Run();
-
-            // (142 + 152 + 57 + 84) / 4 = 108.75
-            Assert.That(kinoko.Result.Average, Is.EqualTo(108.75).Within(2));
         }
 
         private void AssertAreEqual(IList expected, IList actual)

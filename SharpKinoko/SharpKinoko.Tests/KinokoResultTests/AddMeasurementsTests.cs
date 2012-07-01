@@ -16,39 +16,36 @@
 using System;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
+namespace DustInTheWind.SharpKinoko.Tests.KinokoResultTests
 {
     [TestFixture]
-    public class TaskTests
+    public class AddMeasurementsTests
     {
-        private Kinoko kinoko;
+        private KinokoResult result;
 
         [SetUp]
         public void SetUp()
         {
-            kinoko = new Kinoko();
+            result = new KinokoResult();
         }
 
         [Test]
-        public void Task_is_initially_null()
+        public void AddMeasurement_adds_a_nu_alue_to_the_list()
         {
-            Assert.That(kinoko.Task, Is.Null);
+            result.AddMeasurement(7);
+
+            Assert.That(result.Measurements, Contains.Item(7));
         }
 
         [Test]
-        public void Task_can_be_set_when_not_running()
+        public void AddMeasurement_adds_two_values_to_the_list()
         {
-            KinokoTask task = new KinokoTask(delegate { });
-            kinoko.Task = task;
+            double[] expectedMeasurements = new double[] { 7,10 };
 
-            Assert.That(kinoko.Task, Is.SameAs(task));
-        }
+            result.AddMeasurement(7);
+            result.AddMeasurement(10);
 
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestTaskRunCount2([Values(0, -1, -2, -10)]int taskRunCount)
-        {
-            kinoko.RepeatMeasurementCount = taskRunCount;
+            Assert.That(result.Measurements, Is.EqualTo(expectedMeasurements));
         }
     }
 }

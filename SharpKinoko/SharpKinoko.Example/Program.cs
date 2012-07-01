@@ -38,8 +38,8 @@ namespace DustInTheWind.SharpKinoko.Example
 
             // Create the testing environment.
             Kinoko kinoko = new Kinoko(new KinokoTask(Task), repeatCount);
-            kinoko.BeforeTaskRun += new EventHandler<BeforeTaskRunEventArgs>(kinoko_BeforeTaskRun);
-            kinoko.AfterTaskRun += new EventHandler<AfterTaskRunEventArgs>(kinoko_AfterTaskRun);
+            kinoko.Measuring += new EventHandler<MeasuringEventArgs>(kinoko_Measuring);
+            kinoko.Measured += new EventHandler<MeasuredEventArgs>(kinoko_Measured);
 
             // Run the test.
             kinoko.Run();
@@ -54,12 +54,12 @@ namespace DustInTheWind.SharpKinoko.Example
             Pause();
         }
 
-        private static void kinoko_BeforeTaskRun(object sender, BeforeTaskRunEventArgs e)
+        private static void kinoko_Measuring(object sender, MeasuringEventArgs e)
         {
             Console.Write("Running: {0,2}", e.StepIndex);
         }
 
-        private static void kinoko_AfterTaskRun(object sender, AfterTaskRunEventArgs e)
+        private static void kinoko_Measured(object sender, MeasuredEventArgs e)
         {
             Console.WriteLine(" - {0:#,##0.00}", e.Time);
         }

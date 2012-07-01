@@ -22,7 +22,7 @@ using Rhino.Mocks;
 namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
 {
     [TestFixture]
-    public class EventTests
+    public class MeasuredEventTests
     {
         private MockRepository mocks;
         private Kinoko kinoko;
@@ -37,35 +37,10 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         }
 
         [Test]
-        public void TestBeforeTaskRun([Values(1, 2, 3)]int taskRunCount)
+        public void TestMeasured([Values(1, 2, 3)]int taskRunCount)
         {
-            EventHandler<BeforeTaskRunEventArgs> eva = mocks.StrictMock<EventHandler<BeforeTaskRunEventArgs>>();
-            kinoko.BeforeTaskRun += eva;
-
-            using (mocks.Record())
-            {
-                for (int i = 0; i < taskRunCount; i++)
-                {
-                    eva(kinoko, new BeforeTaskRunEventArgs(i));
-                    LastCall.Repeat.Once().Constraints(
-                        Rhino.Mocks.Constraints.Is.Same(kinoko),
-                        new Rhino.Mocks.Constraints.PropertyConstraint("StepIndex", Rhino.Mocks.Constraints.Is.Equal(i))
-                        );
-                }
-            }
-
-            using (mocks.Playback())
-            {
-                kinoko.TaskRunCount = taskRunCount;
-                kinoko.Run();
-            }
-        }
-
-        [Test]
-        public void TestAfterTaskRun([Values(1, 2, 3)]int taskRunCount)
-        {
-            EventHandler<AfterTaskRunEventArgs> eva = mocks.StrictMock<EventHandler<AfterTaskRunEventArgs>>();
-            kinoko.AfterTaskRun += eva;
+            EventHandler<MeasuredEventArgs> eva = mocks.StrictMock<EventHandler<MeasuredEventArgs>>();
+            kinoko.Measured += eva;
 
             int tolerance = 2;
 
@@ -89,7 +64,7 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
 
             using (mocks.Playback())
             {
-                kinoko.TaskRunCount = taskRunCount;
+                kinoko.RepeatMeasurementCount = taskRunCount;
                 kinoko.Run();
             }
         }
