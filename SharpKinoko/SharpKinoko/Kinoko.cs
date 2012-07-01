@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Diagnostics;
 
 namespace DustInTheWind.SharpKinoko
 {
@@ -29,55 +28,6 @@ namespace DustInTheWind.SharpKinoko
     /// </remarks>
     public class Kinoko
     {
-        /// <summary>
-        /// The task that is tested by Kinoko.
-        /// </summary>
-        private KinokoTask task;
-
-        /// <summary>
-        /// Gets or sets the task that is tested by Kinoko.
-        /// </summary>
-        public KinokoTask Task
-        {
-            get { return task; }
-            set { task = value; }
-        }
-
-        /// <summary>
-        /// The number of times the measurements are performed. (To minimize the measurement errors.)
-        /// </summary>
-        private int repeatMeasurementCount;
-
-        /// <summary>
-        /// Gets or sets the number of times the measurements are performed. The tasks should be run multiple
-        /// times to minimize the measurement errors.
-        /// </summary>
-        public int RepeatMeasurementCount
-        {
-            get { return repeatMeasurementCount; }
-            set
-            {
-                if (value < 1)
-                    throw new ArgumentOutOfRangeException("value", "The task run count should be an integer greater then 0.");
-
-                repeatMeasurementCount = value;
-            }
-        }
-
-        /// <summary>
-        /// The results of the test. It is null if no test was run.
-        /// </summary>
-        private KinokoResult result;
-
-        /// <summary>
-        /// Gets the results of the test. It is null if no test was run.
-        /// </summary>
-        public KinokoResult Result
-        {
-            get { return result; }
-        }
-
-
         #region Event Measuring
 
         /// <summary>
@@ -129,31 +79,13 @@ namespace DustInTheWind.SharpKinoko
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public Kinoko()
-            : this(null as KinokoTask, 3)
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Kinoko"/> class with
-        /// the task that is to be tested and
-        /// the number of times the test should be performed.
-        /// </summary>
-        /// <param name="task">The task that is to be tested.</param>
-        /// <param name="repeatMeasurementCount">The number of times the measurements are performed.</param>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public Kinoko(KinokoTask task, int repeatMeasurementCount)
-        {
-            if (repeatMeasurementCount < 1)
-                throw new ArgumentOutOfRangeException("taskRunCount", "The task run count should be an integer greater then 0.");
-
-            this.task = task;
-            this.repeatMeasurementCount = repeatMeasurementCount;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DustInTheWind.SharpKinoko.Kinoko"/> class.
         /// </summary>
-        /// <param name='tasksProvider'>Provides a list of tasks to be run.</param>
+        /// <param name="tasksProvider">Provides a list of tasks to be run.</param>
         /// <param name="repeatMeasurementCount">The number of times the measurements are performed.</param>
         public Kinoko(ITasksProvider tasksProvider, int repeatMeasurementCount)
         {
@@ -169,55 +101,44 @@ namespace DustInTheWind.SharpKinoko
         /// Runs the task multiple times and measures the time intervals spent.
         /// </summary>
         /// <remarks>
-        /// After the test is finished, the <see cref="M:KinokoResult.Calculate"/> method is automatically called. 
+        /// After the test is finished, the <see cref="M:KinokoResult.Calculate"/> method is automatically called.
         /// </remarks>
-        public void Run()
+        public KinokoResult Run(KinokoTask task, int repeatMeasurementCount)
         {
             if (task == null)
-                throw new TaskNotSetException();
+                throw new ArgumentNullException("task");
 
-            this.result = null;
+            if (repeatMeasurementCount < 1)
+                throw new ArgumentOutOfRangeException("repeatMeasurementCount", "The task run count should be an integer greater then 0.");
 
-            KinokoResult result = PerformMeasurements();
-            result.Calculate();
+            TaskMeasurer measurer = new TaskMeasurer(task, repeatMeasurementCount);
 
-            this.result = result;
-        }
-
-        private KinokoResult PerformMeasurements()
-        {
-            KinokoResult result = new KinokoResult();
-
-            for (int i = 0; i < repeatMeasurementCount; i++)
+            try
             {
-                double milliseconds = PerformMeasurement(i);
-                result.AddMeasurement(milliseconds);
+                measurer.Measuring += HandleMeasurerMeasuring;
+                measurer.Measured += HandleMeasurerMeasured;
+
+                measurer.Run();
+            }
+            finally
+            {
+                measurer.Measuring -= HandleMeasurerMeasuring;
+                measurer.Measured -= HandleMeasurerMeasured;
             }
 
-            return result;
+            //measurer.Result.Calculate();
+
+            return measurer.Result;
         }
 
-        private double PerformMeasurement(int measurementCount)
+        private void HandleMeasurerMeasuring (object sender, MeasuringEventArgs e)
         {
-            // Announce that the Task is about to be run.
-            OnMeasuring(new MeasuringEventArgs(measurementCount));
-
-            double milliseconds = Measure();
-
-            // Announce that the Task was run.
-            OnMeasured(new MeasuredEventArgs(measurementCount, milliseconds));
-
-            return milliseconds;
+            OnMeasuring(e);
         }
 
-
-        private double Measure()
+        private void HandleMeasurerMeasured(object sender, MeasuredEventArgs e)
         {
-            Stopwatch stopwatch = Stopwatch.StartNew();
-            task();
-            stopwatch.Stop();
-
-            return stopwatch.Elapsed.TotalMilliseconds;
+            OnMeasured(e);
         }
 
         #endregion

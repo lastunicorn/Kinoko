@@ -1,4 +1,4 @@
-// SharpKinoko
+﻿// SharpKinoko
 // Copyright (C) 2010 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -13,78 +13,63 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-using NUnit.Framework;
+
 using System.Threading;
+using NUnit.Framework;
 using System.Collections;
 
-namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
+namespace DustInTheWind.SharpKinoko.Tests.TaskMeasurerTests
 {
     [TestFixture]
     public class RunTests
     {
-        private Kinoko kinoko;
-
-  [SetUp]
-        public void SetUp()
-        {
-            kinoko = new Kinoko();
-        }
-
-
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void throws_if_task_is_null()
+        public void calls_the_task()
         {
-            try
-            {
-                kinoko.Run(null, 10);
-            }
-            catch (ArgumentNullException ex)
-            {
-                Assert.That(ex.ParamName, Is.EqualTo("task"));
-                throw;
-            }
+            bool isCalled = false;
+            KinokoTask task = () => isCalled = true;
+            int repeatMeasurementCount = 10;
+            TaskMeasurer taskMeasurer = new TaskMeasurer(task, repeatMeasurementCount);
+
+            taskMeasurer.Run();
+
+            Assert.That(isCalled, Is.True);
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void throws_if_repeatMeasurementCount_is_zero()
+        public void calls_the_task_multiple_times([Values(1, 2, 3, 4, 5, 10)]int n)
         {
-            try
-            {
-                KinokoTask task = () => { };
-                int repeatMeasurementCount = 0;
+            int calledCount = 0;
+            KinokoTask task = () => calledCount++;
+            TaskMeasurer taskMeasurer = new TaskMeasurer(task, n);
 
-                kinoko.Run(task, repeatMeasurementCount);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Assert.That(ex.ParamName, Is.EqualTo("repeatMeasurementCount"));
-                throw;
-            }
+            taskMeasurer.Run();
+
+            Assert.That(calledCount, Is.EqualTo(n));
         }
 
         [Test]
-        public void returns_not_null_result()
+        public void creates_Result()
         {
             KinokoTask task = () => {};
             int repeatMeasurementCount = 10;
+            TaskMeasurer taskMeasurer = new TaskMeasurer(task, repeatMeasurementCount);
 
-            KinokoResult result = kinoko.Run(task, repeatMeasurementCount);
+            taskMeasurer.Run();
 
-            Assert.That(result, Is.Not.Null);
+            Assert.That(taskMeasurer.Result, Is.Not.Null);
         }
 
         [Test]
         public void Result_contains_correct_number_of_measurements([Values(1, 2, 3, 4, 5, 10)]int n)
         {
             KinokoTask task = () => {};
+            TaskMeasurer taskMeasurer = new TaskMeasurer(task, n);
 
-            KinokoResult result = kinoko.Run(task, n);
+            taskMeasurer.Run();
 
-            Assert.That(result.Measurements, Is.Not.Null);
-            Assert.That(result.Measurements.Length, Is.EqualTo(n));
+            Assert.That(taskMeasurer.Result.Measurements, Is.Not.Null);
+            Assert.That(taskMeasurer.Result.Measurements.Length, Is.EqualTo(n));
         }
 
         [Test]
@@ -93,10 +78,11 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
             int callIndex = 0;
             double[] times = new double[] { 60, 80, 40 };
             KinokoTask task = () => Thread.Sleep((int)times[callIndex++]);
+            TaskMeasurer taskMeasurer = new TaskMeasurer(task, times.Length);
 
-            KinokoResult result = kinoko.Run(task, times.Length);
+            taskMeasurer.Run();
 
-            AssertAreEqual(times, result.Measurements);
+            AssertAreEqual(times, taskMeasurer.Result.Measurements);
         }
 
         private void AssertAreEqual(IList expected, IList actual)
@@ -110,4 +96,3 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         }
     }
 }
-

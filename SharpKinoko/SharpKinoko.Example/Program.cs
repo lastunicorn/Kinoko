@@ -37,15 +37,12 @@ namespace DustInTheWind.SharpKinoko.Example
             Console.WriteLine();
 
             // Create the testing environment.
-            Kinoko kinoko = new Kinoko(new KinokoTask(Task), repeatCount);
+            Kinoko kinoko = new Kinoko();
             kinoko.Measuring += new EventHandler<MeasuringEventArgs>(kinoko_Measuring);
             kinoko.Measured += new EventHandler<MeasuredEventArgs>(kinoko_Measured);
 
             // Run the test.
-            kinoko.Run();
-
-            // Collect the results.
-            KinokoResult result = kinoko.Result;
+            KinokoResult result = kinoko.Run(new KinokoTask(Task), repeatCount);
 
             // Display the results.
             Console.WriteLine();

@@ -17,7 +17,7 @@
 namespace DustInTheWind.SharpKinoko
 {
     /// <summary>
-    /// Represents the task that is tested by <see cref="Kinoko"/>.
+    /// Represents the task that is measured by <see cref="Kinoko"/>.
     /// </summary>
     public delegate void KinokoTask();
 }

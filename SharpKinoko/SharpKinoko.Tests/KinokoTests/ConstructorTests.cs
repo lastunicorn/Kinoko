@@ -15,65 +15,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using NUnit.Framework;
 using Moq;
+using NUnit.Framework;
 
 namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
 {
-    [TestFixture()]
+    [TestFixture]
     public class ConstructorTests
     {
-        #region Kinoko(KinokoTask task, int taskRunCount)
-
-        [Test]
-        public void constructor_saves_task_internally()
-        {
-            KinokoTask task = () => { };
-
-            Kinoko kinoko = new Kinoko(task, 1);
-
-            Assert.That(kinoko.Task, Is.SameAs(task));
-        }
-
-        [Test]
-        public void constructor_saves_task_internally_if_null()
-        {
-            Kinoko kinoko = new Kinoko(null as KinokoTask, 1);
-
-            Assert.That(kinoko.Task, Is.Null);
-        }
-
-        [Test]
-        public void constructor_saves_taskRunCount_internally()
-        {
-            KinokoTask task = () => { };
-            int taskRunCount = 10;
-
-            Kinoko kinoko = new Kinoko(task, taskRunCount);
-
-            Assert.That(kinoko.RepeatMeasurementCount, Is.EqualTo(taskRunCount));
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void constructor_throws_if_taskRunCount_is_zero()
-        {
-            try
-            {
-                KinokoTask task = () => { };
-                int taskRunCount = 0;
-
-                new Kinoko(task, taskRunCount);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Assert.That(ex.ParamName, Is.EqualTo("taskRunCount"));
-                throw;
-            }
-        }
-
-        #endregion
-
         #region Kinoko()
 
         [Test]

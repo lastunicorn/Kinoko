@@ -17,32 +17,29 @@
 using System.Threading;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
+namespace DustInTheWind.SharpKinoko.Tests.TaskMeasurerTests
 {
     [TestFixture]
     public class MeasuredEventTests
     {
-        private Kinoko kinoko;
-        private KinokoTask task;
-        private int repeatMeasurementCount = 1;
+        private TaskMeasurer taskMeasurer;
 
         [SetUp]
         public void SetUp()
         {
-            kinoko = new Kinoko();
-            task = new KinokoTask(delegate {
-                Thread.Sleep(10); });
+            KinokoTask task = () => Thread.Sleep(10);
+            taskMeasurer = new TaskMeasurer(task, 1);
         }
 
         [Test]
         public void Measured_is_called_after_the_task_run()
         {
             bool eventCalled = false;
-            kinoko.Measured += (sender, e) => {
+            taskMeasurer.Measured += (sender, e) => {
                 eventCalled = true;
             };
 
-            kinoko.Run(task, repeatMeasurementCount);
+            taskMeasurer.Run();
 
             Assert.That(eventCalled, Is.True);
         }
@@ -51,24 +48,24 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         public void Measured_is_called_with_correct_sender()
         {
             object senderObject = null;
-            kinoko.Measured += (sender, e) => {
+            taskMeasurer.Measured += (sender, e) => {
                 senderObject = sender;
             };
 
-            kinoko.Run(task, repeatMeasurementCount);
+            taskMeasurer.Run();
 
-            Assert.That(senderObject, Is.SameAs(kinoko));
+            Assert.That(senderObject, Is.SameAs(taskMeasurer));
         }
 
         [Test]
         public void Measured_is_called_with_not_null_event_args()
         {
             MeasuredEventArgs eventArgs = null;
-            kinoko.Measured += (sender, e) => {
+            taskMeasurer.Measured += (sender, e) => {
                 eventArgs = e;
             };
 
-            kinoko.Run(task, repeatMeasurementCount);
+            taskMeasurer.Run();
 
             Assert.That(eventArgs, Is.Not.Null);
         }
