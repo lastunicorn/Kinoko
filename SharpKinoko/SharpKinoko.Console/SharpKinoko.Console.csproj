@@ -46,4 +46,11 @@
       <Name>SharpKinoko</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="KinokoConsole.desktop">
+      <DeployService-TargetDirectoryId>Linux.DesktopApplications</DeployService-TargetDirectoryId>
+      <DeployService-Deploy>true</DeployService-Deploy>
+      <DeployService-UseProjectRelativePath>true</DeployService-UseProjectRelativePath>
+    </Content>
+  </ItemGroup>
 </Project>

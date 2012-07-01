@@ -13,24 +13,26 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
-using NUnit.Framework;
-using System.Threading;
 using System.Collections;
+using System.Threading;
+using NUnit.Framework;
 
 namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
 {
     [TestFixture]
-    public class RunTests
+    public class RunTaskTests
     {
         private Kinoko kinoko;
 
-  [SetUp]
+        [SetUp]
         public void SetUp()
         {
             kinoko = new Kinoko();
         }
 
+        #region Run(KinokoTask task, int repeatMeasurementCount)
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
@@ -38,7 +40,7 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         {
             try
             {
-                kinoko.Run(null, 10);
+                kinoko.Run(null as KinokoTask, 10);
             }
             catch (ArgumentNullException ex)
             {
@@ -98,6 +100,52 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
 
             AssertAreEqual(times, result.Measurements);
         }
+
+        [Test]
+        public void the_result_contains_the_calculated_average()
+        {
+            int callIndex = 0;
+            double[] times = new double[] { 60, 80, 40 };
+            KinokoTask task = () => Thread.Sleep((int)times[callIndex++]);
+
+            KinokoResult result = kinoko.Run(task, times.Length);
+
+            Assert.That(result.Average, Is.EqualTo(60).Within(1));
+        }
+
+        #endregion
+
+        #region TaskRunning/TaskRun Events
+
+        [Test]
+        public void raises_TaskRunning_event_once()
+        {
+            int callCount = 0;
+            KinokoTask task = () => { };
+            kinoko.TaskRunning += (sender, e) => {
+                callCount++;
+            };
+
+            kinoko.Run(task, 3);
+
+            Assert.That(callCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void raises_TaskRun_event_once()
+        {
+            int callCount = 0;
+            KinokoTask task = () => { };
+            kinoko.TaskRun += (sender, e) => {
+                callCount++;
+            };
+
+            kinoko.Run(task, 3);
+
+            Assert.That(callCount, Is.EqualTo(1));
+        }
+
+        #endregion
 
         private void AssertAreEqual(IList expected, IList actual)
         {

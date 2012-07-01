@@ -13,8 +13,8 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
+using System.Collections.Generic;
 
 namespace DustInTheWind.SharpKinoko
 {
@@ -70,6 +70,48 @@ namespace DustInTheWind.SharpKinoko
 
         #endregion
 
+        #region Event TaskRunning
+
+        /// <summary>
+        /// Event raised before every call of the task.
+        /// </summary>
+        public event EventHandler<EventArgs> TaskRunning;
+
+        /// <summary>
+        /// Raises the <see cref="TaskRunning"/> event.
+        /// </summary>
+        /// <param name="e">An <see cref="TaskRunningEventArgs"/> object that contains the event data.</param>
+        protected virtual void OnTaskRunning(EventArgs e)
+        {
+            if (TaskRunning != null)
+            {
+                TaskRunning(this, e);
+            }
+        }
+
+        #endregion
+
+        #region Event TaskRun
+
+        /// <summary>
+        /// Event raised before every call of the task.
+        /// </summary>
+        public event EventHandler<EventArgs> TaskRun;
+
+        /// <summary>
+        /// Raises the <see cref="TaskRun"/> event.
+        /// </summary>
+        /// <param name="e">An <see cref="TaskRunEventArgs"/> object that contains the event data.</param>
+        protected virtual void OnTaskRun(EventArgs e)
+        {
+            if (TaskRun != null)
+            {
+                TaskRun(this, e);
+            }
+        }
+
+        #endregion
+
 
         #region Constructor
 
@@ -111,27 +153,57 @@ namespace DustInTheWind.SharpKinoko
             if (repeatMeasurementCount < 1)
                 throw new ArgumentOutOfRangeException("repeatMeasurementCount", "The task run count should be an integer greater then 0.");
 
-            TaskMeasurer measurer = new TaskMeasurer(task, repeatMeasurementCount);
+            OnTaskRunning(EventArgs.Empty);
+            KinokoResult result = RunTask(task, repeatMeasurementCount);
+            OnTaskRun(EventArgs.Empty);
 
-            try
+            return result;
+        }
+
+        public IList<KinokoResult> Run(ITasksProvider tasksProvider, int repeatMeasurementCount)
+        {
+            if (tasksProvider == null)
+                throw new ArgumentNullException("tasksProvider");
+
+            if (repeatMeasurementCount < 1)
+                throw new ArgumentOutOfRangeException("repeatMeasurementCount", "The task run count should be an integer greater then 0.");
+
+            IEnumerable<KinokoTask> tasks = tasksProvider.GetTasks();
+            List<KinokoResult> results = new List<KinokoResult>();
+
+            foreach (KinokoTask task in tasks)
             {
+                OnTaskRunning(EventArgs.Empty);
+                results.Add(RunTask(task, repeatMeasurementCount));
+                OnTaskRun(EventArgs.Empty);
+            }
+
+            return results;
+        }
+
+        private KinokoResult RunTask(KinokoTask task, int repeatMeasurementCount)
+        {
+            TaskMeasurer measurer = new TaskMeasurer(task, repeatMeasurementCount);
+         
+            try
+               {
                 measurer.Measuring += HandleMeasurerMeasuring;
                 measurer.Measured += HandleMeasurerMeasured;
-
+         
                 measurer.Run();
             }
             finally
-            {
+               {
                 measurer.Measuring -= HandleMeasurerMeasuring;
                 measurer.Measured -= HandleMeasurerMeasured;
             }
-
-            //measurer.Result.Calculate();
-
+         
+            measurer.Result.Calculate();
+         
             return measurer.Result;
         }
 
-        private void HandleMeasurerMeasuring (object sender, MeasuringEventArgs e)
+        private void HandleMeasurerMeasuring(object sender, MeasuringEventArgs e)
         {
             OnMeasuring(e);
         }

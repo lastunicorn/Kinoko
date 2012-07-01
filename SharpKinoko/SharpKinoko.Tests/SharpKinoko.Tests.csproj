@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="KinokoResultTests\CalculateTests.cs" />
-    <Compile Include="KinokoResultTests\AddMeasurementsTests.cs" />
     <Compile Include="KinokoTests\ConstructorTests.cs" />
     <Compile Include="KinokoTests\MeasuringEventTests.cs" />
     <Compile Include="KinokoTests\MeasuredEventTests.cs" />
@@ -51,10 +50,12 @@
     <Compile Include="TaskMeasurerTests\RunTests.cs" />
     <Compile Include="TaskMeasurerTests\MeasuredEventTests.cs" />
     <Compile Include="TaskMeasurerTests\MeasuringEventTests.cs" />
-    <Compile Include="KinokoTests\RunTests.cs" />
     <Compile Include="AssemblyTasksProviderTests\GetAllTestMethodsTests.cs" />
     <Compile Include="AssemblyTasksProviderTests\LoadTests.cs" />
     <Compile Include="AssemblyTasksProviderTests\GetTasksTests.cs" />
+    <Compile Include="KinokoResultTests\AddMeasurementTests.cs" />
+    <Compile Include="KinokoTests\RunTaskTests.cs" />
+    <Compile Include="KinokoTests\RunFromProviderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpKinoko\SharpKinoko.csproj">
