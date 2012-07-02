@@ -13,6 +13,7 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using System.Collections.Generic;
 
@@ -75,13 +76,13 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// Event raised before every call of the task.
         /// </summary>
-        public event EventHandler<EventArgs> TaskRunning;
+        public event EventHandler<TaskRunningEventArgs> TaskRunning;
 
         /// <summary>
         /// Raises the <see cref="TaskRunning"/> event.
         /// </summary>
         /// <param name="e">An <see cref="TaskRunningEventArgs"/> object that contains the event data.</param>
-        protected virtual void OnTaskRunning(EventArgs e)
+        protected virtual void OnTaskRunning(TaskRunningEventArgs e)
         {
             if (TaskRunning != null)
             {
@@ -124,16 +125,6 @@ namespace DustInTheWind.SharpKinoko
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DustInTheWind.SharpKinoko.Kinoko"/> class.
-        /// </summary>
-        /// <param name="tasksProvider">Provides a list of tasks to be run.</param>
-        /// <param name="repeatMeasurementCount">The number of times the measurements are performed.</param>
-        public Kinoko(ITasksProvider tasksProvider, int repeatMeasurementCount)
-        {
-            tasksProvider.GetTasks();
-        }
-
         #endregion
 
 
@@ -153,11 +144,7 @@ namespace DustInTheWind.SharpKinoko
             if (repeatMeasurementCount < 1)
                 throw new ArgumentOutOfRangeException("repeatMeasurementCount", "The task run count should be an integer greater then 0.");
 
-            OnTaskRunning(EventArgs.Empty);
-            KinokoResult result = RunTask(task, repeatMeasurementCount);
-            OnTaskRun(EventArgs.Empty);
-
-            return result;
+            return RunTaskWithEvents(task, repeatMeasurementCount);
         }
 
         public IList<KinokoResult> Run(ITasksProvider tasksProvider, int repeatMeasurementCount)
@@ -173,12 +160,19 @@ namespace DustInTheWind.SharpKinoko
 
             foreach (KinokoTask task in tasks)
             {
-                OnTaskRunning(EventArgs.Empty);
-                results.Add(RunTask(task, repeatMeasurementCount));
-                OnTaskRun(EventArgs.Empty);
+                results.Add(RunTaskWithEvents(task, repeatMeasurementCount));
             }
 
             return results;
+        }
+
+        private KinokoResult RunTaskWithEvents(KinokoTask task, int repeatMeasurementCount)
+        {
+            OnTaskRunning(new TaskRunningEventArgs(task));
+            KinokoResult result = RunTask(task, repeatMeasurementCount);
+            OnTaskRun(EventArgs.Empty);
+
+            return result;
         }
 
         private KinokoResult RunTask(KinokoTask task, int repeatMeasurementCount)

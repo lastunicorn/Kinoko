@@ -27,17 +27,17 @@ namespace DustInTheWind.SharpKinoko.Example
         }
 
         [KinokoTask]
-        public void EmptyForLoop100000()
+        public void EmptyForLoop1000000()
         {
-            for (int i = 0; i < 100000; i++)
+            for (int i = 0; i < 1000000; i++)
             {
             }
         }
 
         [KinokoTask]
-        public void CallEmptyMethodInForLoop100000()
+        public void CallEmptyMethodInForLoop1000000()
         {
-            for (int i = 0; i < 100000; i++)
+            for (int i = 0; i < 1000000; i++)
             {
                 SomeMethod();
             }

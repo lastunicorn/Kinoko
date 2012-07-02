@@ -6,3 +6,4 @@ Name=KinokoConsole
 Exec=sharpkinoko.console
 Terminal=false
 
+Categories=Profiling;Development;

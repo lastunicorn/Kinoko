@@ -1,0 +1,42 @@
+SharpKinoko v2.0
+================
+
+- measures the time taken to run a method.
+
+How to use: Using KinokoTask attribute
+--------------------------------------
+
+Step 1
+Create a method that represents the task to be measured by Kinoko.
+Add [KinokoTask] attribute on the method.
+The methods that can be tested are:
+	- public instance methods in a public class that has a parameterless constructor.
+	- public static methods in a public class.
+All these methods should have no parameters and return no value.
+
+Step 2
+Load the assembly using KinokoConsole. It will perform the measurements on all the marked methods and will display the results.
+	KinokoKonsole.exe -a "assembly_file_name_1;assembly_file_name_2"
+
+
+How to use: Without KinokoTask attribute
+----------------------------------------
+
+A method can be measured even if is not marked with the [KinokoTask] attribute. To do so, you need to specify the method name as parameter to the KinokoConsole app.
+	KinokoKonsole.exe -a "assembly_file_name_1;assembly_file_name_2" -t "namespace.classname.methodname1;namespace.classname.methodname2"
+
+
+SharpKinokoConsole
+------------------
+
+KinokoKonsole.exe <Options>
+	
+Options
+	-a <assemblyName>
+		Specifies the assembly to be loaded.
+		Multiple assemblies can be specified separated by ';'
+		
+	-t <methodName>
+		Specifies the tasks to be measured.
+		A task is actually a method. So the full name of the method, including the class name and the namespace has to be specified.
+		Multiple tasks can be specified separated by ';'

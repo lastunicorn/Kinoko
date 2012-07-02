@@ -55,10 +55,9 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         {
             try
             {
-                KinokoTask task = () => { };
-                int repeatMeasurementCount = 0;
+                KinokoTask task = CreateEmptyTask();
 
-                kinoko.Run(task, repeatMeasurementCount);
+                kinoko.Run(task, 0);
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -70,10 +69,9 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         [Test]
         public void returns_not_null_result()
         {
-            KinokoTask task = () => {};
-            int repeatMeasurementCount = 10;
+            KinokoTask task = CreateEmptyTask();
 
-            KinokoResult result = kinoko.Run(task, repeatMeasurementCount);
+            KinokoResult result = kinoko.Run(task, 10);
 
             Assert.That(result, Is.Not.Null);
         }
@@ -81,7 +79,7 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         [Test]
         public void Result_contains_correct_number_of_measurements([Values(1, 2, 3, 4, 5, 10)]int n)
         {
-            KinokoTask task = () => {};
+            KinokoTask task = CreateEmptyTask();
 
             KinokoResult result = kinoko.Run(task, n);
 
@@ -92,23 +90,22 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         [Test]
         public void Result_Measurements_contains_correct_values()
         {
-            int callIndex = 0;
-            double[] times = new double[] { 60, 80, 40 };
-            KinokoTask task = () => Thread.Sleep((int)times[callIndex++]);
 
-            KinokoResult result = kinoko.Run(task, times.Length);
+            int[] timeIntervals = new int[] { 60, 80, 40 };
+            KinokoTask task = CreateSleepTask(timeIntervals);
 
-            AssertAreEqual(times, result.Measurements);
+            KinokoResult result = kinoko.Run(task, timeIntervals.Length);
+
+            AssertAreEqual(timeIntervals, result.Measurements);
         }
 
         [Test]
         public void the_result_contains_the_calculated_average()
         {
-            int callIndex = 0;
-            double[] times = new double[] { 60, 80, 40 };
-            KinokoTask task = () => Thread.Sleep((int)times[callIndex++]);
+            int[] timeIntervals = new int[] { 60, 80, 40 };
+            KinokoTask task = CreateSleepTask(timeIntervals);
 
-            KinokoResult result = kinoko.Run(task, times.Length);
+            KinokoResult result = kinoko.Run(task, timeIntervals.Length);
 
             Assert.That(result.Average, Is.EqualTo(60).Within(1));
         }
@@ -121,7 +118,7 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         public void raises_TaskRunning_event_once()
         {
             int callCount = 0;
-            KinokoTask task = () => { };
+            KinokoTask task = CreateEmptyTask();
             kinoko.TaskRunning += (sender, e) => {
                 callCount++;
             };
@@ -129,6 +126,20 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
             kinoko.Run(task, 3);
 
             Assert.That(callCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void the_TaskRunning_event_contains_the_task()
+        {
+            KinokoTask actualTask = null;
+            KinokoTask task = CreateEmptyTask();
+            kinoko.TaskRunning += (sender, e) => {
+                actualTask = e.Task;
+            };
+
+            kinoko.Run(task, 3);
+
+            Assert.That(actualTask, Is.SameAs(task));
         }
 
         [Test]
@@ -146,6 +157,17 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         }
 
         #endregion
+
+        private KinokoTask CreateEmptyTask()
+        {
+            return () => { };
+        }
+
+        private KinokoTask CreateSleepTask(int[] timeIntervals)
+        {
+            int callIndex = 0;
+            return () => Thread.Sleep(callIndex < timeIntervals.Length ? timeIntervals[callIndex++] : 0);
+        }
 
         private void AssertAreEqual(IList expected, IList actual)
         {
