@@ -20,19 +20,16 @@ using System.Collections.Generic;
 namespace DustInTheWind.SharpKinoko
 {
     /// <summary>
-    /// Runs a task and measures the time necessary to finish. The task is run multiple times and an
+    /// Runs a subject and measures the time necessary to finish. The subject is run multiple times and an
     /// average is calculated.
     /// The class is not thread safe.
     /// </summary>
-    /// <remarks>
-    /// Every time the <see cref="M:Run"/> method is called, the old result is discarded.
-    /// </remarks>
     public class Kinoko
     {
         #region Event Measuring
 
         /// <summary>
-        /// Event raised before every call of the task.
+        /// Event raised before every measuring.
         /// </summary>
         public event EventHandler<MeasuringEventArgs> Measuring;
 
@@ -53,7 +50,7 @@ namespace DustInTheWind.SharpKinoko
         #region Event Measured
 
         /// <summary>
-        /// Event raised after every call of the task.
+        /// Event raised after every measuring.
         /// </summary>
         public event EventHandler<MeasuredEventArgs> Measured;
 
@@ -74,7 +71,7 @@ namespace DustInTheWind.SharpKinoko
         #region Event TaskRunning
 
         /// <summary>
-        /// Event raised before every call of the task.
+        /// Event raised before a task is started.
         /// </summary>
         public event EventHandler<TaskRunningEventArgs> TaskRunning;
 
@@ -95,7 +92,7 @@ namespace DustInTheWind.SharpKinoko
         #region Event TaskRun
 
         /// <summary>
-        /// Event raised before every call of the task.
+        /// Event raised after a task is finished.
         /// </summary>
         public event EventHandler<EventArgs> TaskRun;
 
@@ -120,7 +117,6 @@ namespace DustInTheWind.SharpKinoko
         /// Initializes a new instance of the <see cref="Kinoko"/> class with
         /// default values.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public Kinoko()
         {
         }
@@ -131,53 +127,53 @@ namespace DustInTheWind.SharpKinoko
         #region Run
 
         /// <summary>
-        /// Runs the task multiple times and measures the time intervals spent.
+        /// Runs the subject multiple times and measures the time intervals spent.
         /// </summary>
         /// <remarks>
         /// After the test is finished, the <see cref="M:KinokoResult.Calculate"/> method is automatically called.
         /// </remarks>
-        public KinokoResult Run(KinokoTask task, int repeatMeasurementCount)
+        public KinokoResult Run(KinokoSubject subject, int repeatCount)
         {
-            if (task == null)
-                throw new ArgumentNullException("task");
+            if (subject == null)
+                throw new ArgumentNullException("subject");
 
-            if (repeatMeasurementCount < 1)
-                throw new ArgumentOutOfRangeException("repeatMeasurementCount", "The task run count should be an integer greater then 0.");
+            if (repeatCount < 1)
+                throw new ArgumentOutOfRangeException("repeatCount", "The repeat count should be an integer greater then 0.");
 
-            return RunTaskWithEvents(task, repeatMeasurementCount);
+            return RunSubjectWithEvents(subject, repeatCount);
         }
 
-        public IList<KinokoResult> Run(ITasksProvider tasksProvider, int repeatMeasurementCount)
+        public IList<KinokoResult> Run(ISubjectsProvider subjectsProvider, int repeatCount)
         {
-            if (tasksProvider == null)
-                throw new ArgumentNullException("tasksProvider");
+            if (subjectsProvider == null)
+                throw new ArgumentNullException("subjectsProvider");
 
-            if (repeatMeasurementCount < 1)
-                throw new ArgumentOutOfRangeException("repeatMeasurementCount", "The task run count should be an integer greater then 0.");
+            if (repeatCount < 1)
+                throw new ArgumentOutOfRangeException("repeatCount", "The repeat count should be an integer greater then 0.");
 
-            IEnumerable<KinokoTask> tasks = tasksProvider.GetTasks();
+            IEnumerable<KinokoSubject> subjects = subjectsProvider.GetKinokoSubjects();
             List<KinokoResult> results = new List<KinokoResult>();
 
-            foreach (KinokoTask task in tasks)
+            foreach (KinokoSubject subject in subjects)
             {
-                results.Add(RunTaskWithEvents(task, repeatMeasurementCount));
+                results.Add(RunSubjectWithEvents(subject, repeatCount));
             }
 
             return results;
         }
 
-        private KinokoResult RunTaskWithEvents(KinokoTask task, int repeatMeasurementCount)
+        private KinokoResult RunSubjectWithEvents(KinokoSubject subject, int repeatMeasurementCount)
         {
-            OnTaskRunning(new TaskRunningEventArgs(task));
-            KinokoResult result = RunTask(task, repeatMeasurementCount);
+            OnTaskRunning(new TaskRunningEventArgs(subject));
+            KinokoResult result = RunSubject(subject, repeatMeasurementCount);
             OnTaskRun(EventArgs.Empty);
 
             return result;
         }
 
-        private KinokoResult RunTask(KinokoTask task, int repeatMeasurementCount)
+        private KinokoResult RunSubject(KinokoSubject subject, int repeatMeasurementCount)
         {
-            TaskMeasurer measurer = new TaskMeasurer(task, repeatMeasurementCount);
+            Measurer measurer = new Measurer(subject, repeatMeasurementCount);
          
             try
                {

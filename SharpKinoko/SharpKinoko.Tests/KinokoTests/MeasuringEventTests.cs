@@ -23,25 +23,25 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
     public class MeasuringEventTests
     {
         private Kinoko kinoko;
-        private KinokoTask task;
-        private int repeatMeasurementCount = 1;
+        private KinokoSubject subject;
+        private int repeatCount = 1;
 
         [SetUp]
         public void SetUp()
         {
             kinoko = new Kinoko();
-            task = new KinokoTask(delegate { Thread.Sleep(10); });
+            subject = new KinokoSubject(delegate { Thread.Sleep(10); });
         }
 
         [Test]
-        public void Measuring_is_called_before_running_the_task()
+        public void Measuring_is_called_before_measuring_the_subject()
         {
             bool eventCalled = false;
             kinoko.Measuring += (sender, e) => {
                 eventCalled = true;
             };
 
-            kinoko.Run(task, repeatMeasurementCount);
+            kinoko.Run(subject, repeatCount);
 
             Assert.That(eventCalled, Is.True);
         }
@@ -54,7 +54,7 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
                 senderObject = sender;
             };
 
-            kinoko.Run(task, repeatMeasurementCount);
+            kinoko.Run(subject, repeatCount);
 
             Assert.That(senderObject, Is.SameAs(kinoko));
         }
@@ -67,7 +67,7 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
                 eventArgs = e;
             };
 
-            kinoko.Run(task, repeatMeasurementCount);
+            kinoko.Run(subject, repeatCount);
 
             Assert.That(eventArgs, Is.Not.Null);
         }

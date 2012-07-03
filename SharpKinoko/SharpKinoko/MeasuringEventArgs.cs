@@ -24,12 +24,12 @@ namespace DustInTheWind.SharpKinoko
     public class MeasuringEventArgs : EventArgs
     {
         /// <summary>
-        /// The index of the current run of the task.
+        /// The index of the current measurement.
         /// </summary>
         private int stepIndex;
 
         /// <summary>
-        /// Gets the index of the current run of the task.
+        /// Gets the index of the current measurement.
         /// </summary>
         public int StepIndex
         {
@@ -39,7 +39,7 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// Initializes a new instance of the <see cref="MeasuringEventArgs"/> class.
         /// </summary>
-        /// <param name="stepIndex">The index of the current run of the task.</param>
+        /// <param name="stepIndex">The index of the current measurement.</param>
         public MeasuringEventArgs(int stepIndex)
             : base()
         {

@@ -49,12 +49,11 @@
     <Compile Include="TaskMeasurerTests\RunTests.cs" />
     <Compile Include="TaskMeasurerTests\MeasuredEventTests.cs" />
     <Compile Include="TaskMeasurerTests\MeasuringEventTests.cs" />
-    <Compile Include="AssemblyTasksProviderTests\GetAllTestMethodsTests.cs" />
     <Compile Include="AssemblyTasksProviderTests\LoadTests.cs" />
-    <Compile Include="AssemblyTasksProviderTests\GetTasksTests.cs" />
     <Compile Include="KinokoResultTests\AddMeasurementTests.cs" />
     <Compile Include="KinokoTests\RunTaskTests.cs" />
     <Compile Include="KinokoTests\RunFromProviderTests.cs" />
+    <Compile Include="AssemblyTasksProviderTests\GetKinokoSubjectsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpKinoko\SharpKinoko.csproj">

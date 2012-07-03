@@ -24,54 +24,54 @@ namespace DustInTheWind.SharpKinoko.Tests.TaskMeasurerTests
     {
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void constructor_throws_if_task_is_null()
+        public void constructor_throws_if_subject_is_null()
         {
             try
             {
-                new TaskMeasurer(null, 1);
+                new Measurer(null, 1);
             }
             catch (ArgumentNullException ex)
             {
-                Assert.That(ex.ParamName, Is.EqualTo("task"));
+                Assert.That(ex.ParamName, Is.EqualTo("subject"));
                 throw;
             }
         }
 
         [Test]
-        public void constructor_saves_task_internally()
+        public void constructor_saves_subject_internally()
         {
-            KinokoTask task = () => { };
+            KinokoSubject subject = () => { };
 
-            TaskMeasurer measurer = new TaskMeasurer(task, 1);
+            Measurer measurer = new Measurer(subject, 1);
 
-            Assert.That(measurer.Task, Is.SameAs(task));
+            Assert.That(measurer.Subject, Is.SameAs(subject));
         }
 
         [Test]
-        public void constructor_saves_repeatMeasurementCount_internally()
+        public void constructor_saves_repeatCount_internally()
         {
-            KinokoTask task = () => { };
-            int repeatMeasurementCount = 10;
+            KinokoSubject subject = () => { };
+            int repeatCount = 10;
 
-            TaskMeasurer taskMeasurer = new TaskMeasurer(task, repeatMeasurementCount);
+            Measurer measurer = new Measurer(subject, repeatCount);
 
-            Assert.That(taskMeasurer.RepeatMeasurementCount, Is.EqualTo(repeatMeasurementCount));
+            Assert.That(measurer.RepeatCount, Is.EqualTo(repeatCount));
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void constructor_throws_if_repeatMeasurementCount_is_zero()
+        public void constructor_throws_if_repeatCount_is_zero()
         {
             try
             {
-                KinokoTask task = () => { };
-                int repeatMeasurementCount = 0;
+                KinokoSubject subject = () => { };
+                int repeatCount = 0;
 
-                new TaskMeasurer(task, repeatMeasurementCount);
+                new Measurer(subject, repeatCount);
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                Assert.That(ex.ParamName, Is.EqualTo("taskRunCount"));
+                Assert.That(ex.ParamName, Is.EqualTo("repeatCount"));
                 throw;
             }
         }

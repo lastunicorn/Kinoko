@@ -20,10 +20,15 @@ using System.Reflection;
 
 namespace DustInTheWind.SharpKinoko
 {
-    public class AssemblyTasksProvider : ITasksProvider
+    /// <summary>
+    /// Searches through an assembly for methods marked with <see cref="KinokoTargetAttribute"/> attribute.
+    /// </summary>
+    public class AssemblySubjectsProvider : ISubjectsProvider
     {
+        /// <summary>
+        /// The assembly into which the search is performed.
+        /// </summary>
         private Assembly assembly;
-        private List<MethodInfo> testMethods;
 
         public void Load(Assembly assembly)
         {
@@ -33,56 +38,47 @@ namespace DustInTheWind.SharpKinoko
             this.assembly = assembly;
         }
 
-        public IList<MethodInfo> GetAllTestMethods()
+        public IEnumerable<KinokoSubject> GetKinokoSubjects()
         {
-            if (testMethods == null)
-                CreateListOfMethods();
+            List<KinokoSubject> subjects = new List<KinokoSubject>();
 
-            return testMethods;
-        }
-
-        private void CreateListOfMethods()
-        {
-            List<MethodInfo> testMethods = new List<MethodInfo>();
-         
-            Type[] types = assembly.GetTypes();
-         
-            foreach (Type type in types)
-            {
-                MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
-         
-                foreach (MethodInfo method in methods)
-                {
-                    Attribute attr = Attribute.GetCustomAttribute(method, typeof(KinokoTaskAttribute), false);
-         
-                    if (attr != null)
-                        testMethods.Add(method);
-                }
-            }
-         
-            this. testMethods = testMethods;
-        }
-
-        public IEnumerable<KinokoTask> GetTasks()
-        {
-            List<KinokoTask> tasks = new List<KinokoTask>();
-
-            IEnumerable<MethodInfo> methods = GetAllTestMethods();
+            IEnumerable<MethodInfo> methods = SearchForAllMethods();
 
             foreach (MethodInfo method in methods)
             {
-                tasks.Add(CreateKinokoTask(method));
+                subjects.Add(CreateKinokoTask(method));
             }
 
-            return tasks;
+            return subjects;
         }
 
-        static KinokoTask CreateKinokoTask(MethodInfo method)
+        private IEnumerable<MethodInfo> SearchForAllMethods()
+        {
+            List<MethodInfo> allMethods = new List<MethodInfo>();
+
+            Type[] types = assembly.GetTypes();
+
+            foreach (Type type in types)
+            {
+                MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
+
+                foreach (MethodInfo method in methods)
+                {
+                    Attribute attr = Attribute.GetCustomAttribute(method, typeof(KinokoTargetAttribute), false);
+
+                    if (attr != null)
+                        allMethods.Add(method);
+                }
+            }
+
+            return allMethods;
+        }
+
+        private KinokoSubject CreateKinokoTask(MethodInfo method)
         {
             ConstructorInfo constructor = method.ReflectedType.GetConstructor(new Type[0]);
             object obj = constructor.Invoke(new object[0]);
-            KinokoTask task = Delegate.CreateDelegate(typeof(KinokoTask), obj, method.Name) as KinokoTask;
-            return task;
+            return Delegate.CreateDelegate(typeof(KinokoSubject), obj, method.Name) as KinokoSubject;
         }
     }
 }

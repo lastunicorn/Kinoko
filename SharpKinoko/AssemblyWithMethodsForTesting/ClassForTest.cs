@@ -21,22 +21,22 @@ namespace AssemblyWithMethodsForTesting
 {
 	public class ClassForTest
 	{
-		[KinokoTask]
+		[KinokoTarget]
 		public void PublicMethodWithTestAttribute()
 		{
 		}
 		
-		[KinokoTask]
+		[KinokoTarget]
 		private void PrivateMethodWithTestAttribute()
 		{
 		}
 		
-		[KinokoTask]
+		[KinokoTarget]
 		public static void StaticPublicMethodWithTestAttribute()
 		{
 		}
 		
-		[KinokoTask]
+		[KinokoTarget]
 		private static void StaticPrivateMethodWithTestAttribute()
 		{
 		}

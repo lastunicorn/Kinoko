@@ -24,12 +24,12 @@ namespace DustInTheWind.SharpKinoko
     public class KinokoResult
     {
         /// <summary>
-        /// The time measurements of every run of the task.
+        /// The time measurements of every run of the subject.
         /// </summary>
         private List<double> measurements;
 
         /// <summary>
-        /// Gets an array with the time measurements of every run of the task.
+        /// Gets an array with the time measurements of every run of the subject.
         /// </summary>
         public double[] Measurements
         {

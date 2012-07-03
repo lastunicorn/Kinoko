@@ -62,18 +62,18 @@ namespace DustInTheWind.SharpKinokoConsole
         {
             using (new TemporaryColorSwitcher(ConsoleColor.Blue))
             {
-                Console.WriteLine("Start measuring tasks from assembly " + assemblyFileName);
+                Console.WriteLine("Start measuring targets from assembly " + assemblyFileName);
             }
 
-            AssemblyTasksProvider tasksProvider = CreateTasksProvider(assemblyFileName);
-            IList<KinokoResult> results = kinoko.Run(tasksProvider, repeatMeasurementCount);
+            AssemblySubjectsProvider subjectsProvider = CreateTasksProvider(assemblyFileName);
+            IList<KinokoResult> results = kinoko.Run(subjectsProvider, repeatMeasurementCount);
             DisplayResults(results);
         }
 
         static void HandleKinokoTaskRunning(object sender, TaskRunningEventArgs e)
         {
             Console.WriteLine();
-            Console.WriteLine(string.Format("Running task: {0} ", ((Delegate)e.Task).Method.Name));
+            Console.WriteLine(string.Format("Measuring target: {0} ", ((Delegate)e.Subject).Method.Name));
             WriteEmptyProgressBar();
 
             percentCompleted = 0;
@@ -104,13 +104,13 @@ namespace DustInTheWind.SharpKinokoConsole
             }
         }
 
-        static AssemblyTasksProvider CreateTasksProvider(string assemblyFilePath)
+        static AssemblySubjectsProvider CreateTasksProvider(string assemblyFilePath)
         {
-            AssemblyTasksProvider tasksProvider = new AssemblyTasksProvider();
+            AssemblySubjectsProvider subjectsProvider = new AssemblySubjectsProvider();
             Assembly assembly = Assembly.LoadFile(assemblyFilePath);
-            tasksProvider.Load(assembly);
+            subjectsProvider.Load(assembly);
 
-            return tasksProvider;
+            return subjectsProvider;
         }
 
         static Kinoko CreateKinoko()

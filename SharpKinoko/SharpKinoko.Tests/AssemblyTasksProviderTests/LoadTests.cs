@@ -29,8 +29,8 @@ namespace DustInTheWind.SharpKinoko.Tests.AssemblyTasksProviderTests
         {
             try
             {
-                AssemblyTasksProvider tasksProvider = new AssemblyTasksProvider();
-                tasksProvider.Load(null);
+                AssemblySubjectsProvider subjectsProvider = new AssemblySubjectsProvider();
+                subjectsProvider.Load(null);
             }
             catch (ArgumentNullException ex)
             {
@@ -42,9 +42,9 @@ namespace DustInTheWind.SharpKinoko.Tests.AssemblyTasksProviderTests
         [Test]
         public void no_error_when_loading_assembly()
         {
-            AssemblyTasksProvider tasksProvider = new AssemblyTasksProvider();
+            AssemblySubjectsProvider subjectsProvider = new AssemblySubjectsProvider();
             Assembly assembly = Assembly.LoadFile("AssemblyWithMethodsForTesting.dll");
-            tasksProvider.Load(assembly);
+            subjectsProvider.Load(assembly);
         }
     }
 }

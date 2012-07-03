@@ -24,26 +24,26 @@ namespace DustInTheWind.SharpKinoko.Tests.TaskMeasurerTests
     public class RunTests
     {
         [Test]
-        public void calls_the_task()
+        public void calls_the_subject()
         {
             bool isCalled = false;
-            KinokoTask task = () => isCalled = true;
+            KinokoSubject subject = () => isCalled = true;
             int repeatMeasurementCount = 10;
-            TaskMeasurer taskMeasurer = new TaskMeasurer(task, repeatMeasurementCount);
+            Measurer measurer = new Measurer(subject, repeatMeasurementCount);
 
-            taskMeasurer.Run();
+            measurer.Run();
 
             Assert.That(isCalled, Is.True);
         }
 
         [Test]
-        public void calls_the_task_multiple_times([Values(1, 2, 3, 4, 5, 10)]int n)
+        public void calls_the_subject_multiple_times([Values(1, 2, 3, 4, 5, 10)]int n)
         {
             int calledCount = 0;
-            KinokoTask task = () => calledCount++;
-            TaskMeasurer taskMeasurer = new TaskMeasurer(task, n);
+            KinokoSubject subject = () => calledCount++;
+            Measurer measurer = new Measurer(subject, n);
 
-            taskMeasurer.Run();
+            measurer.Run();
 
             Assert.That(calledCount, Is.EqualTo(n));
         }
@@ -51,25 +51,25 @@ namespace DustInTheWind.SharpKinoko.Tests.TaskMeasurerTests
         [Test]
         public void creates_Result()
         {
-            KinokoTask task = () => {};
+            KinokoSubject subject = () => {};
             int repeatMeasurementCount = 10;
-            TaskMeasurer taskMeasurer = new TaskMeasurer(task, repeatMeasurementCount);
+            Measurer measurer = new Measurer(subject, repeatMeasurementCount);
 
-            taskMeasurer.Run();
+            measurer.Run();
 
-            Assert.That(taskMeasurer.Result, Is.Not.Null);
+            Assert.That(measurer.Result, Is.Not.Null);
         }
 
         [Test]
         public void Result_contains_correct_number_of_measurements([Values(1, 2, 3, 4, 5, 10)]int n)
         {
-            KinokoTask task = () => {};
-            TaskMeasurer taskMeasurer = new TaskMeasurer(task, n);
+            KinokoSubject subject = () => {};
+            Measurer measurer = new Measurer(subject, n);
 
-            taskMeasurer.Run();
+            measurer.Run();
 
-            Assert.That(taskMeasurer.Result.Measurements, Is.Not.Null);
-            Assert.That(taskMeasurer.Result.Measurements.Length, Is.EqualTo(n));
+            Assert.That(measurer.Result.Measurements, Is.Not.Null);
+            Assert.That(measurer.Result.Measurements.Length, Is.EqualTo(n));
         }
 
         [Test]
@@ -77,12 +77,12 @@ namespace DustInTheWind.SharpKinoko.Tests.TaskMeasurerTests
         {
             int callIndex = 0;
             double[] times = new double[] { 60, 80, 40 };
-            KinokoTask task = () => Thread.Sleep((int)times[callIndex++]);
-            TaskMeasurer taskMeasurer = new TaskMeasurer(task, times.Length);
+            KinokoSubject subject = () => Thread.Sleep((int)times[callIndex++]);
+            Measurer measurer = new Measurer(subject, times.Length);
 
-            taskMeasurer.Run();
+            measurer.Run();
 
-            AssertAreEqual(times, taskMeasurer.Result.Measurements);
+            AssertAreEqual(times, measurer.Result.Measurements);
         }
 
         private void AssertAreEqual(IList expected, IList actual)

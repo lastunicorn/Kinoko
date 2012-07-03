@@ -22,24 +22,24 @@ namespace DustInTheWind.SharpKinoko.Tests.TaskMeasurerTests
     [TestFixture]
     public class MeasuringEventTests
     {
-        private TaskMeasurer taskMeasurer;
+        private Measurer measurer;
 
         [SetUp]
         public void SetUp()
         {
-            KinokoTask task = () => Thread.Sleep(10);
-            taskMeasurer = new TaskMeasurer(task, 1);
+            KinokoSubject subject = () => Thread.Sleep(10);
+            measurer = new Measurer(subject, 1);
         }
 
         [Test]
-        public void Measuring_is_called_before_running_the_task()
+        public void Measuring_is_called_before_measuring_the_subject()
         {
             bool eventCalled = false;
-            taskMeasurer.Measuring += (sender, e) => {
+            measurer.Measuring += (sender, e) => {
                 eventCalled = true;
             };
 
-            taskMeasurer.Run();
+            measurer.Run();
 
             Assert.That(eventCalled, Is.True);
         }
@@ -48,24 +48,24 @@ namespace DustInTheWind.SharpKinoko.Tests.TaskMeasurerTests
         public void Measuring_is_called_with_correct_sender()
         {
             object senderObject = null;
-            taskMeasurer.Measuring += (sender, e) => {
+            measurer.Measuring += (sender, e) => {
                 senderObject = sender;
             };
 
-            taskMeasurer.Run();
+            measurer.Run();
 
-            Assert.That(senderObject, Is.SameAs(taskMeasurer));
+            Assert.That(senderObject, Is.SameAs(measurer));
         }
 
         [Test]
         public void Measuring_is_called_with_not_null_event_args()
         {
             MeasuringEventArgs eventArgs = null;
-            taskMeasurer.Measuring += (sender, e) => {
+            measurer.Measuring += (sender, e) => {
                 eventArgs = e;
             };
 
-            taskMeasurer.Run();
+            measurer.Run();
 
             Assert.That(eventArgs, Is.Not.Null);
         }

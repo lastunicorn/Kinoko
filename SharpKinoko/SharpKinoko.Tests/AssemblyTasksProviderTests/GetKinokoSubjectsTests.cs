@@ -14,64 +14,66 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 
 namespace DustInTheWind.SharpKinoko.Tests.AssemblyTasksProviderTests
 {
     [TestFixture()]
-    public class GetAllTestMethodsTests
+    public class GetKinokoSubjectsTests
     {
-        private AssemblyTasksProvider tasksProvider;
+        private AssemblySubjectsProvider kinokoSubjectsProvider;
         private Assembly assembly;
      
         [SetUp]
         public void SetUp()
         {
-            tasksProvider = new AssemblyTasksProvider();
+            kinokoSubjectsProvider = new AssemblySubjectsProvider();
             assembly = Assembly.LoadFile("AssemblyWithMethodsForTesting.dll");
-            tasksProvider.Load(assembly);
+            kinokoSubjectsProvider.Load(assembly);
         }
              
         [Test]
-        public void returns_public_method_with_KinokoTest_attribute()
+        public void returns_kinoko_subject_for_public_method_with_KinokoTest_attribute()
         {
-            IList<MethodInfo> methods = tasksProvider.GetAllTestMethods();
-         
-            AssertContainsMethod(methods, "PublicMethodWithTestAttribute");
+            IEnumerable<KinokoSubject> subject = kinokoSubjectsProvider.GetKinokoSubjects();
+
+            AssertContainsTaskForMethod(subject, "PublicMethodWithTestAttribute");
         }
      
         [Test]
         public void does_not_return_private_method_with_KinokoTest_attribute()
         {
-            IList<MethodInfo> methods = tasksProvider.GetAllTestMethods();
-         
-            AssertDoesNotContainMethod(methods, "PrivateMethodWithTestAttribute");
+            IEnumerable<KinokoSubject> subject = kinokoSubjectsProvider.GetKinokoSubjects();
+
+            AssertDoesNotContainTaskForMethod(subject, "PrivateMethodWithTestAttribute");
         }
      
         [Test]
         public void does_not_return_public_static_method()
         {
-            IList<MethodInfo> methods = tasksProvider.GetAllTestMethods();
-         
-            AssertDoesNotContainMethod(methods, "StaticPublicMethodWithTestAttribute");
+            IEnumerable<KinokoSubject> subject = kinokoSubjectsProvider.GetKinokoSubjects();
+
+            AssertDoesNotContainTaskForMethod(subject, "StaticPublicMethodWithTestAttribute");
         }
      
         [Test]
         public void does_not_return_private_static_method()
         {
-            IList<MethodInfo> methods = tasksProvider.GetAllTestMethods();
-         
-            AssertDoesNotContainMethod(methods, "StaticPrivateMethodWithTestAttribute");
+            IEnumerable<KinokoSubject> subject = kinokoSubjectsProvider.GetKinokoSubjects();
+
+            AssertDoesNotContainTaskForMethod(subject, "StaticPrivateMethodWithTestAttribute");
         }
      
         [Test]
         public void does_not_return_normal_public_method()
         {
-            IList<MethodInfo> methods = tasksProvider.GetAllTestMethods();
-         
-            AssertDoesNotContainMethod(methods, "PublicMethod");
+            IEnumerable<KinokoSubject> subject = kinokoSubjectsProvider.GetKinokoSubjects();
+
+            AssertDoesNotContainTaskForMethod(subject, "PublicMethod");
         }
 
         private MethodInfo GetMethodFromAssembly(string methodName)
@@ -80,16 +82,14 @@ namespace DustInTheWind.SharpKinoko.Tests.AssemblyTasksProviderTests
              .GetMethod(methodName);
         }
 
-        private void AssertContainsMethod(IEnumerable<MethodInfo> methods, string methodName)
+        private void AssertContainsTaskForMethod(IEnumerable<KinokoSubject> subjects, string methodName)
         {
-            MethodInfo expectedMethod = GetMethodFromAssembly(methodName);
-            Assert.That(methods, Contains.Item(expectedMethod));
+            Assert.True(subjects.Any(x => ((Delegate)x).Method.Name == methodName));
         }
 
-        private void AssertDoesNotContainMethod(IEnumerable<MethodInfo> methods, string methodName)
+        private void AssertDoesNotContainTaskForMethod(IEnumerable<KinokoSubject> subjects, string methodName)
         {
-            MethodInfo expectedMethod = GetMethodFromAssembly(methodName);
-            Assert.That(methods, Has.No.Member(expectedMethod));
+            Assert.False(subjects.Any(x => ((Delegate)x).Method.Name == methodName));
         }
     }
 }

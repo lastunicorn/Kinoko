@@ -24,26 +24,26 @@ namespace DustInTheWind.SharpKinoko
     public class TaskRunningEventArgs : EventArgs
     {
         /// <summary>
-        /// The task that is about to be run.
+        /// The subject measured by the task.
         /// </summary>
-        private KinokoTask task;
+        private KinokoSubject subject;
 
         /// <summary>
-        /// Gets the task that is about to be run.
+        /// Gets the subject that is measured by the task.
         /// </summary>
-        public KinokoTask Task
+        public KinokoSubject Subject
         {
-            get { return task; }
+            get { return subject; }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TaskRunningEventArgs"/> class.
         /// </summary>
-        /// <param name="task">The task that is about to be run.</param>
-        public TaskRunningEventArgs(KinokoTask task)
+        /// <param name="subject">The subject that is measured by the task.</param>
+        public TaskRunningEventArgs(KinokoSubject subject)
             : base()
         {
-            this.task = task;
+            this.subject = subject;
         }
     }
 }

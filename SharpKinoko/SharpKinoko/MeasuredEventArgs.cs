@@ -24,12 +24,12 @@ namespace DustInTheWind.SharpKinoko
     public class MeasuredEventArgs : EventArgs
     {
         /// <summary>
-        /// The index of the current run of the task.
+        /// The index of the current measurement.
         /// </summary>
         private int stepIndex;
 
         /// <summary>
-        /// Gets the index of the current run of the task.
+        /// Gets the index of the current measurement.
         /// </summary>
         public int StepIndex
         {
@@ -37,12 +37,12 @@ namespace DustInTheWind.SharpKinoko
         }
 
         /// <summary>
-        /// The time necessary to completely run the task.
+        /// The measured time in miliseconds.
         /// </summary>
         private double time;
 
         /// <summary>
-        /// Gets the time necessary to completely run the task.
+        /// Gets the measured time in miliseconds.
         /// </summary>
         public double Time
         {
@@ -52,8 +52,8 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// Initializes a new instance of the <see cref="MeasuredEventArgs"/> class.
         /// </summary>
-        /// <param name="stepIndex">The index of the current run of the task.</param>
-        /// <param name="time">The time necessary to completely run the task.</param>
+        /// <param name="stepIndex">The index of the current measurement.</param>
+        /// <param name="time">The measured time in miliseconds.</param>
         public MeasuredEventArgs(int stepIndex, double time)
             : base()
         {

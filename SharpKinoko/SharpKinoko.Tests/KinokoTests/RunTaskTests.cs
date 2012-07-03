@@ -32,19 +32,19 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
             kinoko = new Kinoko();
         }
 
-        #region Run(KinokoTask task, int repeatMeasurementCount)
+        #region Run(KinokoSubject subject, int repeatCount)
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void throws_if_task_is_null()
+        public void throws_if_subject_is_null()
         {
             try
             {
-                kinoko.Run(null as KinokoTask, 10);
+                kinoko.Run(null as KinokoSubject, 10);
             }
             catch (ArgumentNullException ex)
             {
-                Assert.That(ex.ParamName, Is.EqualTo("task"));
+                Assert.That(ex.ParamName, Is.EqualTo("subject"));
                 throw;
             }
         }
@@ -55,9 +55,9 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         {
             try
             {
-                KinokoTask task = CreateEmptyTask();
+                KinokoSubject subject = CreateEmptyTask();
 
-                kinoko.Run(task, 0);
+                kinoko.Run(subject, 0);
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -69,9 +69,9 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         [Test]
         public void returns_not_null_result()
         {
-            KinokoTask task = CreateEmptyTask();
+            KinokoSubject subject = CreateEmptyTask();
 
-            KinokoResult result = kinoko.Run(task, 10);
+            KinokoResult result = kinoko.Run(subject, 10);
 
             Assert.That(result, Is.Not.Null);
         }
@@ -79,9 +79,9 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         [Test]
         public void Result_contains_correct_number_of_measurements([Values(1, 2, 3, 4, 5, 10)]int n)
         {
-            KinokoTask task = CreateEmptyTask();
+            KinokoSubject subject = CreateEmptyTask();
 
-            KinokoResult result = kinoko.Run(task, n);
+            KinokoResult result = kinoko.Run(subject, n);
 
             Assert.That(result.Measurements, Is.Not.Null);
             Assert.That(result.Measurements.Length, Is.EqualTo(n));
@@ -92,9 +92,9 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         {
 
             int[] timeIntervals = new int[] { 60, 80, 40 };
-            KinokoTask task = CreateSleepTask(timeIntervals);
+            KinokoSubject subject = CreateSleepTask(timeIntervals);
 
-            KinokoResult result = kinoko.Run(task, timeIntervals.Length);
+            KinokoResult result = kinoko.Run(subject, timeIntervals.Length);
 
             AssertAreEqual(timeIntervals, result.Measurements);
         }
@@ -103,9 +103,9 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         public void the_result_contains_the_calculated_average()
         {
             int[] timeIntervals = new int[] { 60, 80, 40 };
-            KinokoTask task = CreateSleepTask(timeIntervals);
+            KinokoSubject subject = CreateSleepTask(timeIntervals);
 
-            KinokoResult result = kinoko.Run(task, timeIntervals.Length);
+            KinokoResult result = kinoko.Run(subject, timeIntervals.Length);
 
             Assert.That(result.Average, Is.EqualTo(60).Within(1));
         }
@@ -118,52 +118,52 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         public void raises_TaskRunning_event_once()
         {
             int callCount = 0;
-            KinokoTask task = CreateEmptyTask();
+            KinokoSubject subject = CreateEmptyTask();
             kinoko.TaskRunning += (sender, e) => {
                 callCount++;
             };
 
-            kinoko.Run(task, 3);
+            kinoko.Run(subject, 3);
 
             Assert.That(callCount, Is.EqualTo(1));
         }
 
         [Test]
-        public void the_TaskRunning_event_contains_the_task()
+        public void the_TaskRunning_event_contains_the_subject()
         {
-            KinokoTask actualTask = null;
-            KinokoTask task = CreateEmptyTask();
+            KinokoSubject actualTask = null;
+            KinokoSubject subject = CreateEmptyTask();
             kinoko.TaskRunning += (sender, e) => {
                 actualTask = e.Task;
             };
 
-            kinoko.Run(task, 3);
+            kinoko.Run(subject, 3);
 
-            Assert.That(actualTask, Is.SameAs(task));
+            Assert.That(actualTask, Is.SameAs(subject));
         }
 
         [Test]
         public void raises_TaskRun_event_once()
         {
             int callCount = 0;
-            KinokoTask task = () => { };
+            KinokoSubject subject = () => { };
             kinoko.TaskRun += (sender, e) => {
                 callCount++;
             };
 
-            kinoko.Run(task, 3);
+            kinoko.Run(subject, 3);
 
             Assert.That(callCount, Is.EqualTo(1));
         }
 
         #endregion
 
-        private KinokoTask CreateEmptyTask()
+        private KinokoSubject CreateEmptyTask()
         {
             return () => { };
         }
 
-        private KinokoTask CreateSleepTask(int[] timeIntervals)
+        private KinokoSubject CreateSleepTask(int[] timeIntervals)
         {
             int callIndex = 0;
             return () => Thread.Sleep(callIndex < timeIntervals.Length ? timeIntervals[callIndex++] : 0);

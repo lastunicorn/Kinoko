@@ -19,42 +19,42 @@ using System.Diagnostics;
 
 namespace DustInTheWind.SharpKinoko
 {
-    public class TaskMeasurer
+    public class Measurer
     {
         /// <summary>
-        /// The task that is tested by <see cref="TaskMeasurer"/>.
+        /// The subject that is tested by the current instance.
         /// </summary>
-        private KinokoTask task;
+        private KinokoSubject subject;
 
         /// <summary>
-        /// Gets or sets the task that is tested by <see cref="TaskMeasurer"/>.
+        /// Gets the subject that is tested by the current instance.
         /// </summary>
-        public KinokoTask Task
+        public KinokoSubject Subject
         {
-            get { return task; }
+            get { return subject; }
         }
 
         /// <summary>
         /// The number of times the measurements are performed. (To minimize the measurement errors.)
         /// </summary>
-        private int repeatMeasurementCount;
+        private int repeatCount;
 
         /// <summary>
-        /// Gets or sets the number of times the measurements are performed. The tasks should be run multiple
+        /// Gets or sets the number of times the measurements are performed. The subject should be run multiple
         /// times to minimize the measurement errors.
         /// </summary>
-        public int RepeatMeasurementCount
+        public int RepeatCount
         {
-            get { return repeatMeasurementCount; }
+            get { return repeatCount; }
         }
 
         /// <summary>
-        /// The results of the test. It is null if no test was run.
+        /// The results of the measurements. It is null if no measurement was run.
         /// </summary>
         private KinokoResult result;
 
         /// <summary>
-        /// Gets the results of the test. It is null if no test was run.
+        /// Gets the results of the measurements. It is null if no measurement was run.
         /// </summary>
         public KinokoResult Result
         {
@@ -64,7 +64,7 @@ namespace DustInTheWind.SharpKinoko
         #region Event Measuring
 
         /// <summary>
-        /// Event raised before every call of the task.
+        /// Event raised before starting a measurement.
         /// </summary>
         public event EventHandler<MeasuringEventArgs> Measuring;
 
@@ -85,7 +85,7 @@ namespace DustInTheWind.SharpKinoko
         #region Event Measured
 
         /// <summary>
-        /// Event raised after every call of the task.
+        /// Event raised after every measurement.
         /// </summary>
         public event EventHandler<MeasuredEventArgs> Measured;
 
@@ -106,23 +106,23 @@ namespace DustInTheWind.SharpKinoko
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TaskMeasurer"/> class with
-        /// the task that is to be measured and
+        /// Initializes a new instance of the <see cref="Measurer"/> class with
+        /// the subject that is to be measured and
         /// the number of times the measurement should be performed.
         /// </summary>
-        /// <param name="task">The task that is to be measured.</param>
-        /// <param name="repeatMeasurementCount">The number of times the measurements are performed.</param>
+        /// <param name="subject">The subject that is to be measured.</param>
+        /// <param name="repeatCount">The number of times the measurements are performed.</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public TaskMeasurer(KinokoTask task, int repeatMeasurementCount)
+        public Measurer(KinokoSubject subject, int repeatCount)
         {
-            if (task == null)
-                throw new ArgumentNullException("task");
+            if (subject == null)
+                throw new ArgumentNullException("subject");
 
-            if (repeatMeasurementCount < 1)
-                throw new ArgumentOutOfRangeException("taskRunCount", "The task run count should be an integer greater then 0.");
+            if (repeatCount < 1)
+                throw new ArgumentOutOfRangeException("repeatCount", "The repeat count should be an integer greater then 0.");
 
-            this.task = task;
-            this.repeatMeasurementCount = repeatMeasurementCount;
+            this.subject = subject;
+            this.repeatCount = repeatCount;
         }
 
         #endregion
@@ -130,10 +130,10 @@ namespace DustInTheWind.SharpKinoko
         #region Run
 
         /// <summary>
-        /// Runs the task multiple times and measures the time intervals spent.
+        /// Runs the subject multiple times and measures the time intervals spent.
         /// </summary>
         /// <remarks>
-        /// After the test is finished, the <see cref="M:KinokoResult.Calculate"/> method is automatically called. 
+        /// After the measurement is finished, the <see cref="M:KinokoResult.Calculate"/> method is automatically called.
         /// </remarks>
         public void Run()
         {
@@ -145,11 +145,17 @@ namespace DustInTheWind.SharpKinoko
             this.result = result;
         }
 
+        /// <summary>
+        /// Performs the measurements for the specified number of times.
+        /// </summary>
+        /// <returns>
+        /// An instance of <see cref="KinokoResult"/> containing the measurements.
+        /// </returns>
         private KinokoResult PerformMeasurements()
         {
             KinokoResult result = new KinokoResult();
 
-            for (int i = 0; i < repeatMeasurementCount; i++)
+            for (int i = 0; i < repeatCount; i++)
             {
                 double milliseconds = PerformMeasurementWithEvents(i);
                 result.AddMeasurement(milliseconds);
@@ -158,19 +164,26 @@ namespace DustInTheWind.SharpKinoko
             return result;
         }
 
+        /// <summary>
+        /// Performs one measurement and also raises the <see cref="Measuring"/> and <see cref="Measured"/> events.
+        /// </summary>
+        /// <returns>
+        /// The measured time in miliseconds.
+        /// </returns>
+        /// <param name="measurementIndex">The index representing the number of times the measurement is performing.</param>
         private double PerformMeasurementWithEvents(int measurementIndex)
         {
             OnMeasuring(new MeasuringEventArgs(measurementIndex));
-            double milliseconds = Measure();
+            double milliseconds = PerformMeasurement();
             OnMeasured(new MeasuredEventArgs(measurementIndex, milliseconds));
 
             return milliseconds;
         }
 
-        private double Measure()
+        private double PerformMeasurement()
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
-            task();
+            subject();
             stopwatch.Stop();
 
             return stopwatch.Elapsed.TotalMilliseconds;
