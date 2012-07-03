@@ -19,7 +19,7 @@ using System.Collections.Generic;
 namespace DustInTheWind.SharpKinoko
 {
     /// <summary>
-    /// Contains the measurements taken by Kinoko after it runs the task.
+    /// Contains the measurements taken by <see cref="Kinoko"/> after it runs the subjects.
     /// </summary>
     public class KinokoResult
     {
@@ -70,7 +70,7 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// Calculates all usefull values from the measured data.
         /// </summary>
-        public void Calculate()
+        public void CalculateAll()
         {
             average = Math.Average(measurements);
         }

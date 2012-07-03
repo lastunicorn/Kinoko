@@ -20,7 +20,7 @@ using System.Collections.Generic;
 namespace DustInTheWind.SharpKinoko
 {
     /// <summary>
-    /// Runs a subject and measures the time necessary to finish. The subject is run multiple times and an
+    /// Measures the time needed to run the provided subjects. The measurement is performed multiple times and an
     /// average is calculated.
     /// The class is not thread safe.
     /// </summary>
@@ -29,7 +29,7 @@ namespace DustInTheWind.SharpKinoko
         #region Event Measuring
 
         /// <summary>
-        /// Event raised before every measuring.
+        /// Event raised before every measuring of a subject.
         /// </summary>
         public event EventHandler<MeasuringEventArgs> Measuring;
 
@@ -50,7 +50,7 @@ namespace DustInTheWind.SharpKinoko
         #region Event Measured
 
         /// <summary>
-        /// Event raised after every measuring.
+        /// Event raised after every measuring of a subject.
         /// </summary>
         public event EventHandler<MeasuredEventArgs> Measured;
 
@@ -71,7 +71,7 @@ namespace DustInTheWind.SharpKinoko
         #region Event TaskRunning
 
         /// <summary>
-        /// Event raised before a task is started.
+        /// Event raised before a task is started. A task is represented by the multiple measurements of a subject.
         /// </summary>
         public event EventHandler<TaskRunningEventArgs> TaskRunning;
 
@@ -92,7 +92,7 @@ namespace DustInTheWind.SharpKinoko
         #region Event TaskRun
 
         /// <summary>
-        /// Event raised after a task is finished.
+        /// Event raised after a task is finished. A task is represented by the multiple measurements of a subject.
         /// </summary>
         public event EventHandler<EventArgs> TaskRun;
 
@@ -110,27 +110,16 @@ namespace DustInTheWind.SharpKinoko
 
         #endregion
 
-
-        #region Constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Kinoko"/> class with
-        /// default values.
-        /// </summary>
-        public Kinoko()
-        {
-        }
-
-        #endregion
-
-
         #region Run
 
         /// <summary>
         /// Runs the subject multiple times and measures the time intervals spent.
         /// </summary>
+        /// <param name="subject">The kinoko subject to be measured.</param>
+        /// <param name="repeatCount">Specifies the number of times to repeat the measurement.</param>
+        /// <returns>A <see cref="KinokoResult"/> object containing the measured data and the calculated values.</returns>
         /// <remarks>
-        /// After the test is finished, the <see cref="M:KinokoResult.Calculate"/> method is automatically called.
+        /// After the measurements are finished, additional values (for example the average) are calculated from the measured data.
         /// </remarks>
         public KinokoResult Run(KinokoSubject subject, int repeatCount)
         {
@@ -143,6 +132,14 @@ namespace DustInTheWind.SharpKinoko
             return RunSubjectWithEvents(subject, repeatCount);
         }
 
+        /// <summary>
+        /// Measures the time spent to run the subjects received from the subjectProvider.
+        /// </summary>
+        /// <param name="subjectsProvider">Provides a list of kinoko subjects to be measured.</param>
+        /// <param name="repeatCount">Specifies the number of times to repeat the measurement.</param>
+        /// <returns>A list of <see cref="KinokoResult"/> objects containing the measured data and the calculated values.</returns>
+        /// <exception cref="ArgumentNullException">Is thrown when the subjectProvider or the repeatCount are <see langword="null" />.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Is thrown when the repeatCount is less then 1.</exception>
         public IList<KinokoResult> Run(ISubjectsProvider subjectsProvider, int repeatCount)
         {
             if (subjectsProvider == null)
@@ -162,33 +159,39 @@ namespace DustInTheWind.SharpKinoko
             return results;
         }
 
-        private KinokoResult RunSubjectWithEvents(KinokoSubject subject, int repeatMeasurementCount)
+        /// <summary>
+        /// Measures the subject and also raises the needed events.
+        /// The additional values are calculated from the measured data.
+        /// </summary>
+        /// <returns>A <see cref="KinokoResult"/> object containing the measured data.</returns>
+        /// <param name='subject'>The kinoko subject to be measured.</param>
+        /// <param name='repeatCount'>The number of times to repeat the measurement.</param>
+        private KinokoResult RunSubjectWithEvents(KinokoSubject subject, int repeatCount)
         {
             OnTaskRunning(new TaskRunningEventArgs(subject));
-            KinokoResult result = RunSubject(subject, repeatMeasurementCount);
+            KinokoResult result = RunSubject(subject, repeatCount);
             OnTaskRun(EventArgs.Empty);
 
             return result;
         }
 
-        private KinokoResult RunSubject(KinokoSubject subject, int repeatMeasurementCount)
+        private KinokoResult RunSubject(KinokoSubject subject, int repeatCount)
         {
-            Measurer measurer = new Measurer(subject, repeatMeasurementCount);
-         
+            Measurer measurer = new Measurer(subject, repeatCount);
+            measurer.Measuring += HandleMeasurerMeasuring;
+            measurer.Measured += HandleMeasurerMeasured;
+
             try
-               {
-                measurer.Measuring += HandleMeasurerMeasuring;
-                measurer.Measured += HandleMeasurerMeasured;
-         
+            {
                 measurer.Run();
             }
             finally
-               {
+            {
                 measurer.Measuring -= HandleMeasurerMeasuring;
                 measurer.Measured -= HandleMeasurerMeasured;
             }
          
-            measurer.Result.Calculate();
+            measurer.Result.CalculateAll();
          
             return measurer.Result;
         }

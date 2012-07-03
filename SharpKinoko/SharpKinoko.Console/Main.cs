@@ -13,7 +13,6 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -24,16 +23,12 @@ namespace DustInTheWind.SharpKinokoConsole
     class MainClass
     {
         private const int repeatMeasurementCount = 10;
-        private static int percentCompleted;
-        private static int progressBarCharCount = 50;
-
-        private static int GetWindowWidth()
-        {
-            return  Console.WindowWidth - 1;
-        }
+        private static ProgressBar progressBar;
 
         public static void Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+
             WriteHeader();
 
             if (args == null || args.Length != 1)
@@ -45,8 +40,6 @@ namespace DustInTheWind.SharpKinokoConsole
 
             try
             {
-                progressBarCharCount = GetWindowWidth() - 2;
-
                 Kinoko kinoko = CreateKinoko();
                 RunTasksFromAssembly(kinoko, args[0]);
             }
@@ -56,61 +49,6 @@ namespace DustInTheWind.SharpKinokoConsole
             }
 
             Pause();
-        }
-
-        static void RunTasksFromAssembly(Kinoko kinoko, string assemblyFileName)
-        {
-            using (new TemporaryColorSwitcher(ConsoleColor.Blue))
-            {
-                Console.WriteLine("Start measuring targets from assembly " + assemblyFileName);
-            }
-
-            AssemblySubjectsProvider subjectsProvider = CreateTasksProvider(assemblyFileName);
-            IList<KinokoResult> results = kinoko.Run(subjectsProvider, repeatMeasurementCount);
-            DisplayResults(results);
-        }
-
-        static void HandleKinokoTaskRunning(object sender, TaskRunningEventArgs e)
-        {
-            Console.WriteLine();
-            Console.WriteLine(string.Format("Measuring target: {0} ", ((Delegate)e.Subject).Method.Name));
-            WriteEmptyProgressBar();
-
-            percentCompleted = 0;
-        }
-
-        static void HandleKinokoTaskRun(object sender, EventArgs e)
-        {
-            Console.WriteLine();
-        }
-
-        private static void HandleKinokoMeasured(object sender, MeasuredEventArgs e)
-        {
-            int newPercent = CalculatePercent(e.StepIndex + 1);
-
-            if (newPercent > percentCompleted)
-            {
-                WriteProgressChars(newPercent - percentCompleted);
-
-                percentCompleted = newPercent;
-            }
-        }
-
-        static void WriteProgressChars(int charCount)
-        {
-            using (new TemporaryColorSwitcher(ConsoleColor.Yellow))
-            {
-                Console.Write(new string('*', charCount));
-            }
-        }
-
-        static AssemblySubjectsProvider CreateTasksProvider(string assemblyFilePath)
-        {
-            AssemblySubjectsProvider subjectsProvider = new AssemblySubjectsProvider();
-            Assembly assembly = Assembly.LoadFile(assemblyFilePath);
-            subjectsProvider.Load(assembly);
-
-            return subjectsProvider;
         }
 
         static Kinoko CreateKinoko()
@@ -124,18 +62,63 @@ namespace DustInTheWind.SharpKinokoConsole
             return kinoko;
         }
 
-        static void WriteEmptyProgressBar()
+        static ISubjectsProvider CreateSubjectsProvider(string assemblyFilePath)
         {
-            using (new TemporaryColorSwitcher(ConsoleColor.Yellow))
+            AssemblySubjectsProvider subjectsProvider = new AssemblySubjectsProvider();
+            Assembly assembly = Assembly.LoadFile(assemblyFilePath);
+            subjectsProvider.Load(assembly);
+
+            return subjectsProvider;
+        }
+
+        static ProgressBar CreateProgressBar()
+        {
+            ProgressBar progressBar = new ProgressBar();
+            progressBar.Width = GetWindowWidth();
+            progressBar.ForegroundColor = ConsoleColor.Yellow;
+            return progressBar;
+        }
+
+        #region Kinoko event handlers
+
+        static void HandleKinokoTaskRunning(object sender, TaskRunningEventArgs e)
+        {
+            Console.WriteLine();
+            Console.Write("Measuring target: ");
+            using (new TemporaryColorSwitcher(ConsoleColor.White))
             {
-                int top = Console.CursorTop;
-                int left = Console.CursorLeft;
-                Console.Write("[");
-                Console.Write(new String(' ', progressBarCharCount));
-                Console.Write("]");
-                Console.CursorTop = top;
-                Console.CursorLeft = left + 1;
+                Console.WriteLine(((Delegate)e.Subject).Method.Name);
             }
+
+            progressBar = CreateProgressBar();
+            progressBar.Display();
+        }
+
+        static void HandleKinokoTaskRun(object sender, EventArgs e)
+        {
+            Console.WriteLine();
+        }
+
+        private static void HandleKinokoMeasured(object sender, MeasuredEventArgs e)
+        {
+            int newPercent = CalculatePercentage(e.StepIndex + 1);
+
+            progressBar.SetProgress(newPercent);
+        }
+
+        #endregion
+
+        static void RunTasksFromAssembly(Kinoko kinoko, string assemblyFileName)
+        {
+            Console.Write("Start measuring targets from assembly ");
+            using (new TemporaryColorSwitcher(ConsoleColor.White))
+            {
+                 Console.WriteLine(assemblyFileName);
+            }
+
+            ISubjectsProvider subjectsProvider = CreateSubjectsProvider(assemblyFileName);
+            IList<KinokoResult> results = kinoko.Run(subjectsProvider, repeatMeasurementCount);
+            DisplayResults(results);
         }
 
         static void DisplayResults(IList<KinokoResult> results)
@@ -143,13 +126,17 @@ namespace DustInTheWind.SharpKinokoConsole
             foreach (KinokoResult result in results)
             {
                 Console.WriteLine();
-                Console.WriteLine("Average time: {0:#,##0.00} milisec", result.Average);
+                Console.Write("Average time: ");
+                using (new TemporaryColorSwitcher(ConsoleColor.White))
+                {
+                    Console.WriteLine("{0:#,##0.00} milisec", result.Average);
+                }
             }
         }
 
-        static int CalculatePercent(int index)
+        static int CalculatePercentage(int index)
         {
-            return (index * progressBarCharCount) / repeatMeasurementCount;
+            return (index * 100) / repeatMeasurementCount;
         }
 
         static void WriteHeader()
@@ -160,6 +147,13 @@ namespace DustInTheWind.SharpKinokoConsole
                 WriteFullLine('=');
                 Console.WriteLine();
             }
+        }
+
+        #region GUI Helpers
+
+        private static int GetWindowWidth()
+        {
+            return  Console.WindowWidth - 1;
         }
 
         static void  WriteFullLine(char c)
@@ -186,13 +180,12 @@ namespace DustInTheWind.SharpKinokoConsole
 
         private static void Pause()
         {
-            using (new TemporaryColorSwitcher(ConsoleColor.Blue))
-            {
                 Console.WriteLine();
                 Console.Write("Press any key to continue...");
                 Console.ReadKey(true);
                 Console.WriteLine();
-            }
         }
+
+        #endregion
     }
 }

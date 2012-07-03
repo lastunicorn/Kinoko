@@ -38,7 +38,7 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoResultTests
                 result.AddMeasurement(measurements[i]);
             }
 
-            result.Calculate();
+            result.CalculateAll();
 
             // (142 + 152 + 57 + 84) / 4 = 108.75
             Assert.That(result.Average, Is.EqualTo(108.75).Within(1));

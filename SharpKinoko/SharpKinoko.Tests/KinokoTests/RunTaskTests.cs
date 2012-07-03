@@ -131,15 +131,15 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         [Test]
         public void the_TaskRunning_event_contains_the_subject()
         {
-            KinokoSubject actualTask = null;
+            KinokoSubject actualSubject = null;
             KinokoSubject subject = CreateEmptyTask();
             kinoko.TaskRunning += (sender, e) => {
-                actualTask = e.Task;
+                actualSubject = e.Subject;
             };
 
             kinoko.Run(subject, 3);
 
-            Assert.That(actualTask, Is.SameAs(subject));
+            Assert.That(actualSubject, Is.SameAs(subject));
         }
 
         [Test]

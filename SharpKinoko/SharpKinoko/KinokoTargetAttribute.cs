@@ -18,6 +18,9 @@ using System;
 
 namespace DustInTheWind.SharpKinoko
 {
+    /// <summary>
+    /// Used to mark the methods that should be measured by Kinoko.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
     public class KinokoTargetAttribute : Attribute
     {

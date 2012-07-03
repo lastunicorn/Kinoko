@@ -18,7 +18,7 @@ using System.Collections;
 using System.Threading;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.TaskMeasurerTests
+namespace DustInTheWind.SharpKinoko.Tests.MeasurerTests
 {
     [TestFixture]
     public class RunTests

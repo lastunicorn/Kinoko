@@ -18,8 +18,17 @@ using System.Collections.Generic;
 
 namespace DustInTheWind.SharpKinoko
 {
+    /// <summary>
+    /// Provides a list of kinoko subjects to be measured by <see cref="Kinoko"/>.
+    /// </summary>
     public interface ISubjectsProvider
     {
+        /// <summary>
+        /// Returns a list of kinoko subjects.
+        /// </summary>
+        /// <returns>
+        /// A list of <see cref="KinokoSubject"/> delegates.
+        /// </returns>
         IEnumerable<KinokoSubject> GetKinokoSubjects();
     }
 }

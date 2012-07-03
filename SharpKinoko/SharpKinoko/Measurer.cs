@@ -19,6 +19,9 @@ using System.Diagnostics;
 
 namespace DustInTheWind.SharpKinoko
 {
+    /// <summary>
+    /// This class is used to measure a kinoko subject.
+    /// </summary>
     public class Measurer
     {
         /// <summary>
@@ -49,12 +52,12 @@ namespace DustInTheWind.SharpKinoko
         }
 
         /// <summary>
-        /// The results of the measurements. It is null if no measurement was run.
+        /// The results of the measurements. It is null if no measurement was performed yet.
         /// </summary>
         private KinokoResult result;
 
         /// <summary>
-        /// Gets the results of the measurements. It is null if no measurement was run.
+        /// Gets the results of the measurements. It is null if no measurement was performed yet.
         /// </summary>
         public KinokoResult Result
         {
@@ -111,8 +114,9 @@ namespace DustInTheWind.SharpKinoko
         /// the number of times the measurement should be performed.
         /// </summary>
         /// <param name="subject">The subject that is to be measured.</param>
-        /// <param name="repeatCount">The number of times the measurements are performed.</param>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <param name="repeatCount">The number of times the measurement is performed.</param>
+        /// <exception cref="ArgumentNullException">It is thrown if the subject is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if the repeatCount value is less then 1.</exception>
         public Measurer(KinokoSubject subject, int repeatCount)
         {
             if (subject == null)
@@ -140,7 +144,7 @@ namespace DustInTheWind.SharpKinoko
             this.result = null;
 
             KinokoResult result = PerformMeasurements();
-            result.Calculate();
+            result.CalculateAll();
 
             this.result = result;
         }

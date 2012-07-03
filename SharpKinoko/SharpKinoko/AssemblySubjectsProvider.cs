@@ -26,10 +26,17 @@ namespace DustInTheWind.SharpKinoko
     public class AssemblySubjectsProvider : ISubjectsProvider
     {
         /// <summary>
-        /// The assembly into which the search is performed.
+        /// The assembly into which to search for kinoko subjects.
         /// </summary>
         private Assembly assembly;
 
+        /// <summary>
+        /// Load the assembly into which to search for kinoko subjects.
+        /// </summary>
+        /// <param name='assembly'>The assembly into which to search for kinoko subjects.</param>
+        /// <exception cref='ArgumentNullException'>
+        /// Is thrown when the assembly is <see langword="null" /> .
+        /// </exception>
         public void Load(Assembly assembly)
         {
             if (assembly == null)
@@ -38,6 +45,12 @@ namespace DustInTheWind.SharpKinoko
             this.assembly = assembly;
         }
 
+        /// <summary>
+        /// Returns a list of <see cref="KinokoSubject"/>s for all methods that are marked as kinoko subjects.
+        /// </summary>
+        /// <returns>
+        /// A list of <see cref="KinokoSubject"/> delegates.
+        /// </returns>
         public IEnumerable<KinokoSubject> GetKinokoSubjects()
         {
             List<KinokoSubject> subjects = new List<KinokoSubject>();
@@ -46,12 +59,18 @@ namespace DustInTheWind.SharpKinoko
 
             foreach (MethodInfo method in methods)
             {
-                subjects.Add(CreateKinokoTask(method));
+                subjects.Add(CreateKinokoSubject(method));
             }
 
             return subjects;
         }
 
+        /// <summary>
+        /// Searches for kinoko subject methods into the assembly.
+        /// </summary>
+        /// <returns>
+        /// A list of <see cref="MethodInfo"/> representing the subject methods.
+        /// </returns>
         private IEnumerable<MethodInfo> SearchForAllMethods()
         {
             List<MethodInfo> allMethods = new List<MethodInfo>();
@@ -74,7 +93,14 @@ namespace DustInTheWind.SharpKinoko
             return allMethods;
         }
 
-        private KinokoSubject CreateKinokoTask(MethodInfo method)
+        /// <summary>
+        /// Creates a <see cref="KinokoSubject"/> delegete for the specified method.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="KinokoSubject"/> delegate.
+        /// </returns>
+        /// <param name='method'>The method for which to create the delegate.</param>
+        private KinokoSubject CreateKinokoSubject(MethodInfo method)
         {
             ConstructorInfo constructor = method.ReflectedType.GetConstructor(new Type[0]);
             object obj = constructor.Invoke(new object[0]);
