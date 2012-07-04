@@ -89,6 +89,7 @@ namespace DustInTheWind.SharpKinokoConsole
             Console.Write("[");
             Console.Write(new String(' ', clientWidth));
             Console.Write("]");
+
             Console.CursorTop = top;
             Console.CursorLeft = left + 1;
         }

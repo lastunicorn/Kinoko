@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SomethingToTest.cs" />
+    <Compile Include="SomethingElseToTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpKinoko\SharpKinoko.csproj">

@@ -1,33 +1,43 @@
-// SharpKinoko
+﻿// SharpKinoko
 // Copyright (C) 2010 Dust in the Wind
-//
+// 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using System;
 
 namespace DustInTheWind.SharpKinoko
 {
     /// <summary>
-    /// Provides a list of kinoko subjects to be measured by <see cref="Kinoko"/>.
+    /// Provides data for <see cref="Kinoko.TaskRunning"/> event.
     /// </summary>
-    public interface ISubjectsProvider
+    public class TaskRunEventArgs : EventArgs
     {
+        private KinokoResult result;
+
+        public KinokoResult Result
+        {
+            get { return result; }
+        }
+
         /// <summary>
-        /// Returns a list of kinoko subjects.
+        /// Initializes a new instance of the <see cref="TaskRunEventArgs"/> class.
         /// </summary>
-        /// <returns>A list of <see cref="KinokoSubject"/> delegates.</returns>
-        IEnumerable<KinokoSubject> GetKinokoSubjects();
+        /// <param name="result">The result produced after the measurement.</param>
+        public TaskRunEventArgs(KinokoResult result)
+            : base()
+        {
+            this.result = result;
+        }
     }
 }
-

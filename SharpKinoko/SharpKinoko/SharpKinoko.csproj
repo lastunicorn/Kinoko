@@ -51,6 +51,7 @@
     <Compile Include="AssemblySubjectsProvider.cs" />
     <Compile Include="KinokoSubject.cs" />
     <Compile Include="Measurer.cs" />
+    <Compile Include="TaskRunEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

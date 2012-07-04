@@ -94,13 +94,13 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// Event raised after a task is finished. A task is represented by the multiple measurements of a subject.
         /// </summary>
-        public event EventHandler<EventArgs> TaskRun;
+        public event EventHandler<TaskRunEventArgs> TaskRun;
 
         /// <summary>
         /// Raises the <see cref="TaskRun"/> event.
         /// </summary>
         /// <param name="e">An <see cref="TaskRunEventArgs"/> object that contains the event data.</param>
-        protected virtual void OnTaskRun(EventArgs e)
+        protected virtual void OnTaskRun(TaskRunEventArgs e)
         {
             if (TaskRun != null)
             {
@@ -170,7 +170,7 @@ namespace DustInTheWind.SharpKinoko
         {
             OnTaskRunning(new TaskRunningEventArgs(subject));
             KinokoResult result = RunSubject(subject, repeatCount);
-            OnTaskRun(EventArgs.Empty);
+            OnTaskRun(new TaskRunEventArgs(result));
 
             return result;
         }

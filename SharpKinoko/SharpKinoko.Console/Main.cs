@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using DustInTheWind.SharpKinoko;
+using System.IO;
 
 namespace DustInTheWind.SharpKinokoConsole
 {
@@ -65,7 +66,8 @@ namespace DustInTheWind.SharpKinokoConsole
         static ISubjectsProvider CreateSubjectsProvider(string assemblyFilePath)
         {
             AssemblySubjectsProvider subjectsProvider = new AssemblySubjectsProvider();
-            Assembly assembly = Assembly.LoadFile(assemblyFilePath);
+            string fullPath = Path.GetFullPath(assemblyFilePath);
+            Assembly assembly = Assembly.LoadFile(fullPath);
             subjectsProvider.Load(assembly);
 
             return subjectsProvider;
@@ -94,9 +96,14 @@ namespace DustInTheWind.SharpKinokoConsole
             progressBar.Display();
         }
 
-        static void HandleKinokoTaskRun(object sender, EventArgs e)
+        static void HandleKinokoTaskRun(object sender, TaskRunEventArgs e)
         {
             Console.WriteLine();
+            Console.Write("Average time: ");
+            using (new TemporaryColorSwitcher(ConsoleColor.White))
+            {
+                Console.WriteLine("{0:#,##0.00} milisec", e.Result.Average);
+            }
         }
 
         private static void HandleKinokoMeasured(object sender, MeasuredEventArgs e)
@@ -113,25 +120,11 @@ namespace DustInTheWind.SharpKinokoConsole
             Console.Write("Start measuring targets from assembly ");
             using (new TemporaryColorSwitcher(ConsoleColor.White))
             {
-                 Console.WriteLine(assemblyFileName);
+                Console.WriteLine(assemblyFileName);
             }
 
             ISubjectsProvider subjectsProvider = CreateSubjectsProvider(assemblyFileName);
             IList<KinokoResult> results = kinoko.Run(subjectsProvider, repeatMeasurementCount);
-            DisplayResults(results);
-        }
-
-        static void DisplayResults(IList<KinokoResult> results)
-        {
-            foreach (KinokoResult result in results)
-            {
-                Console.WriteLine();
-                Console.Write("Average time: ");
-                using (new TemporaryColorSwitcher(ConsoleColor.White))
-                {
-                    Console.WriteLine("{0:#,##0.00} milisec", result.Average);
-                }
-            }
         }
 
         static int CalculatePercentage(int index)
@@ -180,10 +173,10 @@ namespace DustInTheWind.SharpKinokoConsole
 
         private static void Pause()
         {
-                Console.WriteLine();
-                Console.Write("Press any key to continue...");
-                Console.ReadKey(true);
-                Console.WriteLine();
+            Console.WriteLine();
+            Console.Write("Press any key to continue...");
+            Console.ReadKey(true);
+            Console.WriteLine();
         }
 
         #endregion

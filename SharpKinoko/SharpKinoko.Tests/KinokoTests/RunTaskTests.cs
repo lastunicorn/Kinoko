@@ -61,7 +61,7 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                Assert.That(ex.ParamName, Is.EqualTo("repeatMeasurementCount"));
+                Assert.That(ex.ParamName, Is.EqualTo("repeatCount"));
                 throw;
             }
         }
@@ -146,7 +146,7 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         public void raises_TaskRun_event_once()
         {
             int callCount = 0;
-            KinokoSubject subject = () => { };
+            KinokoSubject subject = CreateEmptyTask();
             kinoko.TaskRun += (sender, e) => {
                 callCount++;
             };
@@ -154,6 +154,20 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
             kinoko.Run(subject, 3);
 
             Assert.That(callCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void the_TaskRun_event_contains_the_result()
+        {
+            TaskRunEventArgs eva = null;
+            KinokoSubject subject = CreateEmptyTask();
+            kinoko.TaskRun += (sender, e) => {
+                eva = e;
+            };
+
+            kinoko.Run(subject, 3);
+
+            Assert.That(eva.Result, Is.Not.Null);
         }
 
         #endregion

@@ -47,7 +47,7 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
             }
             catch (ArgumentNullException ex)
             {
-                Assert.That(ex.ParamName, Is.EqualTo("subjectssProvider"));
+                Assert.That(ex.ParamName, Is.EqualTo("subjectsProvider"));
                 throw;
             }
         }

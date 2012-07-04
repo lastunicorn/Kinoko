@@ -20,7 +20,7 @@ using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.AssemblyTasksProviderTests
+namespace DustInTheWind.SharpKinoko.Tests.AssemblySubjectsProviderTests
 {
     [TestFixture()]
     public class GetKinokoSubjectsTests

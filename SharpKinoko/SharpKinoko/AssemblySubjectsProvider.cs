@@ -34,9 +34,7 @@ namespace DustInTheWind.SharpKinoko
         /// Load the assembly into which to search for kinoko subjects.
         /// </summary>
         /// <param name='assembly'>The assembly into which to search for kinoko subjects.</param>
-        /// <exception cref='ArgumentNullException'>
-        /// Is thrown when the assembly is <see langword="null" /> .
-        /// </exception>
+        /// <exception cref='ArgumentNullException'>Is thrown when the assembly is <see langword="null" />.</exception>
         public void Load(Assembly assembly)
         {
             if (assembly == null)
@@ -48,9 +46,7 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// Returns a list of <see cref="KinokoSubject"/>s for all methods that are marked as kinoko subjects.
         /// </summary>
-        /// <returns>
-        /// A list of <see cref="KinokoSubject"/> delegates.
-        /// </returns>
+        /// <returns>A list of <see cref="KinokoSubject"/> delegates.</returns>
         public IEnumerable<KinokoSubject> GetKinokoSubjects()
         {
             List<KinokoSubject> subjects = new List<KinokoSubject>();
@@ -68,9 +64,7 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// Searches for kinoko subject methods into the assembly.
         /// </summary>
-        /// <returns>
-        /// A list of <see cref="MethodInfo"/> representing the subject methods.
-        /// </returns>
+        /// <returns>A list of <see cref="MethodInfo"/> representing the subject methods.</returns>
         private IEnumerable<MethodInfo> SearchForAllMethods()
         {
             List<MethodInfo> allMethods = new List<MethodInfo>();
@@ -96,9 +90,7 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// Creates a <see cref="KinokoSubject"/> delegete for the specified method.
         /// </summary>
-        /// <returns>
-        /// A <see cref="KinokoSubject"/> delegate.
-        /// </returns>
+        /// <returns>A <see cref="KinokoSubject"/> delegate.</returns>
         /// <param name='method'>The method for which to create the delegate.</param>
         private KinokoSubject CreateKinokoSubject(MethodInfo method)
         {
