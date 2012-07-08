@@ -13,7 +13,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -51,7 +50,7 @@ namespace DustInTheWind.SharpKinoko
         {
             List<KinokoSubject> subjects = new List<KinokoSubject>();
 
-            IEnumerable<MethodInfo> methods = SearchForAllMethods();
+            IEnumerable<MethodInfo> methods = SearchForAllValidMethods();
 
             foreach (MethodInfo method in methods)
             {
@@ -65,7 +64,7 @@ namespace DustInTheWind.SharpKinoko
         /// Searches for kinoko subject methods into the assembly.
         /// </summary>
         /// <returns>A list of <see cref="MethodInfo"/> representing the subject methods.</returns>
-        private IEnumerable<MethodInfo> SearchForAllMethods()
+        private IEnumerable<MethodInfo> SearchForAllValidMethods()
         {
             List<MethodInfo> allMethods = new List<MethodInfo>();
 
@@ -73,11 +72,20 @@ namespace DustInTheWind.SharpKinoko
 
             foreach (Type type in types)
             {
-                MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
+                if (!IsValidClass(type))
+                    continue;
+
+                MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
 
                 foreach (MethodInfo method in methods)
                 {
-                    Attribute attr = Attribute.GetCustomAttribute(method, typeof(KinokoTargetAttribute), false);
+                    if (method.GetParameters().Length > 0)
+                        continue;
+
+                    if (method.IsGenericMethod)
+                        continue;
+
+                    Attribute attr = Attribute.GetCustomAttribute(method, typeof(KinokoSubjectAttribute), false);
 
                     if (attr != null)
                         allMethods.Add(method);
@@ -87,6 +95,13 @@ namespace DustInTheWind.SharpKinoko
             return allMethods;
         }
 
+        private bool IsValidClass(Type type)
+        {
+            ConstructorInfo constructor = type.GetConstructor(new Type[0]);
+            //return constructor != null && !constructor.IsStatic;
+            return constructor != null;
+        }
+
         /// <summary>
         /// Creates a <see cref="KinokoSubject"/> delegete for the specified method.
         /// </summary>
@@ -94,9 +109,21 @@ namespace DustInTheWind.SharpKinoko
         /// <param name='method'>The method for which to create the delegate.</param>
         private KinokoSubject CreateKinokoSubject(MethodInfo method)
         {
+            if (method.IsStatic)
+            {
+                return Delegate.CreateDelegate(typeof(KinokoSubject), method) as KinokoSubject;
+            }
+            else
+            {
+                object obj = InstanciateParentClassForMethod(method);
+                return Delegate.CreateDelegate(typeof(KinokoSubject), obj, method.Name) as KinokoSubject;
+            }
+        }
+
+        private object InstanciateParentClassForMethod(MethodInfo method)
+        {
             ConstructorInfo constructor = method.ReflectedType.GetConstructor(new Type[0]);
-            object obj = constructor.Invoke(new object[0]);
-            return Delegate.CreateDelegate(typeof(KinokoSubject), obj, method.Name) as KinokoSubject;
+            return constructor.Invoke(new object[0]);
         }
     }
 }

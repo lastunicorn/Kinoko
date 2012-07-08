@@ -5,14 +5,19 @@ namespace DustInTheWind.SharpKinokoConsole
     public class TemporaryColorSwitcher : IDisposable
     {
         private ConsoleColor oldColor;
+        private IConsole console;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DustInTheWind.SharpKinoko.Console.ColorSwitcher"/> class.
+        /// Initializes a new instance of the <see cref="DustInTheWind.SharpKinokoConsole.ColorSwitcher"/> class.
         /// </summary>
-        public TemporaryColorSwitcher(ConsoleColor temporarColor)
+        public TemporaryColorSwitcher(IConsole console, ConsoleColor temporarColor)
         {
-            oldColor = Console.ForegroundColor;
-            Console.ForegroundColor = temporarColor;
+            if (console == null)
+                throw new ArgumentNullException("console");
+
+            this.console = console;
+            oldColor = console.ForegroundColor;
+            console.ForegroundColor = temporarColor;
         }
 
         #region IDisposable Members
@@ -49,7 +54,7 @@ namespace DustInTheWind.SharpKinokoConsole
                 if (disposing)
                 {
                     // Dispose managed resources.
-                    Console.ForegroundColor = oldColor;
+                    console.ForegroundColor = oldColor;
                 }
 
                 // Call the appropriate methods to clean up unmanaged resources here.

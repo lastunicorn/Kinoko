@@ -27,6 +27,7 @@ namespace DustInTheWind.SharpKinoko.Tests.AssemblySubjectsProviderTests
     {
         private AssemblySubjectsProvider kinokoSubjectsProvider;
         private Assembly assembly;
+        private IEnumerable<KinokoSubject> subjects;
      
         [SetUp]
         public void SetUp()
@@ -34,46 +35,79 @@ namespace DustInTheWind.SharpKinoko.Tests.AssemblySubjectsProviderTests
             kinokoSubjectsProvider = new AssemblySubjectsProvider();
             assembly = Assembly.LoadFile("AssemblyWithMethodsForTesting.dll");
             kinokoSubjectsProvider.Load(assembly);
+            subjects = kinokoSubjectsProvider.GetKinokoSubjects();
         }
              
         [Test]
-        public void returns_kinoko_subject_for_public_method_with_KinokoTest_attribute()
+        public void includes_public_method_with_KinokoSubject_attribute()
         {
-            IEnumerable<KinokoSubject> subject = kinokoSubjectsProvider.GetKinokoSubjects();
-
-            AssertContainsTaskForMethod(subject, "PublicMethodWithTestAttribute");
+            AssertContainsTaskForMethod(subjects, "PublicMethodWithAttribute");
         }
      
         [Test]
-        public void does_not_return_private_method_with_KinokoTest_attribute()
+        public void does_not_include_normal_public_method()
         {
-            IEnumerable<KinokoSubject> subject = kinokoSubjectsProvider.GetKinokoSubjects();
-
-            AssertDoesNotContainTaskForMethod(subject, "PrivateMethodWithTestAttribute");
+            AssertDoesNotContainTaskForMethod(subjects, "PublicMethod");
         }
      
         [Test]
-        public void does_not_return_public_static_method()
+        public void does_not_include_private_method_with_KinokoSubject_attribute()
         {
-            IEnumerable<KinokoSubject> subject = kinokoSubjectsProvider.GetKinokoSubjects();
-
-            AssertDoesNotContainTaskForMethod(subject, "StaticPublicMethodWithTestAttribute");
+            AssertDoesNotContainTaskForMethod(subjects, "PrivateMethodWithAttribute");
         }
      
         [Test]
-        public void does_not_return_private_static_method()
+        public void includes_public_static_method_with_attribute()
         {
-            IEnumerable<KinokoSubject> subject = kinokoSubjectsProvider.GetKinokoSubjects();
-
-            AssertDoesNotContainTaskForMethod(subject, "StaticPrivateMethodWithTestAttribute");
+            AssertContainsTaskForMethod(subjects, "PublicStaticMethodWithAttribute");
         }
      
         [Test]
-        public void does_not_return_normal_public_method()
+        public void does_not_include_private_static_method_with_attribute()
         {
-            IEnumerable<KinokoSubject> subject = kinokoSubjectsProvider.GetKinokoSubjects();
+            AssertDoesNotContainTaskForMethod(subjects, "PrivateStaticMethodWithAttribute");
+        }
 
-            AssertDoesNotContainTaskForMethod(subject, "PublicMethod");
+        [Test]
+        public void does_not_include_normal_public_static_method()
+        {
+            AssertDoesNotContainTaskForMethod(subjects, "PublicStaticMethod");
+        }
+
+        [Test]
+        public void does_not_include_public_methods_with_parameters_and_attribute()
+        {
+            AssertDoesNotContainTaskForMethod(subjects, "PublicMethodWithParametersAndAttribute");
+        }
+
+        [Test]
+        public void does_not_include_public_methods_with_generic_parameters_and_attribute()
+        {
+            AssertDoesNotContainTaskForMethod(subjects, "PublicMethodWithGenericParameterAndAttribute");
+        }
+
+        [Test]
+        public void does_not_include_public_method_with_attribute_from_class_with_no_parameterless_constructor()
+        {
+            AssertDoesNotContainTaskForMethod(subjects, "PublicMethodInClassWithNoParameterlessConstructor");
+        }
+
+        [Test]
+        public void does_not_include_public_method_with_attribute_from_class_with_no_public_constructor()
+        {
+            AssertDoesNotContainTaskForMethod(subjects, "PublicMethodInClassWithNoPublicConstructor");
+        }
+
+        [Test]
+        public void does_not_include_public_method_with_attributes_from_class_with_generic_parameters()
+        {
+            AssertDoesNotContainTaskForMethod(subjects, "PublicMethodInClassWithGenericPatameter");
+        }
+
+        [Test]
+        public void does_not_include_public_method_with_attribute_from_class_with_only_static_parameterless_constructor()
+        {
+            AssertDoesNotContainTaskForMethod(subjects, "PublicMethodInClassWithStaticConstructor");
         }
 
         private MethodInfo GetMethodFromAssembly(string methodName)

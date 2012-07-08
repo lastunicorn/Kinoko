@@ -19,31 +19,46 @@ using DustInTheWind.SharpKinoko;
 
 namespace AssemblyWithMethodsForTesting
 {
-	public class ClassForTest
-	{
-		[KinokoTarget]
-		public void PublicMethodWithTestAttribute()
-		{
-		}
-		
-		[KinokoTarget]
-		private void PrivateMethodWithTestAttribute()
-		{
-		}
-		
-		[KinokoTarget]
-		public static void StaticPublicMethodWithTestAttribute()
-		{
-		}
-		
-		[KinokoTarget]
-		private static void StaticPrivateMethodWithTestAttribute()
-		{
-		}
+    public class ClassForTest
+    {
+        [KinokoSubject]
+        public void PublicMethodWithAttribute()
+        {
+        }
 
-		public void PublicMethod()
-		{
-		}
-	}
+        public void PublicMethod()
+        {
+        }
+
+        [KinokoSubject]
+        public void PublicMethodWithParametersAndAttribute(int a)
+        {
+        }
+
+        [KinokoSubject]
+        public void PublicMethodWithGenericParameterAndAttribute<T>()
+        {
+
+        }
+     
+        [KinokoSubject]
+        private void PrivateMethodWithAttribute()
+        {
+        }
+     
+        [KinokoSubject]
+        public static void PublicStaticMethodWithAttribute()
+        {
+        }
+     
+        public static void PublicStaticMethod()
+        {
+        }
+     
+        [KinokoSubject]
+        private static void PrivateStaticMethodWithAttribute()
+        {
+        }
+    }
 }
 

@@ -22,9 +22,12 @@ namespace DustInTheWind.SharpKinoko
     /// Used to mark the methods that should be measured by Kinoko.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
-    public class KinokoTargetAttribute : Attribute
+    public class KinokoSubjectAttribute : Attribute
     {
-        public KinokoTargetAttribute()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DustInTheWind.SharpKinoko.KinokoSubjectAttribute"/> class.
+        /// </summary>
+        public KinokoSubjectAttribute()
         {
         }
     }

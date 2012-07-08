@@ -40,6 +40,11 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="TemporaryColorSwitcher.cs" />
     <Compile Include="ProgressBar.cs" />
+    <Compile Include="ConsoleWrapper.cs" />
+    <Compile Include="IConsole.cs" />
+    <Compile Include="HelpWritter.cs" />
+    <Compile Include="KinokoConsole.cs" />
+    <Compile Include="GuiHelpers.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

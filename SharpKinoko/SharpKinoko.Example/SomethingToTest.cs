@@ -20,13 +20,15 @@ namespace DustInTheWind.SharpKinoko.Example
 {
     public class SomethingToTest
     {
-        [KinokoTarget]
+        public object o;
+
+        [KinokoSubject]
         public void Sleep30()
         {
             Thread.Sleep(30);
         }
 
-        [KinokoTarget]
+        [KinokoSubject]
         public void EmptyForLoop1000000()
         {
             for (int i = 0; i < 1000000; i++)
@@ -34,7 +36,7 @@ namespace DustInTheWind.SharpKinoko.Example
             }
         }
 
-        [KinokoTarget]
+        [KinokoSubject]
         public void CallEmptyMethodInForLoop1000000()
         {
             for (int i = 0; i < 1000000; i++)
@@ -45,6 +47,15 @@ namespace DustInTheWind.SharpKinoko.Example
 
         private void SomeMethod()
         {
+        }
+
+        [KinokoSubject]
+        public void InstanciateObjects1000000()
+        {
+            for (int i = 0; i < 1000000; i++)
+            {
+                o = new object();
+            }
         }
     }
 

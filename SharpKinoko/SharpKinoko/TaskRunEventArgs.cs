@@ -23,8 +23,15 @@ namespace DustInTheWind.SharpKinoko
     /// </summary>
     public class TaskRunEventArgs : EventArgs
     {
+        /// <summary>
+        /// The result produced after the measurement.
+        /// </summary>
         private KinokoResult result;
 
+        /// <summary>
+        /// Gets the result produced after the measurement.
+        /// </summary>
+        /// <value>A <see cref="KinokoResult"/> object.</value>
         public KinokoResult Result
         {
             get { return result; }

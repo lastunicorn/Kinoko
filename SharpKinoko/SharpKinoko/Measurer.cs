@@ -184,6 +184,10 @@ namespace DustInTheWind.SharpKinoko
             return milliseconds;
         }
 
+        /// <summary>
+        /// Performs the measurement of the subject.
+        /// </summary>
+        /// <returns>The measured time in miliseconds.</returns>
         private double PerformMeasurement()
         {
             Stopwatch stopwatch = Stopwatch.StartNew();

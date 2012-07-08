@@ -1,11 +1,19 @@
 using System;
+using System.Text;
 
 namespace DustInTheWind.SharpKinokoConsole
 {
     public class ProgressBar
     {
         private int progressPercentage;
+
+        public int ProgressPercentage
+        {
+            get { return progressPercentage; }
+        }
+
         private int progressCharCount;
+        private IConsole console;
 
         public int Width { get; set; }
 
@@ -13,8 +21,13 @@ namespace DustInTheWind.SharpKinokoConsole
 
         public ConsoleColor? ForegroundColor { get; set; }
 
-        public ProgressBar()
+        public ProgressBar(IConsole console)
         {
+            if (console == null)
+                throw new ArgumentNullException("console");
+
+            this.console = console;
+
             Width = 50;
             ProgressChar = '*';
         }
@@ -58,8 +71,8 @@ namespace DustInTheWind.SharpKinokoConsole
 
         public void Display(int top, int left)
         {
-            Console.CursorTop = top;
-            Console.CursorLeft = left;
+            console.CursorTop = top;
+            console.CursorLeft = left;
 
             WriteEmptyProgressBarColored();
         }
@@ -68,7 +81,7 @@ namespace DustInTheWind.SharpKinokoConsole
         {
             if (ForegroundColor.HasValue)
             {
-                using (new TemporaryColorSwitcher(ForegroundColor.Value))
+                using (new TemporaryColorSwitcher(console, ForegroundColor.Value))
                 {
                     WriteEmptyProgressBar();
                 }
@@ -81,24 +94,27 @@ namespace DustInTheWind.SharpKinokoConsole
 
         private void WriteEmptyProgressBar()
         {
-            int top = Console.CursorTop;
-            int left = Console.CursorLeft;
+            int top = console.CursorTop;
+            int left = console.CursorLeft;
 
             int clientWidth = Width - 2;
 
-            Console.Write("[");
-            Console.Write(new String(' ', clientWidth));
-            Console.Write("]");
+            StringBuilder sb = new StringBuilder();
+            sb.Append("[");
+            sb.Append(new String(' ', clientWidth));
+            sb.Append("]");
 
-            Console.CursorTop = top;
-            Console.CursorLeft = left + 1;
+            console.Write(sb.ToString());
+
+            console.CursorTop = top;
+            console.CursorLeft = left + 1;
         }
 
         private void AddProgressCharsColored(int charCount)
         {
             if (ForegroundColor.HasValue)
             {
-                using (new TemporaryColorSwitcher(ForegroundColor.Value))
+                using (new TemporaryColorSwitcher(console, ForegroundColor.Value))
                 {
                     AddProgressChars(charCount);
                 }
@@ -111,7 +127,7 @@ namespace DustInTheWind.SharpKinokoConsole
 
         private void AddProgressChars(int charCount)
         {
-            Console.Write(new string(ProgressChar, charCount));
+            console.Write(new string(ProgressChar, charCount));
         }
     }
 
