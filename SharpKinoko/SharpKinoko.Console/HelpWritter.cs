@@ -1,4 +1,6 @@
 using System;
+using System.Reflection;
+using DustInTheWind.SharpKinoko;
 
 namespace DustInTheWind.SharpKinokoConsole
 {
@@ -23,7 +25,8 @@ namespace DustInTheWind.SharpKinokoConsole
         {
             using (new TemporaryColorSwitcher(console, ConsoleColor.Green))
             {
-                console.WriteLine("Kinoko Console");
+                Assembly assembly = Assembly.GetAssembly(typeof(Kinoko));
+                console.WriteLine("Kinoko Console ver. {0}", assembly.GetName().Version.ToString(3));
                 guiHelpers.WriteFullLine('=');
                 console.WriteLine();
             }
@@ -51,7 +54,7 @@ namespace DustInTheWind.SharpKinokoConsole
 
         public void WriteLoadingAssembly(string assemblyFileName)
         {
-            console.Write("Start measuring targets from assembly ");
+            console.Write("Start measuring subjects from assembly ");
             using (new TemporaryColorSwitcher(console, ConsoleColor.White))
             {
                 console.WriteLine(assemblyFileName);
