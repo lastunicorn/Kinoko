@@ -16,11 +16,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.AssemblySubjectsProviderTests
+namespace DustInTheWind.SharpKinoko.Tests.Framework.AssemblySubjectsProviderTests
 {
     [TestFixture()]
     public class GetKinokoSubjectsTests
@@ -33,7 +34,7 @@ namespace DustInTheWind.SharpKinoko.Tests.AssemblySubjectsProviderTests
         public void SetUp()
         {
             kinokoSubjectsProvider = new AssemblySubjectsProvider();
-            assembly = Assembly.LoadFile("AssemblyWithMethodsForTesting.dll");
+            assembly = Assembly.LoadFile(Path.GetFullPath("AssemblyWithMethodsForTesting.dll"));
             kinokoSubjectsProvider.Load(assembly);
             subjects = kinokoSubjectsProvider.GetKinokoSubjects();
         }

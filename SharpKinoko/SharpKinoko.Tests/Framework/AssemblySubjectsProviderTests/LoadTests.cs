@@ -15,10 +15,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.IO;
 using System.Reflection;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.AssemblySubjectsProviderTests
+namespace DustInTheWind.SharpKinoko.Tests.Framework.AssemblySubjectsProviderTests
 {
     [TestFixture()]
     public class LoadTests
@@ -43,7 +44,7 @@ namespace DustInTheWind.SharpKinoko.Tests.AssemblySubjectsProviderTests
         public void no_error_when_loading_assembly()
         {
             AssemblySubjectsProvider subjectsProvider = new AssemblySubjectsProvider();
-            Assembly assembly = Assembly.LoadFile("AssemblyWithMethodsForTesting.dll");
+            Assembly assembly = Assembly.LoadFile(Path.GetFullPath("AssemblyWithMethodsForTesting.dll"));
             subjectsProvider.Load(assembly);
         }
     }

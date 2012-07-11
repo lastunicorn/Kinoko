@@ -17,10 +17,10 @@
 using System.Threading;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
+namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
 {
     [TestFixture]
-    public class MeasuredEventTests
+    public class MeasuringEventTests
     {
         private Kinoko kinoko;
         private KinokoSubject subject;
@@ -30,15 +30,14 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         public void SetUp()
         {
             kinoko = new Kinoko();
-            subject = new KinokoSubject(delegate {
-                Thread.Sleep(10); });
+            subject = new KinokoSubject(delegate { Thread.Sleep(10); });
         }
 
         [Test]
-        public void Measured_is_called_after_the_subject_is_measured()
+        public void Measuring_is_called_before_measuring_the_subject()
         {
             bool eventCalled = false;
-            kinoko.Measured += (sender, e) => {
+            kinoko.Measuring += (sender, e) => {
                 eventCalled = true;
             };
 
@@ -48,10 +47,10 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         }
 
         [Test]
-        public void Measured_is_called_with_correct_sender()
+        public void Measuring_is_called_with_correct_sender()
         {
             object senderObject = null;
-            kinoko.Measured += (sender, e) => {
+            kinoko.Measuring += (sender, e) => {
                 senderObject = sender;
             };
 
@@ -61,10 +60,10 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         }
 
         [Test]
-        public void Measured_is_called_with_not_null_event_args()
+        public void Measuring_is_called_with_not_null_event_args()
         {
-            MeasuredEventArgs eventArgs = null;
-            kinoko.Measured += (sender, e) => {
+            MeasuringEventArgs eventArgs = null;
+            kinoko.Measuring += (sender, e) => {
                 eventArgs = e;
             };
 

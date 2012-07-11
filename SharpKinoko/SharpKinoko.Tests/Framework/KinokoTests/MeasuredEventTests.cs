@@ -17,29 +17,32 @@
 using System.Threading;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.MeasurerTests
+namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
 {
     [TestFixture]
     public class MeasuredEventTests
     {
-        private Measurer measurer;
+        private Kinoko kinoko;
+        private KinokoSubject subject;
+        private int repeatCount = 1;
 
         [SetUp]
         public void SetUp()
         {
-            KinokoSubject subject = () => Thread.Sleep(10);
-            measurer = new Measurer(subject, 1);
+            kinoko = new Kinoko();
+            subject = new KinokoSubject(delegate {
+                Thread.Sleep(10); });
         }
 
         [Test]
         public void Measured_is_called_after_the_subject_is_measured()
         {
             bool eventCalled = false;
-            measurer.Measured += (sender, e) => {
+            kinoko.Measured += (sender, e) => {
                 eventCalled = true;
             };
 
-            measurer.Run();
+            kinoko.Run(subject, repeatCount);
 
             Assert.That(eventCalled, Is.True);
         }
@@ -48,24 +51,24 @@ namespace DustInTheWind.SharpKinoko.Tests.MeasurerTests
         public void Measured_is_called_with_correct_sender()
         {
             object senderObject = null;
-            measurer.Measured += (sender, e) => {
+            kinoko.Measured += (sender, e) => {
                 senderObject = sender;
             };
 
-            measurer.Run();
+            kinoko.Run(subject, repeatCount);
 
-            Assert.That(senderObject, Is.SameAs(measurer));
+            Assert.That(senderObject, Is.SameAs(kinoko));
         }
 
         [Test]
         public void Measured_is_called_with_not_null_event_args()
         {
             MeasuredEventArgs eventArgs = null;
-            measurer.Measured += (sender, e) => {
+            kinoko.Measured += (sender, e) => {
                 eventArgs = e;
             };
 
-            measurer.Run();
+            kinoko.Run(subject, repeatCount);
 
             Assert.That(eventArgs, Is.Not.Null);
         }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,44 +30,47 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalTools\NUnit\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="Moq">
       <HintPath>..\ExternalTools\Moq\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.5.10.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
-      <Private>False</Private>
-      <Package>nunit</Package>
     </Reference>
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="KinokoResultTests\CalculateTests.cs" />
-    <Compile Include="KinokoTests\MeasuringEventTests.cs" />
-    <Compile Include="KinokoTests\MeasuredEventTests.cs" />
-    <Compile Include="KinokoResultTests\AddMeasurementTests.cs" />
-    <Compile Include="KinokoTests\RunTaskTests.cs" />
-    <Compile Include="KinokoTests\RunFromProviderTests.cs" />
-    <Compile Include="MeasurerTests\ConstructorTests.cs" />
-    <Compile Include="MeasurerTests\RunTests.cs" />
-    <Compile Include="MeasurerTests\MeasuredEventTests.cs" />
-    <Compile Include="MeasurerTests\MeasuringEventTests.cs" />
-    <Compile Include="AssemblySubjectsProviderTests\LoadTests.cs" />
-    <Compile Include="AssemblySubjectsProviderTests\GetKinokoSubjectsTests.cs" />
+    <Compile Include="Framework\KinokoResultTests\CalculateTests.cs" />
+    <Compile Include="Framework\KinokoTests\MeasuringEventTests.cs" />
+    <Compile Include="Framework\KinokoTests\MeasuredEventTests.cs" />
+    <Compile Include="Framework\KinokoResultTests\AddMeasurementTests.cs" />
+    <Compile Include="Framework\KinokoTests\RunTaskTests.cs" />
+    <Compile Include="Framework\KinokoTests\RunFromProviderTests.cs" />
+    <Compile Include="Framework\MeasurerTests\ConstructorTests.cs" />
+    <Compile Include="Framework\MeasurerTests\RunTests.cs" />
+    <Compile Include="Framework\MeasurerTests\MeasuredEventTests.cs" />
+    <Compile Include="Framework\MeasurerTests\MeasuringEventTests.cs" />
+    <Compile Include="Framework\AssemblySubjectsProviderTests\LoadTests.cs" />
+    <Compile Include="Framework\AssemblySubjectsProviderTests\GetKinokoSubjectsTests.cs" />
     <Compile Include="Console\ProgressBarTests\ConstructorTests.cs" />
     <Compile Include="Console\ProgressBarTests\DisplayTests.cs" />
     <Compile Include="Console\ProgressBarTests\SetProgressTests.cs" />
     <Compile Include="Console\CommandArguments\ArgumentsTests\ConstructorTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharpKinoko\SharpKinoko.csproj">
-      <Project>{27F45E14-B0D3-40DE-8BB3-907CC1C99F8A}</Project>
-      <Name>SharpKinoko</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SharpKinoko.Console\SharpKinoko.Console.csproj">
       <Project>{2FD7F5D5-A5D1-44E0-8264-13CC6848A87E}</Project>
       <Name>SharpKinoko.Console</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpKinoko\SharpKinoko.csproj">
+      <Project>{27F45E14-B0D3-40DE-8BB3-907CC1C99F8A}</Project>
+      <Name>SharpKinoko</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -77,15 +81,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Folder Include="KinokoTests\" />
-    <Folder Include="KinokoResultTests\" />
-    <Folder Include="MeasurerTests\" />
-    <Folder Include="AssemblySubjectsProviderTests\" />
-    <Folder Include="Console\" />
-    <Folder Include="Console\ProgressBarTests\" />
-    <Folder Include="SharpKinoko\" />
-    <Folder Include="Console\CommandArguments\" />
-    <Folder Include="Console\CommandArguments\ArgumentsTests\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

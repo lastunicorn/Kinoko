@@ -17,31 +17,29 @@
 using System.Threading;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
+namespace DustInTheWind.SharpKinoko.Tests.Framework.MeasurerTests
 {
     [TestFixture]
     public class MeasuringEventTests
     {
-        private Kinoko kinoko;
-        private KinokoSubject subject;
-        private int repeatCount = 1;
+        private Measurer measurer;
 
         [SetUp]
         public void SetUp()
         {
-            kinoko = new Kinoko();
-            subject = new KinokoSubject(delegate { Thread.Sleep(10); });
+            KinokoSubject subject = () => Thread.Sleep(10);
+            measurer = new Measurer(subject, 1);
         }
 
         [Test]
         public void Measuring_is_called_before_measuring_the_subject()
         {
             bool eventCalled = false;
-            kinoko.Measuring += (sender, e) => {
+            measurer.Measuring += (sender, e) => {
                 eventCalled = true;
             };
 
-            kinoko.Run(subject, repeatCount);
+            measurer.Run();
 
             Assert.That(eventCalled, Is.True);
         }
@@ -50,24 +48,24 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
         public void Measuring_is_called_with_correct_sender()
         {
             object senderObject = null;
-            kinoko.Measuring += (sender, e) => {
+            measurer.Measuring += (sender, e) => {
                 senderObject = sender;
             };
 
-            kinoko.Run(subject, repeatCount);
+            measurer.Run();
 
-            Assert.That(senderObject, Is.SameAs(kinoko));
+            Assert.That(senderObject, Is.SameAs(measurer));
         }
 
         [Test]
         public void Measuring_is_called_with_not_null_event_args()
         {
             MeasuringEventArgs eventArgs = null;
-            kinoko.Measuring += (sender, e) => {
+            measurer.Measuring += (sender, e) => {
                 eventArgs = e;
             };
 
-            kinoko.Run(subject, repeatCount);
+            measurer.Run();
 
             Assert.That(eventArgs, Is.Not.Null);
         }

@@ -20,7 +20,7 @@ using System.Threading;
 using Moq;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.KinokoTests
+namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
 {
     [TestFixture]
     public class RunFromProviderTests

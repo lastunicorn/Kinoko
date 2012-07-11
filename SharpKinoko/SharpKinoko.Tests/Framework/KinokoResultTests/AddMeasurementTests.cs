@@ -16,10 +16,10 @@
 
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.KinokoResultTests
+namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoResultTests
 {
     [TestFixture]
-    public class CalculateTests
+    public class AddMeasurementsTests
     {
         private KinokoResult result;
 
@@ -30,18 +30,22 @@ namespace DustInTheWind.SharpKinoko.Tests.KinokoResultTests
         }
 
         [Test]
-        public void Calculate_calculates_average()
+        public void AddMeasurement_adds_a_nu_alue_to_the_list()
         {
-            double[] measurements = new double[] { 142, 152, 57, 84 };
-            for (int i = 0; i < measurements.Length; i++)
-            {
-                result.AddMeasurement(measurements[i]);
-            }
+            result.AddMeasurement(7);
 
-            result.CalculateAll();
+            Assert.That(result.Measurements, Contains.Item(7));
+        }
 
-            // (142 + 152 + 57 + 84) / 4 = 108.75
-            Assert.That(result.Average, Is.EqualTo(108.75).Within(1));
+        [Test]
+        public void AddMeasurement_adds_two_values_to_the_list()
+        {
+            double[] expectedMeasurements = new double[] { 7,10 };
+
+            result.AddMeasurement(7);
+            result.AddMeasurement(10);
+
+            Assert.That(result.Measurements, Is.EqualTo(expectedMeasurements));
         }
     }
 }

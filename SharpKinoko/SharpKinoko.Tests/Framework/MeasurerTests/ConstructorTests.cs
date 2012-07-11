@@ -17,7 +17,7 @@
 using System;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.MeasurerTests
+namespace DustInTheWind.SharpKinoko.Tests.Framework.MeasurerTests
 {
     [TestFixture]
     public class ConstructorTests

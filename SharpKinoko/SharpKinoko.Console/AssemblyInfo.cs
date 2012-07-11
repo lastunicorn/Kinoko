@@ -1,10 +1,11 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 // Information about this assembly is defined by the following attributes. 
 // Change them to the values specific to your project.
 
-[assembly: AssemblyTitle("KinokoUI")]
+[assembly: AssemblyTitle("SharpKinoko Console")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Dust in the Wind")]
@@ -25,4 +26,4 @@ using System.Runtime.CompilerServices;
 //[assembly: AssemblyDelaySign(false)]
 //[assembly: AssemblyKeyFile("")]
 
-[assembly: InternalsVisibleTo("Kinoko.Tests")]
+[assembly: InternalsVisibleTo("SharpKinoko.Tests")]

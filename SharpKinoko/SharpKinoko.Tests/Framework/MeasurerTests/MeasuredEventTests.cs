@@ -17,10 +17,10 @@
 using System.Threading;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.MeasurerTests
+namespace DustInTheWind.SharpKinoko.Tests.Framework.MeasurerTests
 {
     [TestFixture]
-    public class MeasuringEventTests
+    public class MeasuredEventTests
     {
         private Measurer measurer;
 
@@ -32,10 +32,10 @@ namespace DustInTheWind.SharpKinoko.Tests.MeasurerTests
         }
 
         [Test]
-        public void Measuring_is_called_before_measuring_the_subject()
+        public void Measured_is_called_after_the_subject_is_measured()
         {
             bool eventCalled = false;
-            measurer.Measuring += (sender, e) => {
+            measurer.Measured += (sender, e) => {
                 eventCalled = true;
             };
 
@@ -45,10 +45,10 @@ namespace DustInTheWind.SharpKinoko.Tests.MeasurerTests
         }
 
         [Test]
-        public void Measuring_is_called_with_correct_sender()
+        public void Measured_is_called_with_correct_sender()
         {
             object senderObject = null;
-            measurer.Measuring += (sender, e) => {
+            measurer.Measured += (sender, e) => {
                 senderObject = sender;
             };
 
@@ -58,10 +58,10 @@ namespace DustInTheWind.SharpKinoko.Tests.MeasurerTests
         }
 
         [Test]
-        public void Measuring_is_called_with_not_null_event_args()
+        public void Measured_is_called_with_not_null_event_args()
         {
-            MeasuringEventArgs eventArgs = null;
-            measurer.Measuring += (sender, e) => {
+            MeasuredEventArgs eventArgs = null;
+            measurer.Measured += (sender, e) => {
                 eventArgs = e;
             };
 
