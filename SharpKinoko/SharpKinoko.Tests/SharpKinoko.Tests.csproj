@@ -57,6 +57,7 @@
     <Compile Include="Console\ProgressBarTests\ConstructorTests.cs" />
     <Compile Include="Console\ProgressBarTests\DisplayTests.cs" />
     <Compile Include="Console\ProgressBarTests\SetProgressTests.cs" />
+    <Compile Include="Console\CommandArguments\ArgumentsTests\ConstructorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpKinoko\SharpKinoko.csproj">
@@ -83,5 +84,8 @@
     <Folder Include="AssemblySubjectsProviderTests\" />
     <Folder Include="Console\" />
     <Folder Include="Console\ProgressBarTests\" />
+    <Folder Include="SharpKinoko\" />
+    <Folder Include="Console\CommandArguments\" />
+    <Folder Include="Console\CommandArguments\ArgumentsTests\" />
   </ItemGroup>
 </Project>

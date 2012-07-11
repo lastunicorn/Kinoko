@@ -45,6 +45,8 @@
     <Compile Include="HelpWritter.cs" />
     <Compile Include="KinokoConsole.cs" />
     <Compile Include="GuiHelpers.cs" />
+    <Compile Include="CommandArguments\Argument.cs" />
+    <Compile Include="CommandArguments\Arguments.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -59,5 +61,8 @@
       <DeployService-Deploy>true</DeployService-Deploy>
       <DeployService-UseProjectRelativePath>true</DeployService-UseProjectRelativePath>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CommandArguments\" />
   </ItemGroup>
 </Project>
