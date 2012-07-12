@@ -19,6 +19,12 @@ using System.Text;
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
 {
+    /// <summary>
+    /// Writes a progress bar into the console.
+    /// </summary>
+    /// <remarks>
+    /// It presumes that the progress bar fits into the current line.
+    /// </remarks>
     public class ProgressBar
     {
         private int progressPercentage;

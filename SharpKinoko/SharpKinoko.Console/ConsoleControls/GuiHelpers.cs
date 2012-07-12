@@ -18,10 +18,20 @@ using System;
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
 {
+    /// <summary>
+    /// Contains methods that ... what?
+    /// </summary>
     public class GuiHelpers
     {
+        /// <summary>
+        /// The console used to write text into.
+        /// </summary>
         private readonly IConsole console;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GuiHelpers"/> class.
+        /// </summary>
+        /// <param name="console">The console used to write text into</param>
         public GuiHelpers(IConsole console)
         {
             if (console == null)
@@ -29,12 +39,20 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
 
             this.console = console;
         }
-
+        
+        /// <summary>
+        /// Displays an exception into the console.
+        /// </summary>
+        /// <param name="ex">The exception to be displayed.</param>
         public void DisplayError(Exception ex)
         {
             DisplayError(ex.Message);
         }
 
+        /// <summary>
+        /// Displays an error message into the console.
+        /// </summary>
+        /// <param name="text">The error message to be displayed.</param>
         public void DisplayError(string text)
         {
             using (new TemporaryColorSwitcher(console, ConsoleColor.Red))
@@ -47,6 +65,9 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
             }
         }
 
+        /// <summary>
+        /// Pauses the console until the yser press a key.
+        /// </summary>
         public void Pause()
         {
             console.WriteLine();
@@ -55,11 +76,15 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
             console.WriteLine();
         }
 
-        public int GetWindowWidth()
+        private int GetWindowWidth()
         {
             return  console.WindowWidth - 1;
         }
 
+        /// <summary>
+        /// Writes a full line of the console with the specified character.
+        /// </summary>
+        /// <param name="c">The character used to fill the line.</param>
         public void  WriteFullLine(char c)
         {
             console.WriteLine(new String(c, GetWindowWidth()));
