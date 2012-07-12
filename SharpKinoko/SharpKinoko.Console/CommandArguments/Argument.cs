@@ -15,7 +15,7 @@
 
 using System;
 
-namespace DustInTheWind.Utils.CommandArguments
+namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.CommandArguments
 {
     /// <summary>
     /// Represents an argument received in the command line of the application.
@@ -28,7 +28,7 @@ namespace DustInTheWind.Utils.CommandArguments
         /// The name of the argument.
         /// <c>null</c> value is not accepted.
         /// </summary>
-        private string name;
+        private readonly string name;
 
         /// <summary>
         /// Gets the name of the argument.

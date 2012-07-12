@@ -56,13 +56,13 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="TemporaryColorSwitcher.cs" />
-    <Compile Include="ProgressBar.cs" />
+    <Compile Include="ConsoleControls\TemporaryColorSwitcher.cs" />
+    <Compile Include="ConsoleControls\ProgressBar.cs" />
     <Compile Include="ConsoleWrapper.cs" />
     <Compile Include="IConsole.cs" />
     <Compile Include="HelpWritter.cs" />
     <Compile Include="KinokoConsole.cs" />
-    <Compile Include="GuiHelpers.cs" />
+    <Compile Include="ConsoleControls\GuiHelpers.cs" />
     <Compile Include="CommandArguments\Argument.cs" />
     <Compile Include="CommandArguments\Arguments.cs" />
   </ItemGroup>

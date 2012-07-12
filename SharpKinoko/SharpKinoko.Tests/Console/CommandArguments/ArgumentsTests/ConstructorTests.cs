@@ -1,5 +1,5 @@
+using DustInTheWind.SharpKinoko.SharpKinokoConsole.CommandArguments;
 using NUnit.Framework;
-using DustInTheWind.Utils.CommandArguments;
 
 namespace DustInTheWind.SharpKinoko.Tests.Console.CommandArguments
 {

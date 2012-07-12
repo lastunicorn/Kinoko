@@ -1,17 +1,33 @@
+// SharpKinoko
+// Copyright (C) 2010 Dust in the Wind
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
-using DustInTheWind.SharpKinoko;
 using System.IO;
 using System.Reflection;
+using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 
-namespace DustInTheWind.SharpKinokoConsole
+namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 {
     public class KinokoConsole
     {
-        private IConsole console;
-        private string[] args;
+        private readonly IConsole console;
+        private readonly string[] args;
         private HelpWritter helpWritter;
         private GuiHelpers guiHelpers;
-        private const int repeatMeasurementCount = 10;
+        private const int RepeatMeasurementCount = 10;
         private ProgressBar progressBar;
 
         public KinokoConsole(IConsole console, string[] args)
@@ -66,10 +82,11 @@ namespace DustInTheWind.SharpKinokoConsole
 
         private ProgressBar CreateProgressBar()
         {
-            ProgressBar progressBar = new ProgressBar(console);
-            progressBar.Width = GetWindowWidth();
-            progressBar.ForegroundColor = ConsoleColor.Yellow;
-            return progressBar;
+            return new ProgressBar(console)
+            {
+                Width = GetWindowWidth(),
+                ForegroundColor = ConsoleColor.Yellow
+            };
         }
 
         #region Kinoko event handlers
@@ -101,12 +118,12 @@ namespace DustInTheWind.SharpKinokoConsole
             helpWritter.WriteLoadingAssembly(assemblyFileName);
 
             ISubjectsProvider subjectsProvider = CreateSubjectsProvider(assemblyFileName);
-            kinoko.Run(subjectsProvider, repeatMeasurementCount);
+            kinoko.Run(subjectsProvider, RepeatMeasurementCount);
         }
 
         private int CalculatePercentage(int index)
         {
-            return (index * 100) / repeatMeasurementCount;
+            return (index * 100) / RepeatMeasurementCount;
         }
 
         private int GetWindowWidth()
