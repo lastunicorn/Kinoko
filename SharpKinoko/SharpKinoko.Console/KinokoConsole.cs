@@ -21,15 +21,32 @@ using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 {
+    /// <summary>
+    /// Contains the logic of the console application.
+    /// </summary>
     public class KinokoConsole
     {
+        /// <summary>
+        /// The object that is used to interact with the user.
+        /// </summary>
         private readonly IConsole console;
+
+        /// <summary>
+        /// The list of arguments with which the application was started.
+        /// </summary>
         private readonly string[] args;
+
         private HelpWritter helpWritter;
         private GuiHelpers guiHelpers;
         private const int RepeatMeasurementCount = 10;
         private ProgressBar progressBar;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KinokoConsole"/> class.
+        /// </summary>
+        /// <param name="console">The <see cref="IConsole"/> object to be used to interact with the user.</param>
+        /// <param name="args">The list of arguments with which the application was started.</param>
+        /// <exception cref="ArgumentNullException">Thrown if the console is null.</exception>
         public KinokoConsole(IConsole console, string[] args)
         {
             if (console == null)
@@ -39,6 +56,9 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             this.args = args;
         }
 
+        /// <summary>
+        /// Starts the application.
+        /// </summary>
         public void Start()
         {
             console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -52,11 +72,13 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             {
                 guiHelpers.DisplayError("Invalid number of arguments.");
                 helpWritter.WriteShortHelp();
+                guiHelpers.Pause();
                 return;
             }
 
             Kinoko kinoko = CreateKinoko();
             RunTasksFromAssembly(kinoko, args[0]);
+            guiHelpers.Pause();
         }
 
         private Kinoko CreateKinoko()
@@ -89,8 +111,6 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             };
         }
 
-        #region Kinoko event handlers
-
         private void HandleKinokoTaskRunning(object sender, TaskRunningEventArgs e)
         {
             helpWritter.WriteTaskTitle(e.Subject);
@@ -111,8 +131,6 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             progressBar.SetProgress(newPercent);
         }
 
-        #endregion
-
         private void RunTasksFromAssembly(Kinoko kinoko, string assemblyFileName)
         {
             helpWritter.WriteLoadingAssembly(assemblyFileName);
@@ -128,7 +146,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 
         private int GetWindowWidth()
         {
-            return  console.WindowWidth - 1;
+            return console.WindowWidth - 1;
         }
     }
 }

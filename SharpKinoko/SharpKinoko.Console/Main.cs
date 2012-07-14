@@ -51,11 +51,6 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
                 IConsole console = new ConsoleWrapper();
                 GuiHelpers guiHelpers = new GuiHelpers(console);
                 guiHelpers.DisplayError(ex);
-            }
-            finally
-            {
-                IConsole console = new ConsoleWrapper();
-                GuiHelpers guiHelpers = new GuiHelpers(console);
                 guiHelpers.Pause();
             }
         }

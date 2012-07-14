@@ -26,7 +26,7 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// The index of the current measurement.
         /// </summary>
-        private int stepIndex;
+        private readonly int stepIndex;
 
         /// <summary>
         /// Gets the index of the current measurement.
@@ -39,7 +39,7 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// The measured time in miliseconds.
         /// </summary>
-        private double time;
+        private readonly double time;
 
         /// <summary>
         /// Gets the measured time in miliseconds.
@@ -55,7 +55,6 @@ namespace DustInTheWind.SharpKinoko
         /// <param name="stepIndex">The index of the current measurement.</param>
         /// <param name="time">The measured time in miliseconds.</param>
         public MeasuredEventArgs(int stepIndex, double time)
-            : base()
         {
             this.stepIndex = stepIndex;
             this.time = time;

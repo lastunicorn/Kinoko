@@ -1,10 +1,16 @@
 SharpKinoko v2.0
 ================
 
+1) Description
+--------------
+
 - measures the time taken to run a method.
 
-How to use: Using KinokoSubject attribute
------------------------------------------
+2) How to use
+-------------
+
+a: Using KinokoSubject attribute
+--------------------------------
 
 Step 1
 Create a method and add [KinokoSubject] attribute on it.
@@ -26,15 +32,15 @@ Load the assembly using KinokoConsole. It will perform the measurements on all t
 	KinokoKonsole.exe -a "assembly_file_name_1;assembly_file_name_2"
 
 
-How to use: Without KinokoSubject attribute
+b: Without KinokoSubject attribute
 -------------------------------------------
 
 A method can be measured even if is not marked with the [KinokoSubject] attribute. To do so, you need to specify the method name as parameter to the KinokoConsole app.
 	KinokoKonsole.exe -a "assembly_file_name_1;assembly_file_name_2" -t "namespace.classname.methodname1;namespace.classname.methodname2"
 
 
-SharpKinokoConsole
-------------------
+3) SharpKinokoConsole
+---------------------
 
 KinokoKonsole.exe <Options>
 	
@@ -43,6 +49,44 @@ Options
 		Specifies the name of the assembly file to be loaded.
 		Multiple files can be specified separated by ';'
 		
-	-t <methodName>
+	-s <methodName>
 		Specifies the full name of the method (including the class name and the namespace) to be measured.
 		Multiple methods can be specified separated by ';'
+
+		
+		
+		
+		
+		
+		
+Kinoko specifications 
+---------------------
+
+I) From user's perspective
+--------------------------
+
+- kinoko should provide a console interface
+- the user should be able to supply multiple assemblies (-a <fileName1;fileName2;...>)
+- the user should be able to specifiy multiple subject methods (-s <methodName1;methodName2;...>)
+- the user should be able to run all the valid methods from an assembly.
+- the user should be able to run all the marked methods from an assembly.
+
+II) From developer's perspective
+--------------------------------
+
+Console
+- parse console atributes.
+- display the progress and the result of a task.
+- display help.
+
+
+Framework
+- implement Run method.
+- create KinokoTask class. - contains the delegate and the category name.
+- create KinokoResult class. - contains the list of measurements and the calculated values (average until now.)
+- raise TaskStart and TaskEnd events.
+- raise Measuring and Measured events.
+
+- implement provider that loads all the valid methods from a list of assemblies.
+- implement provider that loads all the marked methods from a list of assemblies.
+- implement provider that loads the specified methods from a list of assemblies.

@@ -26,7 +26,7 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// The result produced after the measurement.
         /// </summary>
-        private KinokoResult result;
+        private readonly KinokoResult result;
 
         /// <summary>
         /// Gets the result produced after the measurement.
@@ -42,7 +42,6 @@ namespace DustInTheWind.SharpKinoko
         /// </summary>
         /// <param name="result">The result produced after the measurement.</param>
         public TaskRunEventArgs(KinokoResult result)
-            : base()
         {
             this.result = result;
         }

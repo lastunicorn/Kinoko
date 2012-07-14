@@ -26,7 +26,7 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// The time measurements of every run of the subject.
         /// </summary>
-        private List<double> measurements;
+        private readonly List<double> measurements;
 
         /// <summary>
         /// Gets an array with the time measurements of every run of the subject.

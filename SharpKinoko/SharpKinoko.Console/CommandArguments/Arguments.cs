@@ -68,12 +68,13 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.CommandArguments
 
         #endregion
 
-        private void Parse(IEnumerable<string> args)
+        private void Parse(IList<string> args)
         {
-            foreach (string arg in args)
+            for (int i = 0; i < args.Count; i++)
             {
-                string name = arg.Substring(1);
-                Add(name, null);
+                string name = args[i].Substring(1);
+                string value = i + 1 < args.Count ? args[i + 1] : null;
+                Add(name, value);
             }
         }
 

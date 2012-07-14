@@ -27,7 +27,7 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// The subject that is tested by the current instance.
         /// </summary>
-        private KinokoSubject subject;
+        private readonly KinokoSubject subject;
 
         /// <summary>
         /// Gets the subject that is tested by the current instance.
@@ -40,7 +40,7 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// The number of times the measurements are performed. (To minimize the measurement errors.)
         /// </summary>
-        private int repeatCount;
+        private readonly int repeatCount;
 
         /// <summary>
         /// Gets or sets the number of times the measurements are performed. The subject should be run multiple

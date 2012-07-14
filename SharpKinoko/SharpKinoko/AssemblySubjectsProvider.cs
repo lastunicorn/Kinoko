@@ -20,7 +20,7 @@ using System.Reflection;
 namespace DustInTheWind.SharpKinoko
 {
     /// <summary>
-    /// Searches through an assembly for methods marked with <see cref="KinokoTargetAttribute"/> attribute.
+    /// Searches through an assembly for methods marked with <see cref="KinokoSubjectAttribute"/> attribute.
     /// </summary>
     public class AssemblySubjectsProvider : ISubjectsProvider
     {

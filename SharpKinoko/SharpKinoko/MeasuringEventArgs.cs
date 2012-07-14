@@ -26,7 +26,7 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// The index of the current measurement.
         /// </summary>
-        private int stepIndex;
+        private readonly int stepIndex;
 
         /// <summary>
         /// Gets the index of the current measurement.
@@ -41,7 +41,6 @@ namespace DustInTheWind.SharpKinoko
         /// </summary>
         /// <param name="stepIndex">The index of the current measurement.</param>
         public MeasuringEventArgs(int stepIndex)
-            : base()
         {
             this.stepIndex = stepIndex;
         }

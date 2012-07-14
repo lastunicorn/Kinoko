@@ -26,7 +26,7 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// The subject measured by the task.
         /// </summary>
-        private KinokoSubject subject;
+        private readonly KinokoSubject subject;
 
         /// <summary>
         /// Gets the subject that is measured by the task.
@@ -41,7 +41,6 @@ namespace DustInTheWind.SharpKinoko
         /// </summary>
         /// <param name="subject">The subject that is measured by the task.</param>
         public TaskRunningEventArgs(KinokoSubject subject)
-            : base()
         {
             this.subject = subject;
         }
