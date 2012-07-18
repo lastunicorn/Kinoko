@@ -13,7 +13,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using System.IO;
 using System.Reflection;
@@ -30,8 +29,8 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.AssemblySubjectsProviderTest
         {
             try
             {
-                AssemblySubjectsProvider subjectsProvider = new AssemblySubjectsProvider();
-                subjectsProvider.Load(null);
+                AssemblyTasksProvider tasksProvider = new AssemblyTasksProvider();
+                tasksProvider.Load(null);
             }
             catch (ArgumentNullException ex)
             {
@@ -43,9 +42,9 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.AssemblySubjectsProviderTest
         [Test]
         public void no_error_when_loading_assembly()
         {
-            AssemblySubjectsProvider subjectsProvider = new AssemblySubjectsProvider();
+            AssemblyTasksProvider tasksProvider = new AssemblyTasksProvider();
             Assembly assembly = Assembly.LoadFile(Path.GetFullPath("AssemblyWithMethodsForTesting.dll"));
-            subjectsProvider.Load(assembly);
+            tasksProvider.Load(assembly);
         }
     }
 }

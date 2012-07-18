@@ -14,20 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using System;
 
 namespace DustInTheWind.SharpKinoko
 {
     /// <summary>
-    /// Provides a list of kinoko subjects to be measured by <see cref="Kinoko"/>.
+    /// Represents a task to be run by kinoko.
+    /// It includes the method to be tested and some other meta information.
     /// </summary>
-    public interface ISubjectsProvider
+    public class KinokoTask
     {
         /// <summary>
-        /// Returns a list of kinoko subjects.
+        /// Gets or sets the name of the category.
         /// </summary>
-        /// <returns>A list of <see cref="KinokoSubject"/> delegates.</returns>
-        IEnumerable<KinokoSubject> GetKinokoSubjects();
+        public string Category { get; set; }
+
+        /// <summary>
+        /// Gets or sets the subject to be tested.
+        /// </summary>
+        public KinokoSubject Subject { get; set; }
     }
 }
-

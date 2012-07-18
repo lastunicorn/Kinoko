@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -30,19 +30,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ExternalTools\NUnit\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="Moq">
       <HintPath>..\ExternalTools\Moq\Moq.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\ExternalTools\NUnit\nunit.framework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Console\CommandArguments\ArgumentsTests\ContainsTests.cs" />
@@ -65,6 +61,7 @@
     <Compile Include="Console\ConsoleControls\ProgressBarTests\DisplayTests.cs" />
     <Compile Include="Console\ConsoleControls\ProgressBarTests\SetProgressTests.cs" />
     <Compile Include="Console\CommandArguments\ArgumentsTests\ConstructorTests.cs" />
+    <Compile Include="Framework\AssemblySubjectsProviderTests\GetKinokoTasksTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpKinoko.Console\SharpKinoko.Console.csproj">

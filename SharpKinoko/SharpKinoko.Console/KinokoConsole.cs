@@ -92,14 +92,14 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             return kinoko;
         }
 
-        private ISubjectsProvider CreateSubjectsProvider(string assemblyFilePath)
+        private ITasksProvider CreateTasksProvider(string assemblyFilePath)
         {
-            AssemblySubjectsProvider subjectsProvider = new AssemblySubjectsProvider();
+            AssemblyTasksProvider tasksProvider = new AssemblyTasksProvider();
             string fullPath = Path.GetFullPath(assemblyFilePath);
             Assembly assembly = Assembly.LoadFile(fullPath);
-            subjectsProvider.Load(assembly);
+            tasksProvider.Load(assembly);
 
-            return subjectsProvider;
+            return tasksProvider;
         }
 
         private ProgressBar CreateProgressBar()
@@ -113,7 +113,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 
         private void HandleKinokoTaskRunning(object sender, TaskRunningEventArgs e)
         {
-            helpWritter.WriteTaskTitle(e.Subject);
+            helpWritter.WriteTaskTitle(e.Task);
 
             progressBar = CreateProgressBar();
             progressBar.Display();
@@ -135,8 +135,8 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         {
             helpWritter.WriteLoadingAssembly(assemblyFileName);
 
-            ISubjectsProvider subjectsProvider = CreateSubjectsProvider(assemblyFileName);
-            kinoko.Run(subjectsProvider, RepeatMeasurementCount);
+            ITasksProvider tasksProvider = CreateTasksProvider(assemblyFileName);
+            kinoko.Run(tasksProvider, RepeatMeasurementCount);
         }
 
         private int CalculatePercentage(int index)

@@ -13,7 +13,6 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System.Threading;
 using NUnit.Framework;
 
@@ -23,15 +22,15 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
     public class MeasuredEventTests
     {
         private Kinoko kinoko;
-        private KinokoSubject subject;
+        private KinokoTask task;
         private int repeatCount = 1;
 
         [SetUp]
         public void SetUp()
         {
             kinoko = new Kinoko();
-            subject = new KinokoSubject(delegate {
-                Thread.Sleep(10); });
+            KinokoSubject subject = new KinokoSubject(delegate { Thread.Sleep(10); });
+            task = new KinokoTask { Subject = subject };
         }
 
         [Test]
@@ -42,7 +41,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
                 eventCalled = true;
             };
 
-            kinoko.Run(subject, repeatCount);
+            kinoko.Run(task, repeatCount);
 
             Assert.That(eventCalled, Is.True);
         }
@@ -55,7 +54,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
                 senderObject = sender;
             };
 
-            kinoko.Run(subject, repeatCount);
+            kinoko.Run(task, repeatCount);
 
             Assert.That(senderObject, Is.SameAs(kinoko));
         }
@@ -68,7 +67,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
                 eventArgs = e;
             };
 
-            kinoko.Run(subject, repeatCount);
+            kinoko.Run(task, repeatCount);
 
             Assert.That(eventArgs, Is.Not.Null);
         }

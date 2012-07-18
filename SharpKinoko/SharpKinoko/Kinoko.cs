@@ -113,47 +113,47 @@ namespace DustInTheWind.SharpKinoko
         #region Run
 
         /// <summary>
-        /// Runs the subject multiple times and measures the time intervals spent.
+        /// Runs the task multiple times and measures the time intervals spent.
         /// </summary>
-        /// <param name="subject">The kinoko subject to be measured.</param>
+        /// <param name="task">The kinoko task to be run.</param>
         /// <param name="repeatCount">Specifies the number of times to repeat the measurement.</param>
         /// <returns>A <see cref="KinokoResult"/> object containing the measured data and the calculated values.</returns>
         /// <remarks>
         /// After the measurements are finished, additional values (for example the average) are calculated from the measured data.
         /// </remarks>
-        public KinokoResult Run(KinokoSubject subject, int repeatCount)
+        public KinokoResult Run(KinokoTask task, int repeatCount)
         {
-            if (subject == null)
+            if (task == null)
                 throw new ArgumentNullException("subject");
 
             if (repeatCount < 1)
                 throw new ArgumentOutOfRangeException("repeatCount", "The repeat count should be an integer greater then 0.");
 
-            return RunSubjectWithEvents(subject, repeatCount);
+            return RunTaskWithEvents(task, repeatCount);
         }
 
         /// <summary>
         /// Measures the time spent to run the subjects received from the subjectProvider.
         /// </summary>
-        /// <param name="subjectsProvider">Provides a list of kinoko subjects to be measured.</param>
+        /// <param name="tasksProvider">Provides a list of kinoko tasks to be run.</param>
         /// <param name="repeatCount">Specifies the number of times to repeat the measurement.</param>
         /// <returns>A list of <see cref="KinokoResult"/> objects containing the measured data and the calculated values.</returns>
         /// <exception cref="ArgumentNullException">Is thrown when the subjectProvider or the repeatCount are <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Is thrown when the repeatCount is less then 1.</exception>
-        public IList<KinokoResult> Run(ISubjectsProvider subjectsProvider, int repeatCount)
+        public IList<KinokoResult> Run(ITasksProvider tasksProvider, int repeatCount)
         {
-            if (subjectsProvider == null)
-                throw new ArgumentNullException("subjectsProvider");
+            if (tasksProvider == null)
+                throw new ArgumentNullException("tasksProvider");
 
             if (repeatCount < 1)
                 throw new ArgumentOutOfRangeException("repeatCount", "The repeat count should be an integer greater then 0.");
 
-            IEnumerable<KinokoSubject> subjects = subjectsProvider.GetKinokoSubjects();
+            IEnumerable<KinokoTask> tasks = tasksProvider.GetKinokoTasks();
             List<KinokoResult> results = new List<KinokoResult>();
 
-            foreach (KinokoSubject subject in subjects)
+            foreach (KinokoTask task in tasks)
             {
-                results.Add(RunSubjectWithEvents(subject, repeatCount));
+                results.Add(RunTaskWithEvents(task, repeatCount));
             }
 
             return results;
@@ -164,20 +164,20 @@ namespace DustInTheWind.SharpKinoko
         /// The additional values are calculated from the measured data.
         /// </summary>
         /// <returns>A <see cref="KinokoResult"/> object containing the measured data.</returns>
-        /// <param name='subject'>The kinoko subject to be measured.</param>
+        /// <param name='task'>The kinoko task to be run.</param>
         /// <param name='repeatCount'>The number of times to repeat the measurement.</param>
-        private KinokoResult RunSubjectWithEvents(KinokoSubject subject, int repeatCount)
+        private KinokoResult RunTaskWithEvents(KinokoTask task, int repeatCount)
         {
-            OnTaskRunning(new TaskRunningEventArgs(subject));
-            KinokoResult result = RunSubject(subject, repeatCount);
+            OnTaskRunning(new TaskRunningEventArgs(task));
+            KinokoResult result = RunTask(task, repeatCount);
             OnTaskRun(new TaskRunEventArgs(result));
 
             return result;
         }
 
-        private KinokoResult RunSubject(KinokoSubject subject, int repeatCount)
+        private KinokoResult RunTask(KinokoTask task, int repeatCount)
         {
-            Measurer measurer = new Measurer(subject, repeatCount);
+            Measurer measurer = new Measurer(task.Subject, repeatCount);
             measurer.Measuring += HandleMeasurerMeasuring;
             measurer.Measured += HandleMeasurerMeasured;
 

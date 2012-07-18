@@ -22,7 +22,7 @@ namespace DustInTheWind.SharpKinoko
     /// <summary>
     /// Searches through an assembly for methods marked with <see cref="KinokoSubjectAttribute"/> attribute.
     /// </summary>
-    public class AssemblySubjectsProvider : ISubjectsProvider
+    public class AssemblyTasksProvider : ITasksProvider
     {
         /// <summary>
         /// The assembly into which to search for kinoko subjects.
@@ -43,21 +43,21 @@ namespace DustInTheWind.SharpKinoko
         }
 
         /// <summary>
-        /// Returns a list of <see cref="KinokoSubject"/>s for all methods that are marked as kinoko subjects.
+        /// Returns a list of <see cref="KinokoTask"/>s for all methods that are marked as kinoko subjects.
         /// </summary>
-        /// <returns>A list of <see cref="KinokoSubject"/> delegates.</returns>
-        public IEnumerable<KinokoSubject> GetKinokoSubjects()
+        /// <returns>A list of <see cref="KinokoTask"/> objects.</returns>
+        public IEnumerable<KinokoTask> GetKinokoTasks()
         {
-            List<KinokoSubject> subjects = new List<KinokoSubject>();
+            List<KinokoTask> tasks = new List<KinokoTask>();
 
             IEnumerable<MethodInfo> methods = SearchForAllValidMethods();
 
             foreach (MethodInfo method in methods)
             {
-                subjects.Add(CreateKinokoSubject(method));
+                tasks.Add(CreateKinokoTask(method));
             }
 
-            return subjects;
+            return tasks;
         }
 
         /// <summary>
@@ -103,10 +103,24 @@ namespace DustInTheWind.SharpKinoko
         }
 
         /// <summary>
+        /// Creates a <see cref="KinokoTask"/> object for the specified method.
+        /// </summary>
+        /// <param name='method'>The method for which to create the task.</param>
+        /// <returns>A <see cref="KinokoTask"/> object.</returns>
+        private KinokoTask CreateKinokoTask(MethodInfo method)
+        {
+            return new KinokoTask
+            {
+                Category = method.ReflectedType.FullName,
+                Subject = CreateKinokoSubject(method)
+            };
+        }
+
+        /// <summary>
         /// Creates a <see cref="KinokoSubject"/> delegete for the specified method.
         /// </summary>
-        /// <returns>A <see cref="KinokoSubject"/> delegate.</returns>
         /// <param name='method'>The method for which to create the delegate.</param>
+        /// <returns>A <see cref="KinokoSubject"/> delegate.</returns>
         private KinokoSubject CreateKinokoSubject(MethodInfo method)
         {
             if (method.IsStatic)
@@ -127,4 +141,3 @@ namespace DustInTheWind.SharpKinoko
         }
     }
 }
-

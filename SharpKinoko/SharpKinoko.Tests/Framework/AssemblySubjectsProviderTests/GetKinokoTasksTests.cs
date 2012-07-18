@@ -23,8 +23,8 @@ using NUnit.Framework;
 
 namespace DustInTheWind.SharpKinoko.Tests.Framework.AssemblySubjectsProviderTests
 {
-    [TestFixture()]
-    public class GetKinokoSubjectsTests
+    [TestFixture]
+    public class GetKinokoTasksTests
     {
         private AssemblyTasksProvider kinokoTasksProvider;
         private Assembly assembly;

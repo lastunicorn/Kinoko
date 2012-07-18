@@ -48,13 +48,13 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             }
         }
 
-        public void WriteTaskTitle(KinokoSubject subject)
+        public void WriteTaskTitle(KinokoTask task)
         {
             console.WriteLine();
             console.Write("Measuring subject: ");
             using (new TemporaryColorSwitcher(console, ConsoleColor.White))
             {
-                console.WriteLine(subject.Method.Name);
+                console.WriteLine(task.Subject.Method.Name);
             }
         }
 
