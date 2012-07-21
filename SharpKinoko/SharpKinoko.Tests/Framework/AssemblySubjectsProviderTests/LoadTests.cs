@@ -16,6 +16,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using DustInTheWind.SharpKinoko.Providers;
 using NUnit.Framework;
 
 namespace DustInTheWind.SharpKinoko.Tests.Framework.AssemblySubjectsProviderTests

@@ -16,7 +16,7 @@
 
 using System.Collections.Generic;
 
-namespace DustInTheWind.SharpKinoko
+namespace DustInTheWind.SharpKinoko.Providers
 {
     /// <summary>
     /// Provides a list of kinoko tasks to be run by <see cref="Kinoko"/>.

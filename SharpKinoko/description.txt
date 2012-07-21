@@ -25,6 +25,8 @@ Instance methods:
 Static methods:
 	- should be contained in a public class
 	- should be public.
+	- should have no parameters;
+	- should return no value.
 
 
 Step 2

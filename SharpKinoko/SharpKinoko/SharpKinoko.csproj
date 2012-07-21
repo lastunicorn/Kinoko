@@ -51,8 +51,8 @@
     <Compile Include="TaskRunEventArgs.cs" />
     <Compile Include="KinokoSubjectAttribute.cs" />
     <Compile Include="KinokoTask.cs" />
-    <Compile Include="ITasksProvider.cs" />
-    <Compile Include="AssemblyTasksProvider.cs" />
+    <Compile Include="Providers\AssemblyTasksProvider.cs" />
+    <Compile Include="Providers\ITasksProvider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -62,4 +62,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="Providers\" />
+  </ItemGroup>
 </Project>

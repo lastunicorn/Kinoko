@@ -17,6 +17,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using DustInTheWind.SharpKinoko.Providers;
 using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole

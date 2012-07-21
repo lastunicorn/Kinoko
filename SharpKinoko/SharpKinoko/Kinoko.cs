@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using DustInTheWind.SharpKinoko.Providers;
 
 namespace DustInTheWind.SharpKinoko
 {

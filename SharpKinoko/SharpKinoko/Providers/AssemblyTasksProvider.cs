@@ -17,7 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace DustInTheWind.SharpKinoko
+namespace DustInTheWind.SharpKinoko.Providers
 {
     /// <summary>
     /// Searches through an assembly for methods marked with <see cref="KinokoSubjectAttribute"/> attribute.
