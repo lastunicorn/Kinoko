@@ -37,6 +37,11 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             this.guiHelpers = guiHelpers;
         }
 
+//        public void WriteFullHelp()
+//        {
+//            console.write
+//        }
+
         public void WriteKinokoHeader()
         {
             using (new TemporaryColorSwitcher(console, ConsoleColor.Green))

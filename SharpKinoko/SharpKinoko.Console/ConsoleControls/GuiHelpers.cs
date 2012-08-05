@@ -66,7 +66,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
         }
 
         /// <summary>
-        /// Pauses the console until the yser press a key.
+        /// Pauses the console until the user presses a key.
         /// </summary>
         public void Pause()
         {

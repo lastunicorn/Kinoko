@@ -1,0 +1,19 @@
+ver 2.0
+
+- Kinoko provides a console interface.
+- the user is able to load one assembly (-a <assemblyFileName>)
+- the user is able to run all the marked methods from the specified assembly.
+
+ver 2.1
+
+- Kinoko provides a console interface.
+- the user is able to supply multiple assemblies (-a <fileName1;fileName2;...>)
+- the user is able to run all the marked methods from the specified assemblies.
+
+ver 2.2
+
+- Kinoko provides a console interface.
+- the user is able to supply multiple assemblies (-a <fileName1;fileName2;...>)
+- the user is able to specifiy multiple subject methods (-s <methodName1;methodName2;...>)
+- the user is able to run all the valid methods from an assembly.
+- the user is able to run all the marked methods from an assembly.

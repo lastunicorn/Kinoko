@@ -4,10 +4,15 @@ SharpKinoko v2.0
 1) Description
 --------------
 
-- measures the time taken to run a method.
+- Kinoko was bornto do one thing: measure the time taken to run a method you indicate.
 
 2) How to use
 -------------
+
+There are two ways in which you can run the measurement:
+	a) You can mark the method you want to measure with a special attribute (KinokoSubject attribute)
+	b) You can start the console and pass the name of the methods as parameter.
+In both cases you can only test public methods that have no parameters, return no value and exists in a public static class or a class with parameterless constructor.
 
 a: Using KinokoSubject attribute
 --------------------------------
@@ -40,6 +45,8 @@ b: Without KinokoSubject attribute
 A method can be measured even if is not marked with the [KinokoSubject] attribute. To do so, you need to specify the method name as parameter to the KinokoConsole app.
 	KinokoKonsole.exe -a "assembly_file_name_1;assembly_file_name_2" -t "namespace.classname.methodname1;namespace.classname.methodname2"
 
+This method is usefull if you are not allowed to change the code of the assembly you want to measure.
+
 
 3) SharpKinokoConsole
 ---------------------
@@ -47,11 +54,11 @@ A method can be measured even if is not marked with the [KinokoSubject] attribut
 KinokoKonsole.exe <Options>
 	
 Options
-	-a <assemblyFileName>
+	-a --assemblies <assemblyFileName[;assemblyFileName[...]]>
 		Specifies the name of the assembly file to be loaded.
 		Multiple files can be specified separated by ';'
 		
-	-s <methodName>
+	-s --subjects <methodName[;methodName[...]]>
 		Specifies the full name of the method (including the class name and the namespace) to be measured.
 		Multiple methods can be specified separated by ';'
 
