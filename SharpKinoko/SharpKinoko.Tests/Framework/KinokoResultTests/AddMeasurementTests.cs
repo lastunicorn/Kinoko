@@ -40,7 +40,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoResultTests
         [Test]
         public void AddMeasurement_adds_two_values_to_the_list()
         {
-            double[] expectedMeasurements = new double[] { 7,10 };
+            double[] expectedMeasurements = new double[] { 7, 10 };
 
             result.AddMeasurement(7);
             result.AddMeasurement(10);

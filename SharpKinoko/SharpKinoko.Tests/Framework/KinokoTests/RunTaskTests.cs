@@ -43,7 +43,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
             }
             catch (ArgumentNullException ex)
             {
-                Assert.That(ex.ParamName, Is.EqualTo("subject"));
+                Assert.That(ex.ParamName, Is.EqualTo("task"));
                 throw;
             }
         }

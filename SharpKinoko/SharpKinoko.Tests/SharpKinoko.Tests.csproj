@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -44,8 +44,11 @@
     <Compile Include="Console\CommandArguments\ArgumentsTests\ContainsTests.cs" />
     <Compile Include="Console\CommandArguments\ArgumentsTests\IndexerTests.cs" />
     <Compile Include="Console\CommandArguments\ArgumentsTests\CountTests.cs" />
+    <Compile Include="Framework\Utils\MathTests\AverageArrayTests.cs" />
+    <Compile Include="Framework\Utils\MathTests\AverageListTests.cs" />
+    <Compile Include="Framework\Utils\MathTests\AverageEnumerationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Framework\KinokoResultTests\CalculateTests.cs" />
+    <Compile Include="Framework\KinokoResultTests\AverageGetTests.cs" />
     <Compile Include="Framework\KinokoTests\MeasuringEventTests.cs" />
     <Compile Include="Framework\KinokoTests\MeasuredEventTests.cs" />
     <Compile Include="Framework\KinokoResultTests\AddMeasurementTests.cs" />
@@ -85,8 +88,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Folder Include="Console\KinokoConsoleTests\" />
-    <Folder Include="Console\ConsoleControls\GuiHelpersTests\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

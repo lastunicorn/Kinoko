@@ -125,12 +125,12 @@ namespace DustInTheWind.SharpKinoko
         public KinokoResult Run(KinokoTask task, int repeatCount)
         {
             if (task == null)
-                throw new ArgumentNullException("subject");
+                throw new ArgumentNullException("task");
 
             if (repeatCount < 1)
                 throw new ArgumentOutOfRangeException("repeatCount", "The repeat count should be an integer greater then 0.");
 
-            return RunTaskWithEvents(task, repeatCount);
+            return RunTaskAndRunEvents(task, repeatCount);
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace DustInTheWind.SharpKinoko
 
             foreach (KinokoTask task in tasks)
             {
-                results.Add(RunTaskWithEvents(task, repeatCount));
+                results.Add(RunTaskAndRunEvents(task, repeatCount));
             }
 
             return results;
@@ -167,7 +167,7 @@ namespace DustInTheWind.SharpKinoko
         /// <returns>A <see cref="KinokoResult"/> object containing the measured data.</returns>
         /// <param name='task'>The kinoko task to be run.</param>
         /// <param name='repeatCount'>The number of times to repeat the measurement.</param>
-        private KinokoResult RunTaskWithEvents(KinokoTask task, int repeatCount)
+        private KinokoResult RunTaskAndRunEvents(KinokoTask task, int repeatCount)
         {
             OnTaskRunning(new TaskRunningEventArgs(task));
             KinokoResult result = RunTask(task, repeatCount);
@@ -184,17 +184,13 @@ namespace DustInTheWind.SharpKinoko
 
             try
             {
-                measurer.Run();
+                return measurer.Run();
             }
             finally
             {
                 measurer.Measuring -= HandleMeasurerMeasuring;
                 measurer.Measured -= HandleMeasurerMeasured;
             }
-         
-            measurer.Result.CalculateAll();
-         
-            return measurer.Result;
         }
 
         private void HandleMeasurerMeasuring(object sender, MeasuringEventArgs e)

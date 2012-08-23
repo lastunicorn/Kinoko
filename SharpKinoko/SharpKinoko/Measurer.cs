@@ -51,19 +51,6 @@ namespace DustInTheWind.SharpKinoko
             get { return repeatCount; }
         }
 
-        /// <summary>
-        /// The results of the measurements. It is null if no measurement was performed yet.
-        /// </summary>
-        private KinokoResult result;
-
-        /// <summary>
-        /// Gets the results of the measurements. It is null if no measurement was performed yet.
-        /// </summary>
-        public KinokoResult Result
-        {
-            get { return result; }
-        }
-
         #region Event Measuring
 
         /// <summary>
@@ -136,32 +123,14 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// Runs the subject multiple times and measures the time intervals spent.
         /// </summary>
-        /// <remarks>
-        /// After the measurement is finished, the <see cref="M:KinokoResult.Calculate"/> method is automatically called.
-        /// </remarks>
-        public void Run()
-        {
-            this.result = null;
-
-            KinokoResult result = PerformMeasurements();
-            result.CalculateAll();
-
-            this.result = result;
-        }
-
-        /// <summary>
-        /// Performs the measurements for the specified number of times.
-        /// </summary>
-        /// <returns>
-        /// An instance of <see cref="KinokoResult"/> containing the measurements.
-        /// </returns>
-        private KinokoResult PerformMeasurements()
+        /// <returns>A <see cref="KinokoResult"/> containing the measuremets.</returns>
+        public KinokoResult Run()
         {
             KinokoResult result = new KinokoResult();
 
             for (int i = 0; i < repeatCount; i++)
             {
-                double milliseconds = PerformMeasurementWithEvents(i);
+                double milliseconds = PerformMeasurementAndRaiseEvents(i);
                 result.AddMeasurement(milliseconds);
             }
 
@@ -175,7 +144,7 @@ namespace DustInTheWind.SharpKinoko
         /// The measured time in miliseconds.
         /// </returns>
         /// <param name="measurementIndex">The index representing the number of times the measurement is performing.</param>
-        private double PerformMeasurementWithEvents(int measurementIndex)
+        private double PerformMeasurementAndRaiseEvents(int measurementIndex)
         {
             OnMeasuring(new MeasuringEventArgs(measurementIndex));
             double milliseconds = PerformMeasurement();

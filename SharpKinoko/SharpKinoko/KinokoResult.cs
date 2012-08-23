@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using DustInTheWind.SharpKinoko.Utils;
 
 namespace DustInTheWind.SharpKinoko
 {
@@ -39,14 +40,20 @@ namespace DustInTheWind.SharpKinoko
         /// <summary>
         /// The average value in miliseconds of the time measurements.
         /// </summary>
-        private double average;
+        private double? average;
 
         /// <summary>
         /// Gets the average value in miliseconds of the time measurements.
         /// </summary>
         public double Average
         {
-            get { return average; }
+            get
+            {
+                if (!average.HasValue)
+                    average = CalculateAverage();
+
+                return average.Value;
+            }
         }
 
         /// <summary>
@@ -55,7 +62,7 @@ namespace DustInTheWind.SharpKinoko
         public KinokoResult()
         {
             measurements = new List<double>();
-            average = 0D;
+            average = null;
         }
 
         /// <summary>
@@ -65,14 +72,15 @@ namespace DustInTheWind.SharpKinoko
         public void AddMeasurement(double time)
         {
             measurements.Add(time);
+            average = null;
         }
 
         /// <summary>
-        /// Calculates all usefull values from the measured data.
+        /// Calculates the average value of the measurements.
         /// </summary>
-        public void CalculateAll()
+        private double CalculateAverage()
         {
-            average = Math.Average(measurements);
+            return Math.Average(measurements);
         }
     }
 }

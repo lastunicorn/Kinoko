@@ -49,15 +49,15 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.MeasurerTests
         }
 
         [Test]
-        public void creates_Result()
+        public void returns_not_null_Result()
         {
             KinokoSubject subject = () => {};
             int repeatMeasurementCount = 10;
             Measurer measurer = new Measurer(subject, repeatMeasurementCount);
 
-            measurer.Run();
+            KinokoResult result = measurer.Run();
 
-            Assert.That(measurer.Result, Is.Not.Null);
+            Assert.That(result, Is.Not.Null);
         }
 
         [Test]
@@ -66,10 +66,10 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.MeasurerTests
             KinokoSubject subject = () => {};
             Measurer measurer = new Measurer(subject, n);
 
-            measurer.Run();
+            KinokoResult result = measurer.Run();
 
-            Assert.That(measurer.Result.Measurements, Is.Not.Null);
-            Assert.That(measurer.Result.Measurements.Length, Is.EqualTo(n));
+            Assert.That(result.Measurements, Is.Not.Null);
+            Assert.That(result.Measurements.Length, Is.EqualTo(n));
         }
 
         [Test]
@@ -80,9 +80,9 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.MeasurerTests
             KinokoSubject subject = () => Thread.Sleep((int)times[callIndex++]);
             Measurer measurer = new Measurer(subject, times.Length);
 
-            measurer.Run();
+            KinokoResult result = measurer.Run();
 
-            AssertAreEqual(times, measurer.Result.Measurements);
+            AssertAreEqual(times, result.Measurements);
         }
 
         private void AssertAreEqual(IList expected, IList actual)

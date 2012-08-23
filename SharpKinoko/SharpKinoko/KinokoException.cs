@@ -25,13 +25,13 @@ namespace DustInTheWind.SharpKinoko
     [Serializable]
     public class KinokoException : ApplicationException
     {
-        private const string MESSAGE = "Internal error in Kinoko.";
+        private const string DefaultMessage = "Internal error in Kinoko.";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KinokoException"/> class.
         /// </summary>
         public KinokoException()
-            : base(MESSAGE)
+            : base(DefaultMessage)
         {
         }
 
@@ -49,7 +49,7 @@ namespace DustInTheWind.SharpKinoko
         /// </summary>
         /// <param name="innerException">The exception that is the cause of the current exception.</param>
         public KinokoException(Exception innerException)
-            : base(MESSAGE, innerException)
+            : base(DefaultMessage, innerException)
         {
         }
 

@@ -14,14 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 
-namespace DustInTheWind.SharpKinoko
+namespace DustInTheWind.SharpKinoko.Utils
 {
     internal class Math
     {
         public static double Average(double[] values)
         {
+            if (values == null) throw new ArgumentNullException("values");
+            if (values.Length == 0) return 0;
+
             double sum = 0;
 
             for (int i = 0; i < values.Length; i++)
@@ -34,6 +38,9 @@ namespace DustInTheWind.SharpKinoko
 
         public static double Average(IList<double> values)
         {
+            if (values == null) throw new ArgumentNullException("values");
+            if (values.Count == 0) return 0;
+
             double sum = 0;
 
             for (int i = 0; i < values.Count; i++)
@@ -46,6 +53,8 @@ namespace DustInTheWind.SharpKinoko
 
         public static double Average(IEnumerable<double> values)
         {
+            if (values == null) throw new ArgumentNullException("values");
+
             double sum = 0;
             int count = 0;
 
@@ -54,6 +63,8 @@ namespace DustInTheWind.SharpKinoko
                 sum += value;
                 count++;
             }
+
+            if (count == 0) return 0;
 
             return sum / (double)count;
         }
