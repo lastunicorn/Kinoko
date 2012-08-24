@@ -37,17 +37,25 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         /// The list of arguments with which the application was started.
         /// </summary>
         private readonly string[] args;
+
+        /// <summary>
+        /// The object used to write help information to the user.
+        /// </summary>
         private HelpWritter helpWritter;
 
         /// <summary>
-        /// Gets or sets the <see cref="GuiHelpers"/> instance that contains methods to .
+        /// Gets or sets the <see cref="GuiHelpers"/> instance that provides methods to easyer interact with the console.
         /// </summary>
         /// <value>
         /// The GUI helpers.
         /// </value>
         public GuiHelpers guiHelpers { get; set; }
 
+        /// <summary>
+        /// The number of times the measurement should be performed in order to minimize the error.
+        /// </summary>
         private const int RepeatMeasurementCount = 10;
+
         private ProgressBar progressBar;
 
         /// <summary>
@@ -56,7 +64,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         /// <param name="console">The <see cref="IConsole"/> object to be used to interact with the user.</param>
         /// <param name="args">The list of arguments with which the application was started.</param>
         /// <exception cref="ArgumentNullException">Thrown if the console is null.</exception>
-        public KinokoConsole(IConsole console, string[] args)
+        public KinokoConsole(IConsole console, GuiHelpers guiHelpers, HelpWritter helpWritter, string[] args)
         {
             if (console == null)
                 throw new ArgumentNullException("console");
@@ -65,6 +73,8 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
                 throw new ArgumentNullException("args");
 
             this.console = console;
+            this.guiHelpers = guiHelpers;
+            this.helpWritter = helpWritter;
             this.args = args;
         }
 
@@ -73,27 +83,23 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         /// </summary>
         public void Start()
         {
-            console.ForegroundColor = ConsoleColor.DarkGreen;
-
-            guiHelpers = new GuiHelpers(console);
-            helpWritter = new HelpWritter(console, guiHelpers);
-
-            helpWritter.WriteKinokoHeader();
-
             try
             {
+                console.ForegroundColor = ConsoleColor.DarkGreen;
+                helpWritter.WriteKinokoHeader();
+
                 CommandLineOptions options = ParseArguments();
 
-                if (options.HasErrors)
+                if (ExistsArgumentErrors(options))
                 {
-                    console.WriteLine(GetParsingErrors(options));
+                    WriteParsingErrorsToConsole(options);
                 }
                 else
                 {
-                    if (options.DisplayHelp)
-                        console.WriteLine(GetUsage(options));
+                    if (HelpWasRequested(options))
+                        WriteHelpToConsole(options);
 
-                    if (options.AssemblyFileNames != null && options.AssemblyFileNames.Count > 0)
+                    if (AssemliesWereProvided(options))
                     {
                         Kinoko kinoko = CreateKinoko();
                         RunTasksFromAssembly(kinoko, options.AssemblyFileNames[0]);
@@ -113,7 +119,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         /// <summary>
         /// Validates the args list. If the arguments are not ok, an exception is thrown.
         /// </summary>
-        /// <exception cref='InvalidConsoleArgumentsException'>
+        /// <exception cref="InvalidConsoleArgumentsException">
         /// Is thrown when the console arguments are invalid.
         /// </exception>
         private CommandLineOptions ParseArguments()
@@ -125,26 +131,37 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 
             parser.ParseArguments(args, options);
 
-//            if (parser.ParseArguments(args, options))
-//            {
-//                if (options.DisplayHelp)
-//                    console.WriteLine(GetUsage(options));
-//            }
-//            else
-//            {
-//                console.WriteLine(GetParsingErrors(options));
-//                //throw new InvalidConsoleArgumentsException();
-//            }
+            //            if (parser.ParseArguments(args, options))
+            //            {
+            //                if (options.DisplayHelp)
+            //                    console.WriteLine(GetUsage(options));
+            //            }
+            //            else
+            //            {
+            //                console.WriteLine(GetParsingErrors(options));
+            //                //throw new InvalidConsoleArgumentsException();
+            //            }
 
             return options;
         }
 
-        private string GetParsingErrors(CommandLineOptions options)
+        private static bool ExistsArgumentErrors(CommandLineOptions options)
         {
-            HelpText helpText = new HelpText();
+            return options.HasErrors;
+        }
 
-            helpText.AdditionalNewLineAfterOption = false;
-            helpText.AddDashesToOption = true;
+        private void WriteParsingErrorsToConsole(CommandLineOptions options)
+        {
+            console.WriteLine(CreateParsingErrorsText(options));
+        }
+
+        private string CreateParsingErrorsText(CommandLineOptions options)
+        {
+            HelpText helpText = new HelpText
+            {
+                AdditionalNewLineAfterOption = false,
+                AddDashesToOption = true
+            };
 
             string errors = helpText.RenderParsingErrorsText(options, 2);
             helpText.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
@@ -153,27 +170,42 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             return helpText;
         }
 
-        private string GetUsage(CommandLineOptions options)
+        private static bool HelpWasRequested(CommandLineOptions options)
+        {
+            return options.DisplayHelp;
+        }
+
+        private void WriteHelpToConsole(CommandLineOptions options)
+        {
+            console.WriteLine(CreateHelpText(options));
+        }
+
+        private string CreateHelpText(CommandLineOptions options)
         {
             //return HelpText.AutoBuild(this, (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
 
-            HelpText helpText = new HelpText();
-
-            helpText.AdditionalNewLineAfterOption = false;
-            helpText.AddDashesToOption = true;
+            HelpText helpText = new HelpText
+            {
+                AdditionalNewLineAfterOption = false,
+                AddDashesToOption = true
+            };
 
             helpText.AddPreOptionsLine("Usage: SharpKinokoConsole -assembly <assemblyName>");
             helpText.AddOptions(options);
 
-
             return helpText;
+        }
+
+        private static bool AssemliesWereProvided(CommandLineOptions options)
+        {
+            return options.AssemblyFileNames != null && options.AssemblyFileNames.Count > 0;
         }
 
         /// <summary>
         /// Creates one <see cref="Kinoko"/> instance and subscribes to the needed events.
         /// </summary>
         /// <returns>
-        /// The newly created <see cref="Kinono"/> object.
+        /// The newly created <see cref="Kinoko"/> object.
         /// </returns>
         private Kinoko CreateKinoko()
         {
@@ -186,6 +218,14 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             return kinoko;
         }
 
+        private void RunTasksFromAssembly(Kinoko kinoko, string assemblyFileName)
+        {
+            helpWritter.WriteLoadingAssembly(assemblyFileName);
+
+            ITasksProvider tasksProvider = CreateTasksProvider(assemblyFileName);
+            kinoko.Run(tasksProvider, RepeatMeasurementCount);
+        }
+
         private ITasksProvider CreateTasksProvider(string assemblyFilePath)
         {
             AssemblyTasksProvider tasksProvider = new AssemblyTasksProvider();
@@ -194,6 +234,14 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             tasksProvider.Load(assembly);
 
             return tasksProvider;
+        }
+
+        private void HandleKinokoTaskRunning(object sender, TaskRunningEventArgs e)
+        {
+            helpWritter.WriteTaskTitle(e.Task);
+
+            progressBar = CreateProgressBar();
+            progressBar.Display();
         }
 
         private ProgressBar CreateProgressBar()
@@ -205,12 +253,9 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             };
         }
 
-        private void HandleKinokoTaskRunning(object sender, TaskRunningEventArgs e)
+        private int GetWindowWidth()
         {
-            helpWritter.WriteTaskTitle(e.Task);
-
-            progressBar = CreateProgressBar();
-            progressBar.Display();
+            return console.WindowWidth - 1;
         }
 
         private void HandleKinokoTaskRun(object sender, TaskRunEventArgs e)
@@ -224,22 +269,9 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             progressBar.SetProgress(newPercent);
         }
 
-        private void RunTasksFromAssembly(Kinoko kinoko, string assemblyFileName)
-        {
-            helpWritter.WriteLoadingAssembly(assemblyFileName);
-
-            ITasksProvider tasksProvider = CreateTasksProvider(assemblyFileName);
-            kinoko.Run(tasksProvider, RepeatMeasurementCount);
-        }
-
         private int CalculatePercentage(int index)
         {
             return (index * 100) / RepeatMeasurementCount;
-        }
-
-        private int GetWindowWidth()
-        {
-            return console.WindowWidth - 1;
         }
     }
 }

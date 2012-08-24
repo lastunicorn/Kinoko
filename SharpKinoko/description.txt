@@ -4,7 +4,7 @@ SharpKinoko v2.0
 1) Description
 --------------
 
-- Kinoko was bornto do one thing: measure the time taken to run a method you indicate.
+- Kinoko was born to do one thing: measure the time taken to run a method you indicate.
 
 2) How to use
 -------------

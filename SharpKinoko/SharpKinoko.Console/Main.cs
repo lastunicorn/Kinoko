@@ -16,6 +16,8 @@
 
 using System;
 using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
+using Ninject;
+using Ninject.Parameters;
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 {
@@ -39,11 +41,12 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         {
             try
             {
-//            Test();
-//            return;
+                //            Test();
+                //            return;
 
-                IConsole console = new ConsoleWrapper();
-                KinokoConsole kinokoConsole = new KinokoConsole(console, args);
+                IKernel kernel = CreateAndConfigureNinjectKernel();
+
+                KinokoConsole kinokoConsole = kernel.Get<KinokoConsole>(new ConstructorArgument("args", args, false));
                 kinokoConsole.Start();
             }
             catch (Exception ex)
@@ -53,6 +56,17 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
                 guiHelpers.DisplayError(ex);
                 guiHelpers.Pause();
             }
+        }
+
+        private static IKernel CreateAndConfigureNinjectKernel()
+        {
+            IKernel kernel = new StandardKernel();
+
+            kernel.Bind<GuiHelpers>().To<GuiHelpers>().InSingletonScope();
+            kernel.Bind<HelpWritter>().To<HelpWritter>().InSingletonScope();
+            kernel.Bind<IConsole>().To<ConsoleWrapper>().InSingletonScope();
+
+            return kernel;
         }
     }
 

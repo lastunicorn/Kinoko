@@ -18,6 +18,9 @@ using System;
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 {
+    /// <summary>
+    /// A wrapper over the <see cref="Console"/> static class.
+    /// </summary>
     public class ConsoleWrapper : IConsole
     {
         public int CursorTop
@@ -48,11 +51,6 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         {
             Console.Write(value);
         }
-
-        //public void WriteLine(string value)
-        //{
-        //    Console.WriteLine(value);
-        //}
 
         public void WriteLine()
         {

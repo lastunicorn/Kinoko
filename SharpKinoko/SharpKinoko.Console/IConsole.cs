@@ -18,6 +18,9 @@ using System;
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 {
+    /// <summary>
+    /// Represents a console.
+    /// </summary>
     public interface IConsole
     {
         int CursorTop { get; set; }
@@ -29,8 +32,6 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         ConsoleColor ForegroundColor { get; set; }
 
         void Write(string value);
-
-        //void WriteLine(string value);
 
         void WriteLine();
 

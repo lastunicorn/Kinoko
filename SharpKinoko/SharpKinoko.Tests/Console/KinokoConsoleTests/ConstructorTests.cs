@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
+using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 using NUnit.Framework;
 using DustInTheWind.SharpKinoko.SharpKinokoConsole;
 using Moq;
@@ -32,7 +33,10 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoConsoleTests
         {
             try
             {
-                new KinokoConsole(null, new string[0]);
+                Mock<IConsole> console = new Mock<IConsole>();
+                GuiHelpers guiHelpers = new GuiHelpers(console.Object);
+                HelpWritter helpWritter = new HelpWritter(console.Object, guiHelpers);
+                new KinokoConsole(null, guiHelpers, helpWritter, new string[0]);
             }
             catch (ArgumentNullException ex)
             {
@@ -48,7 +52,9 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoConsoleTests
             try
             {
                 Mock<IConsole> console = new Mock<IConsole>();
-                new KinokoConsole(console.Object, null);
+                GuiHelpers guiHelpers = new GuiHelpers(console.Object);
+                HelpWritter helpWritter = new HelpWritter(console.Object, guiHelpers);
+                new KinokoConsole(console.Object, guiHelpers, helpWritter, null);
             }
             catch (ArgumentNullException ex)
             {
