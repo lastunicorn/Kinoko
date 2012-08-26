@@ -28,7 +28,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.GuiHelpersTest
         {
             try
             {
-                new GuiHelpers(null);
+                new UI(null);
             }
             catch (ArgumentNullException ex)
             {

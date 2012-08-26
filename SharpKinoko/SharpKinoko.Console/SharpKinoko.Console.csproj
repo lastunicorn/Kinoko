@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -8,7 +8,6 @@
     <ProjectGuid>{2FD7F5D5-A5D1-44E0-8264-13CC6848A87E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>DustInTheWind.SharpKinoko.SharpKinokoConsole</RootNamespace>
-    <AssemblyName>SharpKinokoConsole</AssemblyName>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,36 +23,76 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <AssemblyName>SharpKinoko.Console</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <Externalconsole>true</Externalconsole>
+    <OutputPath>bin\Debug</OutputPath>
+    <Commandlineparameters>-a RomanArithmetics.dll</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <Externalconsole>true</Externalconsole>
     <Commandlineparameters>SharpKinoko.Example.dll</Commandlineparameters>
+    <OutputPath>bin\Release</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Mono</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <Externalconsole>true</Externalconsole>
+    <Commandlineparameters>-a SharpKinoko.Example.dll</Commandlineparameters>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Mono</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <Commandlineparameters>-a SharpKinoko.Example.dll</Commandlineparameters>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <Externalconsole>true</Externalconsole>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommandLine">
       <HintPath>..\ExternalTools\CommandLine\CommandLine.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject">
+    <Reference Include="System" />
+    <Reference Include="Ninject" Condition="'$(Configuration)' == 'Mono'">
+      <HintPath>..\ExternalTools\Ninject\mono\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject" Condition="'$(Configuration)' != 'Mono'">
       <HintPath>..\ExternalTools\Ninject\Ninject.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -62,12 +101,12 @@
     <Compile Include="ConsoleControls\ProgressBar.cs" />
     <Compile Include="ConsoleWrapper.cs" />
     <Compile Include="IConsole.cs" />
-    <Compile Include="HelpWritter.cs" />
-    <Compile Include="KinokoConsole.cs" />
-    <Compile Include="ConsoleControls\GuiHelpers.cs" />
     <Compile Include="CommandArguments\Argument.cs" />
     <Compile Include="CommandArguments\Arguments.cs" />
     <Compile Include="CommandLineOptions.cs" />
+    <Compile Include="ConsoleControls\UI.cs" />
+    <Compile Include="KinokoApplication.cs" />
+    <Compile Include="KinokoWrapper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

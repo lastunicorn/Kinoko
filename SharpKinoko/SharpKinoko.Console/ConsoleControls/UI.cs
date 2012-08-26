@@ -13,26 +13,31 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
+using System.Reflection;
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
 {
     /// <summary>
-    /// Contains methods that ... what?
+    /// Contains a few usefull methods that help interact with the console.
     /// </summary>
-    public class GuiHelpers
+    public class UI
     {
         /// <summary>
         /// The console used to write text into.
         /// </summary>
         private readonly IConsole console;
 
+        public IConsole Console
+        {
+            get { return console; }
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GuiHelpers"/> class.
         /// </summary>
         /// <param name="console">The console used to write text into</param>
-        public GuiHelpers(IConsole console)
+        public UI(IConsole console)
         {
             if (console == null)
                 throw new ArgumentNullException("console");
@@ -76,7 +81,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
             console.WriteLine();
         }
 
-        private int GetWindowWidth()
+        public int GetWindowWidth()
         {
             return  console.WindowWidth - 1;
         }
@@ -88,6 +93,61 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
         public void  WriteFullLine(char c)
         {
             console.WriteLine(new String(c, GetWindowWidth()));
+        }
+
+        /// <summary>
+        /// Writes to the console the Sharp Kinoko name and the version.
+        /// </summary>
+        public void WriteKinokoHeader()
+        {
+            using (new TemporaryColorSwitcher(console, ConsoleColor.Green))
+            {
+                Assembly assembly = Assembly.GetAssembly(typeof(Kinoko));
+                console.WriteLine("Kinoko Console ver. {0}", assembly.GetName().Version.ToString(3));
+                WriteFullLine('=');
+                console.WriteLine();
+            }
+        }
+
+        /// <summary>
+        /// Writes to the console the task title that is about to be run.
+        /// </summary>
+        /// <param name='task'>The task that is about to be run.</param>
+        public void WriteTaskTitle(KinokoTask task)
+        {
+            console.WriteLine();
+            console.Write("Measuring subject: ");
+            using (new TemporaryColorSwitcher(console, ConsoleColor.White))
+            {
+                console.WriteLine(task.Subject.Method.Name);
+            }
+        }
+
+        /// <summary>
+        /// Writes to the console the result of the task that was run.
+        /// </summary>
+        /// <param name='result'>The result of the run of a task.</param>
+        public void WriteTaskResult(KinokoResult result)
+        {
+            console.WriteLine();
+            console.Write("Average time: ");
+            using (new TemporaryColorSwitcher(console, ConsoleColor.White))
+            {
+                console.WriteLine("{0:#,##0.00} milisec", result.Average);
+            }
+        }
+
+        /// <summary>
+        /// Writes to the console a line of test to specify what assembly is currently loading.
+        /// </summary>
+        /// <param name='assemblyFileName'>The file name of the assembly that is loading.</param>
+        public void WriteAssemblyLoadingInformation(string assemblyFileName)
+        {
+            console.Write("Start measuring subjects from assembly ");
+            using (new TemporaryColorSwitcher(console, ConsoleColor.White))
+            {
+                console.WriteLine(assemblyFileName);
+            }
         }
     }
 }

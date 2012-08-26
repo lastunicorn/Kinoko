@@ -13,19 +13,36 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using System.Reflection;
 using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 {
+    /// <summary>
+    /// Provides methods that write help information to the user.
+    /// </summary>
     public class HelpWritter
     {
+        /// <summary>
+        /// The console where the information is written.
+        /// </summary>
         private readonly IConsole console;
-        private readonly GuiHelpers guiHelpers;
 
-        public HelpWritter(IConsole console, GuiHelpers guiHelpers)
+        /// <summary>
+        /// Contains a few usefull methods that help interact with the console.
+        /// </summary>
+        private readonly UI guiHelpers;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DustInTheWind.SharpKinoko.SharpKinokoConsole.HelpWritter"/> class.
+        /// </summary>
+        /// <param name='console'>The console where the information will be written.</param>
+        /// <param name='guiHelpers'>Contains a few usefull methods that help interact with the console.</param>
+        /// <exception cref='ArgumentNullException'>
+        /// Is thrown when an argument passed to a method is invalid because it is <see langword="null" /> .
+        /// </exception>
+        public HelpWritter(IConsole console, UI guiHelpers)
         {
             if (console == null)
                 throw new ArgumentNullException("console");
@@ -37,11 +54,9 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             this.guiHelpers = guiHelpers;
         }
 
-//        public void WriteFullHelp()
-//        {
-//            console.write
-//        }
-
+        /// <summary>
+        /// Writes to the console the Sharp Kinoko name and the version.
+        /// </summary>
         public void WriteKinokoHeader()
         {
             using (new TemporaryColorSwitcher(console, ConsoleColor.Green))
@@ -53,6 +68,10 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             }
         }
 
+        /// <summary>
+        /// Writes to the console the task title that is about to be run.
+        /// </summary>
+        /// <param name='task'>The task that is about to be run.</param>
         public void WriteTaskTitle(KinokoTask task)
         {
             console.WriteLine();
@@ -63,6 +82,10 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             }
         }
 
+        /// <summary>
+        /// Writes to the console the result of the task that was run.
+        /// </summary>
+        /// <param name='result'>The result of the run of a task.</param>
         public void WriteTaskResult(KinokoResult result)
         {
             console.WriteLine();
@@ -73,18 +96,17 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             }
         }
 
-        public void WriteLoadingAssembly(string assemblyFileName)
+        /// <summary>
+        /// Writes to the console a line of test to specify what assembly is currently loading.
+        /// </summary>
+        /// <param name='assemblyFileName'>The file name of the assembly that is loading.</param>
+        public void WriteAssemblyLoadingInformation(string assemblyFileName)
         {
             console.Write("Start measuring subjects from assembly ");
             using (new TemporaryColorSwitcher(console, ConsoleColor.White))
             {
                 console.WriteLine(assemblyFileName);
             }
-        }
-
-        public void WriteShortHelp()
-        {
-            console.WriteLine("Expected: KinokoConsole <assemblyFileName>");
         }
     }
 }

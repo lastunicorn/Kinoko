@@ -23,14 +23,17 @@ namespace DustInTheWind.SharpKinoko.Utils
     {
         public static double Average(double[] values)
         {
-            if (values == null) throw new ArgumentNullException("values");
-            if (values.Length == 0) return 0;
+            if (values == null)
+                throw new ArgumentNullException("values");
+
+            if (values.Length == 0)
+                return 0;
 
             double sum = 0;
 
             for (int i = 0; i < values.Length; i++)
             {
-                sum += values[i];
+                sum += values [i];
             }
 
             return sum / (double)values.Length;
@@ -38,14 +41,17 @@ namespace DustInTheWind.SharpKinoko.Utils
 
         public static double Average(IList<double> values)
         {
-            if (values == null) throw new ArgumentNullException("values");
-            if (values.Count == 0) return 0;
+            if (values == null)
+                throw new ArgumentNullException("values");
+
+            if (values.Count == 0)
+                return 0;
 
             double sum = 0;
 
             for (int i = 0; i < values.Count; i++)
             {
-                sum += values[i];
+                sum += values [i];
             }
 
             return sum / (double)values.Count;
@@ -53,7 +59,8 @@ namespace DustInTheWind.SharpKinoko.Utils
 
         public static double Average(IEnumerable<double> values)
         {
-            if (values == null) throw new ArgumentNullException("values");
+            if (values == null)
+                throw new ArgumentNullException("values");
 
             double sum = 0;
             int count = 0;
@@ -64,7 +71,8 @@ namespace DustInTheWind.SharpKinoko.Utils
                 count++;
             }
 
-            if (count == 0) return 0;
+            if (count == 0)
+                return 0;
 
             return sum / (double)count;
         }

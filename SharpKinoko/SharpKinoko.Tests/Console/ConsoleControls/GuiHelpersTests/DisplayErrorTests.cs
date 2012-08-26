@@ -29,7 +29,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.GuiHelpersTest
         {
             Mock<IConsole> console = new Mock<IConsole>();
             console.SetupGet(x => x.WindowWidth).Returns(100);
-            GuiHelpers guiHelpers = new GuiHelpers(console.Object);
+            UI guiHelpers = new UI(console.Object);
 
             guiHelpers.DisplayError("error message");
 

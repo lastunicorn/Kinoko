@@ -36,23 +36,21 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 
             Console.Write("Alez");
         }
-
+                
         public static void Main(string[] args)
-        {
+        {            
             try
             {
-                //            Test();
-                //            return;
-
                 IKernel kernel = CreateAndConfigureNinjectKernel();
 
-                KinokoConsole kinokoConsole = kernel.Get<KinokoConsole>(new ConstructorArgument("args", args, false));
+                KinokoApplication kinokoConsole = kernel.Get<KinokoApplication>(new ConstructorArgument("args", args, false));
                 kinokoConsole.Start();
             }
             catch (Exception ex)
             {
                 IConsole console = new ConsoleWrapper();
-                GuiHelpers guiHelpers = new GuiHelpers(console);
+                UI guiHelpers = new UI(console);
+
                 guiHelpers.DisplayError(ex);
                 guiHelpers.Pause();
             }
@@ -62,8 +60,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         {
             IKernel kernel = new StandardKernel();
 
-            kernel.Bind<GuiHelpers>().To<GuiHelpers>().InSingletonScope();
-            kernel.Bind<HelpWritter>().To<HelpWritter>().InSingletonScope();
+            kernel.Bind<UI>().ToSelf().InSingletonScope();
             kernel.Bind<IConsole>().To<ConsoleWrapper>().InSingletonScope();
 
             return kernel;

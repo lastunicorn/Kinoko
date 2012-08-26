@@ -18,6 +18,7 @@ using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 using NUnit.Framework;
 using DustInTheWind.SharpKinoko.SharpKinokoConsole;
 using Moq;
+using Ninject;
 
 namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoConsoleTests
 {
@@ -29,18 +30,40 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoConsoleTests
     {
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void throws_if_console_is_null()
+        public void throws_if_ui_is_null()
         {
             try
             {
                 Mock<IConsole> console = new Mock<IConsole>();
-                GuiHelpers guiHelpers = new GuiHelpers(console.Object);
-                HelpWritter helpWritter = new HelpWritter(console.Object, guiHelpers);
-                new KinokoConsole(null, guiHelpers, helpWritter, new string[0]);
+                Mock<IKernel> kernel = new Mock<IKernel>();
+                UI ui = new UI(console.Object);
+                KinokoWrapper kinokoWrapper = new KinokoWrapper(kernel.Object, ui);
+
+                new KinokoApplication(null, kinokoWrapper, new string[0]);
             }
             catch (ArgumentNullException ex)
             {
-                Assert.That(ex.ParamName, Is.EqualTo("console"));
+                Assert.That(ex.ParamName, Is.EqualTo("ui"));
+                throw;
+            }
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void throws_if_kinokoWrapper_is_null()
+        {
+            try
+            {
+                Mock<IConsole> console = new Mock<IConsole>();
+                Mock<IKernel> kernel = new Mock<IKernel>();
+                UI ui = new UI(console.Object);
+                KinokoWrapper kinokoWrapper = new KinokoWrapper(kernel.Object, ui);
+
+                new KinokoApplication(ui, null, new string[0]);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.That(ex.ParamName, Is.EqualTo("kinokoWrapper"));
                 throw;
             }
         }
@@ -52,9 +75,11 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoConsoleTests
             try
             {
                 Mock<IConsole> console = new Mock<IConsole>();
-                GuiHelpers guiHelpers = new GuiHelpers(console.Object);
-                HelpWritter helpWritter = new HelpWritter(console.Object, guiHelpers);
-                new KinokoConsole(console.Object, guiHelpers, helpWritter, null);
+                Mock<IKernel> kernel = new Mock<IKernel>();
+                UI ui = new UI(console.Object);
+                KinokoWrapper kinokoWrapper = new KinokoWrapper(kernel.Object, ui);
+
+                new KinokoApplication(ui, kinokoWrapper, null);
             }
             catch (ArgumentNullException ex)
             {
