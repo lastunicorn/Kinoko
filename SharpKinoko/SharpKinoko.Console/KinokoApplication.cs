@@ -26,20 +26,16 @@ using System.Collections.Generic;
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 {
     /// <summary>
-    /// Contains the logic of the console application.
+    /// Contains the logic of the Kinoko Console application.
     /// </summary>
-    public class KinokoApplication
+    internal class KinokoApplication
     {
-        /// <summary>
-        /// The list of arguments with which the application was started.
-        /// </summary>
-        private readonly string[] args;
-
         /// <summary>
         /// Gets or sets the <see cref="UI"/> instance that provides methods to easyer interact with the console.
         /// </summary>
         private readonly UI ui;
-        private readonly KinokoWrapper kinokoWrapper;
+        private readonly KinokoRunner kinokoRunner;
+        private CommandLineOptions options;
 
         /// <summary>
         /// The number of times the measurement should be performed in order to minimize the error.
@@ -49,23 +45,21 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         /// <summary>
         /// Initializes a new instance of the <see cref="KinokoConsole"/> class.
         /// </summary>
-        /// <param name="console">The <see cref="IConsole"/> object to be used to interact with the user.</param>
-        /// <param name="args">The list of arguments with which the application was started.</param>
         /// <exception cref="ArgumentNullException">Thrown if the console is null.</exception>
-        public KinokoApplication(UI ui, KinokoWrapper kinokoWrapper, string[] args)
+        public KinokoApplication(CommandLineOptions options, UI ui, KinokoRunner kinokoRunner)
         {
+            if (options == null)
+                throw new ArgumentNullException("options");
+
             if (ui == null)
                 throw new ArgumentNullException("ui");
 
-            if (kinokoWrapper == null)
+            if (kinokoRunner == null)
                 throw new ArgumentNullException("kinokoWrapper");
 
-            if (args == null)
-                throw new ArgumentNullException("args");
-
+            this.options = options;
             this.ui = ui;
-            this.kinokoWrapper = kinokoWrapper;
-            this.args = args;
+            this.kinokoRunner = kinokoRunner;
         }
 
         /// <summary>
@@ -77,8 +71,6 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             {
                 ui.Console.ForegroundColor = ConsoleColor.DarkGreen;
                 ui.WriteKinokoHeader();
-
-                CommandLineOptions options = ParseArguments();
 
                 if (ExistsParsingErrors(options))
                 {
@@ -103,19 +95,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             }
         }
 
-        private CommandLineOptions ParseArguments()
-        {
-            CommandLineOptions options = new CommandLineOptions();
-
-            CommandLineParserSettings parserSettings = new CommandLineParserSettings();
-            CommandLineParser parser = new CommandLineParser(parserSettings);
-
-            parser.ParseArguments(args, options);
-
-            return options;
-        }
-
-        private static bool ExistsParsingErrors(CommandLineOptions options)
+        private bool ExistsParsingErrors(CommandLineOptions options)
         {
             return options.HasErrors;
         }
@@ -140,7 +120,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             return helpText;
         }
 
-        private static bool HelpWasRequested(CommandLineOptions options)
+        private bool HelpWasRequested(CommandLineOptions options)
         {
             return options.DisplayHelp;
         }
@@ -166,14 +146,14 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             return helpText;
         }
 
-        private static bool AssembliesWereProvided(CommandLineOptions options)
+        private bool AssembliesWereProvided(CommandLineOptions options)
         {
             return options.AssemblyFileNames != null && options.AssemblyFileNames.Count > 0;
         }
 
-        public void PerformMeasurementsOnAssemblies(IEnumerable<string> assemblyFileNames)
+        private void PerformMeasurementsOnAssemblies(IEnumerable<string> assemblyFileNames)
         {
-            kinokoWrapper.StartMeasuring(assemblyFileNames, RepeatMeasurementCount);
+            kinokoRunner.StartMeasuring(assemblyFileNames, RepeatMeasurementCount);
         }
     }
 }

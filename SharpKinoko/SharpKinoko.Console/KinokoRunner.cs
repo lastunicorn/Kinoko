@@ -24,30 +24,71 @@ using Ninject;
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 {
-    public class KinokoWrapper
+    /// <summary>
+    /// Runs the tasks and displays the results to the UI.
+    /// </summary>
+    public class KinokoRunner
     {
+        /// <summary>
+        /// The IOC container.
+        /// </summary>
         private readonly IKernel kernel;
+
+        /// <summary>
+        /// Instance used to interact with the user interface.
+        /// </summary>
         private readonly UI ui;
+
+        /// <summary>
+        /// Kinoko instance that performs the measurements.
+        /// </summary>
+        private readonly Kinoko kinoko;
+
+        /// <summary>
+        /// Represents a progress bar.
+        /// </summary>
         private ProgressBar progressBar;
+
+        /// <summary>
+        /// The number of times the measurements are performed on a single subject (method).
+        /// </summary>
         private int  repeatMeasurementCount;
 
-        public KinokoWrapper(IKernel kernel, UI ui)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DustInTheWind.SharpKinoko.SharpKinokoConsole.KinokoRunner"/> class.
+        /// </summary>
+        /// <param name='kernel'>The IOC container.</param>
+        /// <param name='kinoko'>Kinoko instance that performs the measurements.</param>
+        /// <param name='ui'>Instance used to interact with the user interface.</param>
+        /// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
+        public KinokoRunner(IKernel kernel, Kinoko kinoko, UI ui)
         {
             if (kernel == null)
                 throw new ArgumentNullException("kernel");
+            
+            if (kinoko == null)
+                throw new ArgumentNullException("kinoko");
 
             if (ui == null)
                 throw new ArgumentNullException("ui");
 
             this.kernel = kernel;
+            this.kinoko = kinoko;
             this.ui = ui;
+
+            kinoko.Measured += HandleKinokoMeasured;
+            kinoko.TaskRunning += HandleKinokoTaskRunning;
+            kinoko.TaskRun += HandleKinokoTaskRun;
         }
 
+        /// <summary>
+        /// Starts to run the tasks from the specified assemblies and displays the results to the UI.
+        /// </summary>
+        /// <param name='assemblyFileNames'>The file names of the assemblies to load.</param>
+        /// <param name='repeatMeasurementCount'>The number of times the measurements are performed on a single subject (method).</param>
         public void StartMeasuring(IEnumerable<string> assemblyFileNames, int repeatMeasurementCount)
         {
             this.repeatMeasurementCount = repeatMeasurementCount;
-
-            Kinoko kinoko = CreateKinoko();
 
             foreach (string assemblyFileName in assemblyFileNames)
             {
@@ -56,17 +97,6 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
                 ITasksProvider tasksProvider = CreateTasksProvider(assemblyFileName);
                 kinoko.Run(tasksProvider, repeatMeasurementCount);
             }
-        }
-
-        private Kinoko CreateKinoko()
-        {
-            Kinoko kinoko = new Kinoko();
-
-            kinoko.Measured += HandleKinokoMeasured;
-            kinoko.TaskRunning += HandleKinokoTaskRunning;
-            kinoko.TaskRun += HandleKinokoTaskRun;
-
-            return kinoko;
         }
 
         private ITasksProvider CreateTasksProvider(string assemblyFilePath)

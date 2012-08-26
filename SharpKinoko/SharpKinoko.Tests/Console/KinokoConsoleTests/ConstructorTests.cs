@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 using NUnit.Framework;
@@ -30,16 +31,39 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoConsoleTests
     {
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void throws_if_ui_is_null()
+        public void throws_if_options_is_null()
         {
             try
             {
                 Mock<IConsole> console = new Mock<IConsole>();
                 Mock<IKernel> kernel = new Mock<IKernel>();
                 UI ui = new UI(console.Object);
-                KinokoWrapper kinokoWrapper = new KinokoWrapper(kernel.Object, ui);
+                Kinoko kinoko = new Kinoko();
+                KinokoRunner kinokoWrapper = new KinokoRunner(kernel.Object, kinoko, ui);
 
-                new KinokoApplication(null, kinokoWrapper, new string[0]);
+                new KinokoApplication(null, ui, kinokoWrapper);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.That(ex.ParamName, Is.EqualTo("options"));
+                throw;
+            }
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void throws_if_ui_is_null()
+        {
+            try
+            {
+                CommandLineOptions options = new CommandLineOptions();
+                Mock<IConsole> console = new Mock<IConsole>();
+                Mock<IKernel> kernel = new Mock<IKernel>();
+                UI ui = new UI(console.Object);
+                Kinoko kinoko = new Kinoko();
+                KinokoRunner kinokoWrapper = new KinokoRunner(kernel.Object, kinoko, ui);
+
+                new KinokoApplication(options, null, kinokoWrapper);
             }
             catch (ArgumentNullException ex)
             {
@@ -54,36 +78,18 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoConsoleTests
         {
             try
             {
+                CommandLineOptions options = new CommandLineOptions();
                 Mock<IConsole> console = new Mock<IConsole>();
                 Mock<IKernel> kernel = new Mock<IKernel>();
                 UI ui = new UI(console.Object);
-                KinokoWrapper kinokoWrapper = new KinokoWrapper(kernel.Object, ui);
+                Kinoko kinoko = new Kinoko();
+                KinokoRunner kinokoWrapper = new KinokoRunner(kernel.Object, kinoko, ui);
 
-                new KinokoApplication(ui, null, new string[0]);
+                new KinokoApplication(options, ui, null);
             }
             catch (ArgumentNullException ex)
             {
                 Assert.That(ex.ParamName, Is.EqualTo("kinokoWrapper"));
-                throw;
-            }
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void throws_if_args_is_null()
-        {
-            try
-            {
-                Mock<IConsole> console = new Mock<IConsole>();
-                Mock<IKernel> kernel = new Mock<IKernel>();
-                UI ui = new UI(console.Object);
-                KinokoWrapper kinokoWrapper = new KinokoWrapper(kernel.Object, ui);
-
-                new KinokoApplication(ui, kinokoWrapper, null);
-            }
-            catch (ArgumentNullException ex)
-            {
-                Assert.That(ex.ParamName, Is.EqualTo("args"));
                 throw;
             }
         }

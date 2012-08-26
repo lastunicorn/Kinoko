@@ -99,14 +99,15 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ConsoleControls\TemporaryColorSwitcher.cs" />
     <Compile Include="ConsoleControls\ProgressBar.cs" />
-    <Compile Include="ConsoleWrapper.cs" />
-    <Compile Include="IConsole.cs" />
     <Compile Include="CommandArguments\Argument.cs" />
     <Compile Include="CommandArguments\Arguments.cs" />
     <Compile Include="CommandLineOptions.cs" />
     <Compile Include="ConsoleControls\UI.cs" />
     <Compile Include="KinokoApplication.cs" />
-    <Compile Include="KinokoWrapper.cs" />
+    <Compile Include="KinokoRunner.cs" />
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="ConsoleControls\ConsoleWrapper.cs" />
+    <Compile Include="ConsoleControls\IConsole.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

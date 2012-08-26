@@ -18,52 +18,30 @@ using System;
 using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 using Ninject;
 using Ninject.Parameters;
+using CommandLine;
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 {
     class MainClass
     {
-        static void Test()
-        {
-            for (int i = 0; i < 100; i++)
-            {
-                Console.WriteLine(i);
-            }
-
-            int top = Console.WindowTop;
-            int left = Console.WindowLeft;
-            Console.WriteLine("{0} : {1}", top, left);
-
-            Console.Write("Alez");
-        }
+//        static void Test()
+//        {
+//            for (int i = 0; i < 100; i++)
+//            {
+//                Console.WriteLine(i);
+//            }
+//
+//            int top = Console.WindowTop;
+//            int left = Console.WindowLeft;
+//            Console.WriteLine("{0} : {1}", top, left);
+//
+//            Console.Write("Alez");
+//        }
                 
         public static void Main(string[] args)
         {            
-            try
-            {
-                IKernel kernel = CreateAndConfigureNinjectKernel();
-
-                KinokoApplication kinokoConsole = kernel.Get<KinokoApplication>(new ConstructorArgument("args", args, false));
-                kinokoConsole.Start();
-            }
-            catch (Exception ex)
-            {
-                IConsole console = new ConsoleWrapper();
-                UI guiHelpers = new UI(console);
-
-                guiHelpers.DisplayError(ex);
-                guiHelpers.Pause();
-            }
-        }
-
-        private static IKernel CreateAndConfigureNinjectKernel()
-        {
-            IKernel kernel = new StandardKernel();
-
-            kernel.Bind<UI>().ToSelf().InSingletonScope();
-            kernel.Bind<IConsole>().To<ConsoleWrapper>().InSingletonScope();
-
-            return kernel;
+            Bootstrapper bootstrapper = new Bootstrapper(args);
+            bootstrapper.Start();
         }
     }
 

@@ -16,7 +16,7 @@
 
 using System;
 
-namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
+namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
 {
     /// <summary>
     /// A wrapper over the <see cref="Console"/> static class.

@@ -27,12 +27,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
     /// </remarks>
     public class ProgressBar
     {
-        private int progressPercentage;
-
-        public int ProgressPercentage
-        {
-            get { return progressPercentage; }
-        }
+        public int ProgressPercentage { get; private set; }
 
         private int progressCharCount;
         private readonly IConsole console;
@@ -43,6 +38,11 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
 
         public ConsoleColor? ForegroundColor { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls.ProgressBar"/> class.
+        /// </summary>
+        /// <param name='console'>The console where to write the progress bar.</param>
         public ProgressBar(IConsole console)
         {
             if (console == null)
@@ -62,10 +62,10 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
             if (percentage > 100)
                 percentage = 100;
 
-            if (percentage == progressPercentage)
+            if (percentage == ProgressPercentage)
                 return;
 
-            progressPercentage = percentage;
+            ProgressPercentage = percentage;
 
             int newCharCount = TransformToCharCount(percentage);
 
