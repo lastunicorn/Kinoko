@@ -79,7 +79,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoApplicationTests
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void throws_if_kinokoWrapper_is_null()
+        public void throws_if_kinokoRunner_is_null()
         {
             try
             {
@@ -87,7 +87,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoApplicationTests
             }
             catch (ArgumentNullException ex)
             {
-                Assert.That(ex.ParamName, Is.EqualTo("kinokoWrapper"));
+                Assert.That(ex.ParamName, Is.EqualTo("kinokoRunner"));
                 throw;
             }
         }

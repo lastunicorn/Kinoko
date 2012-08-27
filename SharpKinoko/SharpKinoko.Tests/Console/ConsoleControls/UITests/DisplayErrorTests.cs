@@ -21,6 +21,9 @@ using NUnit.Framework;
 
 namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.UITests
 {
+    /// <summary>
+    /// Unit tests for the <see cref="UI.DisplayError"/> method.
+    /// </summary>
     [TestFixture]
     public class DisplayErrorTests
     {

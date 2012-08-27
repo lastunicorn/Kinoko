@@ -22,13 +22,16 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
     /// <summary>
     /// Contains a few usefull methods that help interact with the console.
     /// </summary>
-    public class UI
+    public class UI : IUI
     {
         /// <summary>
-        /// The console used to write text into.
+        /// The console used to write text to.
         /// </summary>
         private readonly IConsole console;
 
+        /// <summary>
+        /// Gets the console used to write text to.
+        /// </summary>
         public IConsole Console
         {
             get { return console; }

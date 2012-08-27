@@ -15,31 +15,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
-using NUnit.Framework;
+using System.Collections.Generic;
 
-namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.UITests
+namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 {
     /// <summary>
-    /// Unit tests for the constructor function of the <see cref="UI"/> class.
+    /// Runs the tasks and displays the results to the UI.
     /// </summary>
-    [TestFixture]
-    public class ContructorTests
+    public interface IKinokoRunner
     {
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void throws_if_console_is_null()
-        {
-            try
-            {
-                new UI(null);
-            }
-            catch (ArgumentNullException ex)
-            {
-                Assert.That(ex.ParamName, Is.EqualTo("console"));
-                throw;
-            }
-        }
+        /// <summary>
+        /// Starts to run the tasks from the specified assemblies and displays the results to the UI.
+        /// </summary>
+        /// <param name='assemblyFileNames'>The file names of the assemblies to load.</param>
+        /// <param name='repeatMeasurementCount'>The number of times the measurements are performed on a single subject (method).</param>
+        void StartMeasuring(IEnumerable<string> assemblyFileNames, int repeatMeasurementCount);
     }
 }
 

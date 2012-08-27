@@ -18,8 +18,11 @@ using NUnit.Framework;
 
 namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoResultTests
 {
+    /// <summary>
+    /// Unit tests for the <see cref="KinokoResult.AddMeasurement/"/> method.
+    /// </summary>
     [TestFixture]
-    public class AddMeasurementsTests
+    public class AddMeasurementTests
     {
         private KinokoResult result;
 

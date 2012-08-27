@@ -13,11 +13,15 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System.Threading;
 using NUnit.Framework;
 
 namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
 {
+    /// <summary>
+    /// Unit tests for the <see cref="Kinoko.Measured/"/> event.
+    /// </summary>
     [TestFixture]
     public class MeasuredEventTests
     {
@@ -29,7 +33,10 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
         public void SetUp()
         {
             kinoko = new Kinoko();
-            KinokoSubject subject = new KinokoSubject(delegate { Thread.Sleep(10); });
+            KinokoSubject subject = new KinokoSubject(delegate
+            {
+                Thread.Sleep(10);
+            });
             task = new KinokoTask { Subject = subject };
         }
 

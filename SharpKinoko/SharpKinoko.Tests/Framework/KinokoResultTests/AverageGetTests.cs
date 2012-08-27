@@ -19,6 +19,9 @@ using NUnit.Framework;
 
 namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoResultTests
 {
+    /// <summary>
+    /// Unit tests for the <see cref="KinokoResult.Average/"/> "get" property.
+    /// </summary>
     [TestFixture]
     public class AverageGetTests
     {

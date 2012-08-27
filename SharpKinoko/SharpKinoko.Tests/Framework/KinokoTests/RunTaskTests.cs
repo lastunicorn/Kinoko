@@ -20,6 +20,9 @@ using NUnit.Framework;
 
 namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
 {
+    /// <summary>
+    /// Unit tests for the <see cref="Kinoko.Run/"/> method.
+    /// </summary>
     [TestFixture]
     public class RunTaskTests
     {

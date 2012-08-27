@@ -29,12 +29,12 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         /// <summary>
         /// Provides methods to easyer interact with the console.
         /// </summary>
-        private readonly UI ui;
+        private readonly IUI ui;
 
         /// <summary>
         /// Runs the kinoko tasks and displays the results to the console.
         /// </summary>
-        private readonly KinokoRunner kinokoRunner;
+        private readonly IKinokoRunner kinokoRunner;
 
         /// <summary>
         /// The option values obtained from parsing the command line arguments.
@@ -53,7 +53,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         /// <param name="ui">Provides methods to easyer interact with the console.</param>
         /// <param name="kinokoRunner">Runs the kinoko tasks and displays the results to the console.</param>
         /// <exception cref="ArgumentNullException">Thrown if the console is null.</exception>
-        public KinokoApplication(CommandLineOptions options, UI ui, KinokoRunner kinokoRunner)
+        public KinokoApplication(CommandLineOptions options, IUI ui, IKinokoRunner kinokoRunner)
         {
             if (options == null)
                 throw new ArgumentNullException("options");
@@ -79,17 +79,17 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
                 ui.Console.ForegroundColor = ConsoleColor.DarkGreen;
                 ui.WriteKinokoHeader();
 
-                if (ExistsParsingErrors())
+                if (HelpWasRequested())
+                {
+                    WriteHelpToConsole();
+                }
+                else if (ExistsParsingErrors())
                 {
                     WriteParsingErrorsToConsole();
                 }
-                else
+                else if (AssembliesWereProvided())
                 {
-                    if (HelpWasRequested())
-                        WriteHelpToConsole();
-
-                    if (AssembliesWereProvided())
-                        PerformMeasurementsOnAssemblies(options.AssemblyFileNames);
+                    PerformMeasurementsOnAssemblies(options.AssemblyFileNames);
                 }
             }
             catch (Exception ex)

@@ -27,7 +27,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
     /// <summary>
     /// Runs the tasks and displays the results to the UI.
     /// </summary>
-    internal class KinokoRunner
+    internal class KinokoRunner : IKinokoRunner
     {
         /// <summary>
         /// The IOC container.

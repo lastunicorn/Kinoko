@@ -90,7 +90,8 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         {
             IKernel kernel = new StandardKernel();
 
-            kernel.Bind<UI>().ToSelf().InSingletonScope();
+            kernel.Bind<IUI>().To<UI>().InSingletonScope();
+            kernel.Bind<IKinokoRunner>().To<KinokoRunner>().InSingletonScope();
             kernel.Bind<IConsole>().To<ConsoleWrapper>().InSingletonScope();
             kernel.Bind<CommandLineOptions>().ToConstant(options);
 

@@ -24,6 +24,9 @@ using NUnit.Framework;
 
 namespace DustInTheWind.SharpKinoko.Tests.Framework.AssemblySubjectsProviderTests
 {
+    /// <summary>
+    /// Unit tests for the <see cref="AssemblyTasksProvider.GetKinokoTasks/"/> method.
+    /// </summary>
     [TestFixture]
     public class GetKinokoTasksTests
     {
