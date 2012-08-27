@@ -1,4 +1,4 @@
-// SharpKinoko
+﻿// SharpKinoko
 // Copyright (C) 2010 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -19,10 +19,10 @@ using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 using Moq;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.ProgressBarTests
+namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.TemporaryColorSwitcherTests
 {
     /// <summary>
-    /// Contains unit tests for the constructor of <see cref="ProgressBar"/> class.
+    /// Contains unit tests for the constructor of <see cref="TemporaryColorSwitcher"/> class.
     /// </summary>
     [TestFixture]
     public class ConstructorTests
@@ -33,7 +33,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.ProgressBarTes
         {
             try
             {
-                new ProgressBar(null);
+                new TemporaryColorSwitcher(null, ConsoleColor.Red);
             }
             catch (ArgumentNullException ex)
             {
@@ -43,26 +43,35 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.ProgressBarTes
         }
 
         [Test]
-        public void Width_has_initial_value_50()
+        public void retrieves_the_current_ForegroundColor_of_the_console()
         {
-            ProgressBar progressBar = CreateProgressBar();
+            Mock<IConsole> console = new Mock<IConsole>();
 
-            Assert.That(progressBar.Width, Is.EqualTo(50));
+            new TemporaryColorSwitcher(console.Object, ConsoleColor.Red);
+
+            console.VerifyGet(x => x.ForegroundColor, Times.Once());
         }
 
         [Test]
-        public void ProgressChar_has_initial_value_star()
-        {
-            ProgressBar progressBar = CreateProgressBar();
-
-            Assert.That(progressBar.ProgressChar, Is.EqualTo('*'));
-        }
-
-        private ProgressBar CreateProgressBar()
+        public void changes_the_ForegroundColor_of_the_console()
         {
             Mock<IConsole> console = new Mock<IConsole>();
-            return new ProgressBar(console.Object);
+
+            new TemporaryColorSwitcher(console.Object, ConsoleColor.Red);
+
+            console.VerifySet(x => x.ForegroundColor = ConsoleColor.Red, Times.Once());
+        }
+
+        [Test]
+        public void changes_back_the_ForegroundColor_of_the_console_to_the_old_value_when_instance_is_disposed()
+        {
+            Mock<IConsole> console = new Mock<IConsole>();
+            console.SetupGet(x => x.ForegroundColor).Returns(ConsoleColor.Yellow);
+
+            TemporaryColorSwitcher temporaryColorSwitcher = new TemporaryColorSwitcher(console.Object, ConsoleColor.Red);
+            temporaryColorSwitcher.Dispose();
+
+            console.VerifySet(x => x.ForegroundColor = ConsoleColor.Yellow, Times.Once());
         }
     }
 }
-

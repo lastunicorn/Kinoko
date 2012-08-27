@@ -15,16 +15,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Ninject;
-using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 using CommandLine;
+using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
+using Ninject;
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 {
     /// <summary>
     /// Prepares the environment into which a new <see cref="KinokoApplication"/> instance is started.
     /// </summary>
-    public class Bootstrapper
+    internal class Bootstrapper
     {
         /// <summary>
         /// The Ninject kernel. A IOC container.

@@ -35,7 +35,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GuiHelpers"/> class.
+        /// Initializes a new instance of the <see cref="UI"/> class.
         /// </summary>
         /// <param name="console">The console used to write text into</param>
         public UI(IConsole console)

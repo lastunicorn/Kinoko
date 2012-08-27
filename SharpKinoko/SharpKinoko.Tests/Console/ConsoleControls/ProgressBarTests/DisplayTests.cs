@@ -14,13 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.SharpKinoko.SharpKinokoConsole;
 using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 using Moq;
 using NUnit.Framework;
 
 namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.ProgressBarTests
 {
+    /// <summary>
+    /// Contains unit tests for the <see cref="ProgressBar.Display()"/> method.
+    /// </summary>
     [TestFixture]
     public class DisplayTests
     {
@@ -44,19 +46,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.ProgressBarTes
         }
 
         [Test]
-        public void sets_the_cursor_at_the_0_position()
-        {
-            console.SetupGet(x => x.CursorLeft).Returns(10);
-            console.SetupGet(x => x.CursorTop).Returns(15);
-
-            progressBar.Display();
-
-            console.VerifySet(x => x.CursorLeft = 11, Times.Once());
-            console.VerifySet(x => x.CursorTop = 15, Times.Once());
-        }
-
-        [Test]
-        public void displays_the_empty_progress_bar_with_default_width()
+        public void displays_the_empty_progress_bar_with_default_50_width()
         {
             progressBar.Display();
 
@@ -65,7 +55,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.ProgressBarTes
         }
 
         [Test]
-        public void displays_the_empty_progress_bar_with_70_width()
+        public void displays_the_empty_progress_bar_on_70_chars_when_width_is_set_to_70()
         {
             progressBar.Width = 70;
 
@@ -73,6 +63,18 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.ProgressBarTes
 
             string emptyProgressBar = "[" + new string(' ', 68) + "]";
             console.Verify(x => x.Write(emptyProgressBar), Times.Once());
+        }
+
+        [Test]
+        public void leaves_the_cursor_at_the_0percent_position()
+        {
+            console.SetupGet(x => x.CursorLeft).Returns(10);
+            console.SetupGet(x => x.CursorTop).Returns(15);
+
+            progressBar.Display();
+
+            console.VerifySet(x => x.CursorLeft = 11, Times.Once());
+            console.VerifySet(x => x.CursorTop = 15, Times.Once());
         }
     }
 }

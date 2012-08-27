@@ -14,11 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
-using Ninject;
-using Ninject.Parameters;
-using CommandLine;
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 {

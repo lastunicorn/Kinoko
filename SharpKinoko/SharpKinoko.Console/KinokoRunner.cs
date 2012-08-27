@@ -16,10 +16,10 @@
 
 using System;
 using System.Collections.Generic;
-using DustInTheWind.SharpKinoko.Providers;
-using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 using System.IO;
 using System.Reflection;
+using DustInTheWind.SharpKinoko.Providers;
+using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 using Ninject;
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
@@ -27,7 +27,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
     /// <summary>
     /// Runs the tasks and displays the results to the UI.
     /// </summary>
-    public class KinokoRunner
+    internal class KinokoRunner
     {
         /// <summary>
         /// The IOC container.
@@ -52,7 +52,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         /// <summary>
         /// The number of times the measurements are performed on a single subject (method).
         /// </summary>
-        private int  repeatMeasurementCount;
+        private int repeatMeasurementCount;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DustInTheWind.SharpKinoko.SharpKinokoConsole.KinokoRunner"/> class.
@@ -65,7 +65,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         {
             if (kernel == null)
                 throw new ArgumentNullException("kernel");
-            
+
             if (kinoko == null)
                 throw new ArgumentNullException("kinoko");
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -50,6 +50,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommandLine, Version=1.9.3.15, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalTools\CommandLine\CommandLine.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="Moq">
       <HintPath>..\ExternalTools\Moq\Moq.dll</HintPath>
@@ -66,6 +70,7 @@
     <Compile Include="Console\CommandArguments\ArgumentsTests\ContainsTests.cs" />
     <Compile Include="Console\CommandArguments\ArgumentsTests\IndexerTests.cs" />
     <Compile Include="Console\CommandArguments\ArgumentsTests\CountTests.cs" />
+    <Compile Include="Console\ConsoleControls\TemporaryColorSwitcherTests\ConstructorTests.cs" />
     <Compile Include="Framework\Utils\MathTests\AverageArrayTests.cs" />
     <Compile Include="Framework\Utils\MathTests\AverageListTests.cs" />
     <Compile Include="Framework\Utils\MathTests\AverageEnumerationTests.cs" />
@@ -87,10 +92,10 @@
     <Compile Include="Console\ConsoleControls\ProgressBarTests\SetProgressTests.cs" />
     <Compile Include="Console\CommandArguments\ArgumentsTests\ConstructorTests.cs" />
     <Compile Include="Framework\AssemblySubjectsProviderTests\GetKinokoTasksTests.cs" />
-    <Compile Include="Console\KinokoConsoleTests\ConstructorTests.cs" />
-    <Compile Include="Console\KinokoConsoleTests\StartTests.cs" />
-    <Compile Include="Console\ConsoleControls\GuiHelpersTests\ContructorTests.cs" />
-    <Compile Include="Console\ConsoleControls\GuiHelpersTests\DisplayErrorTests.cs" />
+    <Compile Include="Console\KinokoApplicationTests\ConstructorTests.cs" />
+    <Compile Include="Console\KinokoApplicationTests\StartTests.cs" />
+    <Compile Include="Console\ConsoleControls\UITests\ContructorTests.cs" />
+    <Compile Include="Console\ConsoleControls\UITests\DisplayErrorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpKinoko.Console\SharpKinoko.Console.csproj">

@@ -15,13 +15,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.IO;
-using System.Reflection;
-using DustInTheWind.SharpKinoko.Providers;
-using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
-using CommandLine;
-using CommandLine.Text;
 using System.Collections.Generic;
+using CommandLine.Text;
+using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 {
@@ -31,11 +27,19 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
     internal class KinokoApplication
     {
         /// <summary>
-        /// Gets or sets the <see cref="UI"/> instance that provides methods to easyer interact with the console.
+        /// Provides methods to easyer interact with the console.
         /// </summary>
         private readonly UI ui;
+
+        /// <summary>
+        /// Runs the kinoko tasks and displays the results to the console.
+        /// </summary>
         private readonly KinokoRunner kinokoRunner;
-        private CommandLineOptions options;
+
+        /// <summary>
+        /// The option values obtained from parsing the command line arguments.
+        /// </summary>
+        private readonly CommandLineOptions options;
 
         /// <summary>
         /// The number of times the measurement should be performed in order to minimize the error.
@@ -43,8 +47,11 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         private const int RepeatMeasurementCount = 10;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KinokoConsole"/> class.
+        /// Initializes a new instance of the <see cref="KinokoApplication"/> class.
         /// </summary>
+        /// <param name="options">The option values obtained from parsing the command line arguments.</param>
+        /// <param name="ui">Provides methods to easyer interact with the console.</param>
+        /// <param name="kinokoRunner">Runs the kinoko tasks and displays the results to the console.</param>
         /// <exception cref="ArgumentNullException">Thrown if the console is null.</exception>
         public KinokoApplication(CommandLineOptions options, UI ui, KinokoRunner kinokoRunner)
         {
@@ -55,7 +62,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
                 throw new ArgumentNullException("ui");
 
             if (kinokoRunner == null)
-                throw new ArgumentNullException("kinokoWrapper");
+                throw new ArgumentNullException("kinokoRunner");
 
             this.options = options;
             this.ui = ui;
@@ -72,16 +79,16 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
                 ui.Console.ForegroundColor = ConsoleColor.DarkGreen;
                 ui.WriteKinokoHeader();
 
-                if (ExistsParsingErrors(options))
+                if (ExistsParsingErrors())
                 {
-                    WriteParsingErrorsToConsole(options);
+                    WriteParsingErrorsToConsole();
                 }
                 else
                 {
-                    if (HelpWasRequested(options))
-                        WriteHelpToConsole(options);
+                    if (HelpWasRequested())
+                        WriteHelpToConsole();
 
-                    if (AssembliesWereProvided(options))
+                    if (AssembliesWereProvided())
                         PerformMeasurementsOnAssemblies(options.AssemblyFileNames);
                 }
             }
@@ -95,17 +102,17 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             }
         }
 
-        private bool ExistsParsingErrors(CommandLineOptions options)
+        private bool ExistsParsingErrors()
         {
             return options.HasErrors;
         }
 
-        private void WriteParsingErrorsToConsole(CommandLineOptions options)
+        private void WriteParsingErrorsToConsole()
         {
-            ui.Console.WriteLine(CreateParsingErrorsText(options));
+            ui.Console.WriteLine(CreateParsingErrorsText());
         }
 
-        private string CreateParsingErrorsText(CommandLineOptions options)
+        private string CreateParsingErrorsText()
         {
             HelpText helpText = new HelpText
             {
@@ -120,20 +127,18 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             return helpText;
         }
 
-        private bool HelpWasRequested(CommandLineOptions options)
+        private bool HelpWasRequested()
         {
             return options.DisplayHelp;
         }
 
-        private void WriteHelpToConsole(CommandLineOptions options)
+        private void WriteHelpToConsole()
         {
-            ui.Console.WriteLine(CreateHelpText(options));
+            ui.Console.WriteLine(CreateHelpText());
         }
 
-        private string CreateHelpText(CommandLineOptions options)
+        private string CreateHelpText()
         {
-            //return HelpText.AutoBuild(this, (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
-
             HelpText helpText = new HelpText
             {
                 AdditionalNewLineAfterOption = false,
@@ -146,7 +151,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             return helpText;
         }
 
-        private bool AssembliesWereProvided(CommandLineOptions options)
+        private bool AssembliesWereProvided()
         {
             return options.AssemblyFileNames != null && options.AssemblyFileNames.Count > 0;
         }

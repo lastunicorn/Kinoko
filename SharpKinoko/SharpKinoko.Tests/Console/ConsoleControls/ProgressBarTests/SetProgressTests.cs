@@ -14,13 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.SharpKinoko.SharpKinokoConsole;
 using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 using Moq;
 using NUnit.Framework;
 
 namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.ProgressBarTests
 {
+    /// <summary>
+    /// Contains unit tests for the <see cref="ProgressBar.SetProgress"/> method.
+    /// </summary>
     [TestFixture]
     public class SetProgressTests
     {
@@ -35,7 +37,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.ProgressBarTes
         }
 
         [Test]
-        public void ProgressPercentage_is_set_with_the_new_value()
+        public void ProgressPercentage_is_set_with_the_new_value_if_it_is_a_valid_one()
         {
             progressBar.SetProgress(10);
 
@@ -59,7 +61,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.ProgressBarTes
         }
 
         [Test]
-        public void writes_no_star_if_progress_changed_to_1()
+        public void writes_no_star_if_progress_changed_to_1_and_width_is_50()
         {
             progressBar.SetProgress(1);
 
@@ -68,7 +70,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.ProgressBarTes
         }
 
         [Test]
-        public void writes_no_star_if_progress_changed_to_2()
+        public void writes_no_star_if_progress_changed_to_2_and_width_is_50()
         {
             progressBar.SetProgress(2);
 
@@ -77,7 +79,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.ProgressBarTes
         }
 
         [Test]
-        public void writes_one_star_if_progress_changed_to_3()
+        public void writes_one_star_if_progress_changed_to_3_and_width_is_50()
         {
             progressBar.SetProgress(3);
 
@@ -86,7 +88,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.ProgressBarTes
         }
 
         [Test]
-        public void writes_14_stars_if_progress_changed_to_3()
+        public void writes_14_stars_if_progress_changed_to_30_and_width_is_50()
         {
             progressBar.SetProgress(30);
 
@@ -95,7 +97,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.ProgressBarTes
         }
 
         [Test]
-        public void writes_one_star_if_progress_changed_from_30_to_32()
+        public void writes_one_star_if_progress_changed_from_30_to_32_and_width_is_50()
         {
             progressBar.SetProgress(30);
             progressBar.SetProgress(32);

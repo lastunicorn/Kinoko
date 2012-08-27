@@ -13,17 +13,29 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
+using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoConsoleTests
+namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.UITests
 {
     [TestFixture]
-    public class StartTests
+    public class ContructorTests
     {
         [Test]
-        public void Tests()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void throws_if_console_is_null()
         {
+            try
+            {
+                new UI(null);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.That(ex.ParamName, Is.EqualTo("console"));
+                throw;
+            }
         }
     }
 }

@@ -13,13 +13,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
-using NUnit.Framework;
-using DustInTheWind.SharpKinoko.SharpKinokoConsole;
 using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 using Moq;
+using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.GuiHelpersTests
+namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.UITests
 {
     [TestFixture]
     public class DisplayErrorTests

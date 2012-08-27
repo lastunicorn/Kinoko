@@ -23,19 +23,46 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
     /// Writes a progress bar into the console.
     /// </summary>
     /// <remarks>
+    /// <para>
     /// It presumes that the progress bar fits into the current line.
+    /// </para>
+    /// <para>
+    /// While the progress bar is used, the cursor should not be moved.
+    /// The ProgressBar control does not write the whole control to the console every time it updates the progress.
+    /// Instead it presums the cursor is in the right location and just adds more stars (if needed).
+    /// </para>
     /// </remarks>
     public class ProgressBar
     {
-        public int ProgressPercentage { get; private set; }
-
-        private int progressCharCount;
+        /// <summary>
+        /// The console where the control is displayed.
+        /// </summary>
         private readonly IConsole console;
 
+        /// <summary>
+        /// The number of stars that are currently displayed for the current percentage.
+        /// </summary>
+        private int progressCharCount;
+
+        /// <summary>
+        /// Gets the percentage currently displayed by the control.
+        /// </summary>
+        /// <remarks>For setting the percentage, please use <see cref="SetProgress"/> method.</remarks>
+        public int ProgressPercentage { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the width of the progress bar. It includes the first and tha last characters that are two brackets.
+        /// </summary>
         public int Width { get; set; }
 
+        /// <summary>
+        /// Gets or sets the character used to display the progress. By default it is '*'.
+        /// </summary>
         public char ProgressChar { get; set; }
 
+        /// <summary>
+        /// Gets or sets the color used to write the progress bar control to the console.
+        /// </summary>
         public ConsoleColor? ForegroundColor { get; set; }
 
         /// <summary>
@@ -54,43 +81,19 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
             ProgressChar = '*';
         }
 
-        public void SetProgress(int percentage)
-        {
-            if (percentage < 0)
-                percentage = 0;
-
-            if (percentage > 100)
-                percentage = 100;
-
-            if (percentage == ProgressPercentage)
-                return;
-
-            ProgressPercentage = percentage;
-
-            int newCharCount = TransformToCharCount(percentage);
-
-            if (newCharCount == progressCharCount)
-                return;
-
-            if (newCharCount > progressCharCount)
-            {
-                AddProgressCharsColored(newCharCount - progressCharCount);
-                progressCharCount = newCharCount;
-            }
-        }
-
-        private int TransformToCharCount(int percentage)
-        {
-            int clientWidth = Width - 2;
-
-            return percentage * clientWidth / 100;
-        }
-
+        /// <summary>
+        /// Displays the progress bar at the current location of the cursor.
+        /// </summary>
         public void Display()
         {
             WriteEmptyProgressBarColored();
         }
 
+        /// <summary>
+        /// Displays the progress bar at the specified location.
+        /// </summary>
+        /// <param name="top">The column index from where to start displaying the progress bar.</param>
+        /// <param name="left">The row index from where to start displaying the progress bar.</param>
         public void Display(int top, int left)
         {
             console.CursorTop = top;
@@ -130,6 +133,43 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
 
             console.CursorTop = top;
             console.CursorLeft = left + 1;
+        }
+
+        /// <summary>
+        /// Changes the percentage displayed by the progress bar.
+        /// </summary>
+        /// <param name="percentage">The new percentage to be displayed by the progress bar.</param>
+        /// <remarks>If the new value is less then 0, 0 is displayed. If the new value is grater then 100, 100 is displayed.</remarks>
+        public void SetProgress(int percentage)
+        {
+            if (percentage < 0)
+                percentage = 0;
+
+            if (percentage > 100)
+                percentage = 100;
+
+            if (percentage == ProgressPercentage)
+                return;
+
+            ProgressPercentage = percentage;
+
+            int newCharCount = TransformToCharCount(percentage);
+
+            if (newCharCount == progressCharCount)
+                return;
+
+            if (newCharCount > progressCharCount)
+            {
+                AddProgressCharsColored(newCharCount - progressCharCount);
+                progressCharCount = newCharCount;
+            }
+        }
+
+        private int TransformToCharCount(int percentage)
+        {
+            int clientWidth = Width - 2;
+
+            return percentage * clientWidth / 100;
         }
 
         private void AddProgressCharsColored(int charCount)

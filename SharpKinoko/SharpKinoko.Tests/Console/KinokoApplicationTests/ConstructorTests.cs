@@ -15,32 +15,44 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
-using NUnit.Framework;
 using DustInTheWind.SharpKinoko.SharpKinokoConsole;
+using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 using Moq;
 using Ninject;
+using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoConsoleTests
+namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoApplicationTests
 {
     /// <summary>
-    /// Unit tests for the constructor function of the <see cref="KinokoConsole"/> class.
+    /// Unit tests for the constructor function of the <see cref="KinokoApplication"/> class.
     /// </summary>
     [TestFixture]
     public class ConstructorTests
     {
+        private KinokoRunner kinokoWrapper;
+        private Mock<IConsole> console;
+        private Mock<IKernel> kernel;
+        private UI ui;
+        private Kinoko kinoko;
+        private CommandLineOptions options;
+
+        [SetUp]
+        public void SetUp()
+        {
+            options = new CommandLineOptions();
+            console = new Mock<IConsole>();
+            kernel = new Mock<IKernel>();
+            ui = new UI(console.Object);
+            kinoko = new Kinoko();
+            kinokoWrapper = new KinokoRunner(kernel.Object, kinoko, ui);
+        }
+
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void throws_if_options_is_null()
         {
             try
             {
-                Mock<IConsole> console = new Mock<IConsole>();
-                Mock<IKernel> kernel = new Mock<IKernel>();
-                UI ui = new UI(console.Object);
-                Kinoko kinoko = new Kinoko();
-                KinokoRunner kinokoWrapper = new KinokoRunner(kernel.Object, kinoko, ui);
-
                 new KinokoApplication(null, ui, kinokoWrapper);
             }
             catch (ArgumentNullException ex)
@@ -56,13 +68,6 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoConsoleTests
         {
             try
             {
-                CommandLineOptions options = new CommandLineOptions();
-                Mock<IConsole> console = new Mock<IConsole>();
-                Mock<IKernel> kernel = new Mock<IKernel>();
-                UI ui = new UI(console.Object);
-                Kinoko kinoko = new Kinoko();
-                KinokoRunner kinokoWrapper = new KinokoRunner(kernel.Object, kinoko, ui);
-
                 new KinokoApplication(options, null, kinokoWrapper);
             }
             catch (ArgumentNullException ex)
@@ -78,13 +83,6 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoConsoleTests
         {
             try
             {
-                CommandLineOptions options = new CommandLineOptions();
-                Mock<IConsole> console = new Mock<IConsole>();
-                Mock<IKernel> kernel = new Mock<IKernel>();
-                UI ui = new UI(console.Object);
-                Kinoko kinoko = new Kinoko();
-                KinokoRunner kinokoWrapper = new KinokoRunner(kernel.Object, kinoko, ui);
-
                 new KinokoApplication(options, ui, null);
             }
             catch (ArgumentNullException ex)

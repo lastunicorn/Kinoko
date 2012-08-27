@@ -19,7 +19,7 @@ using CommandLine;
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 {
-    class CommandLineOptions : CommandLineOptionsBase
+    internal class CommandLineOptions : CommandLineOptionsBase
     {
         [OptionList("a", "assemblies", Required = true, Separator = ';', HelpText = "A list of assembly file names.")]
         public IList<string> AssemblyFileNames { get; set; }

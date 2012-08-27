@@ -18,9 +18,20 @@ using System;
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
 {
+    /// <summary>
+    /// Temporarly changes the color used to write text in the console.
+    /// The previous color is restored when the current instance is disposed.
+    /// </summary>
     public class TemporaryColorSwitcher : IDisposable
     {
+        /// <summary>
+        /// The old color of the text.
+        /// </summary>
         private readonly ConsoleColor oldColor;
+
+        /// <summary>
+        /// The console for which to change the text color.
+        /// </summary>
         private readonly IConsole console;
 
         /// <summary>

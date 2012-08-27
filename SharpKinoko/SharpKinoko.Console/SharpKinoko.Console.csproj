@@ -87,11 +87,11 @@
       <HintPath>..\ExternalTools\CommandLine\CommandLine.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="Ninject">
+      <HintPath>..\ExternalTools\Ninject\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject" Condition="'$(Configuration)' == 'Mono'">
       <HintPath>..\ExternalTools\Ninject\mono\Ninject.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject" Condition="'$(Configuration)' != 'Mono'">
-      <HintPath>..\ExternalTools\Ninject\Ninject.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
