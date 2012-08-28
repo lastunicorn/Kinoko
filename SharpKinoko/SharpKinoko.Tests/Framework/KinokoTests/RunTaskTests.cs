@@ -115,10 +115,10 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
 
         #endregion
 
-        #region TaskRunning/TaskRun Events
+        #region TaskRunning Event
 
         [Test]
-        public void raises_TaskRunning_event_once()
+        public void TaskRunning_event_is_raised_once()
         {
             int callCount = 0;
             KinokoTask task = CreateEmptyTask();
@@ -133,7 +133,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
         }
 
         [Test]
-        public void the_TaskRunning_event_contains_the_subject()
+        public void TaskRunning_event_contains_the_subject()
         {
             KinokoTask actualTask = null;
             KinokoTask task = CreateEmptyTask();
@@ -147,8 +147,12 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
             Assert.That(actualTask, Is.SameAs(task));
         }
 
+        #endregion
+
+        #region TaskRun Event
+
         [Test]
-        public void raises_TaskRun_event_once()
+        public void TaskRun_event_is_raised_once()
         {
             int callCount = 0;
             KinokoTask task = CreateEmptyTask();
@@ -163,7 +167,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
         }
 
         [Test]
-        public void the_TaskRun_event_contains_the_result()
+        public void TaskRun_event_contains_the_result()
         {
             TaskRunEventArgs eva = null;
             KinokoTask task = CreateEmptyTask();
@@ -175,6 +179,104 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
             kinoko.Run(task, 3);
 
             Assert.That(eva.Result, Is.Not.Null);
+        }
+
+        #endregion
+
+        #region Measuring Event
+
+        [Test]
+        public void Measuring_event_is_raised_3_times_if_repeatCount_is_3()
+        {
+            int callCount = 0;
+            KinokoTask task = CreateEmptyTask();
+            kinoko.Measuring += (sender, e) =>
+            {
+                callCount++;
+            };
+
+            kinoko.Run(task, 3);
+
+            Assert.That(callCount, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void Measuring_event_is_raised_with_sender_Kinoko()
+        {
+            object senderObject = null;
+            KinokoTask task = CreateEmptyTask();
+            kinoko.Measuring += (sender, e) =>
+            {
+                senderObject = sender;
+            };
+
+            kinoko.Run(task, 1);
+
+            Assert.That(senderObject, Is.SameAs(kinoko));
+        }
+
+        [Test]
+        public void Measuring_event_is_raised_with_not_null_event_args()
+        {
+            MeasuringEventArgs eventArgs = null;
+            KinokoTask task = CreateEmptyTask();
+            kinoko.Measuring += (sender, e) =>
+            {
+                eventArgs = e;
+            };
+
+            kinoko.Run(task, 1);
+
+            Assert.That(eventArgs, Is.Not.Null);
+        }
+
+        #endregion
+
+        #region Measured Event
+
+        [Test]
+        public void Measured_event_is_raised_3_times_if_repeatCount_is_3()
+        {
+            int callCount = 0;
+            KinokoTask task = CreateEmptyTask();
+            kinoko.Measured += (sender, e) =>
+            {
+                callCount++;
+            };
+
+            kinoko.Run(task, 3);
+
+            Assert.That(callCount, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void Measured_event_is_raised_with_sender_Kinoko()
+        {
+            object senderObject = null;
+            KinokoTask task = CreateEmptyTask();
+            kinoko.Measured += (sender, e) =>
+            {
+                senderObject = sender;
+            };
+
+            kinoko.Run(task, 1);
+
+            Assert.That(senderObject, Is.SameAs(kinoko));
+        }
+
+        [Test]
+        public void Measured_event_is_raised_with_not_null_event_args()
+        {
+            MeasuredEventArgs eventArgs = null;
+            KinokoTask task = CreateEmptyTask();
+            kinoko.Measured += (sender, e) =>
+            {
+                eventArgs = e;
+            };
+
+            kinoko.Run(task, 1);
+
+            Assert.That(eventArgs, Is.Not.Null);
         }
 
         #endregion

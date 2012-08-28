@@ -37,12 +37,12 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         /// <summary>
         /// Instance used to interact with the user interface.
         /// </summary>
-        private readonly UI ui;
+        private readonly IUI ui;
 
         /// <summary>
         /// Kinoko instance that performs the measurements.
         /// </summary>
-        private readonly Kinoko kinoko;
+        private readonly IKinoko kinoko;
 
         /// <summary>
         /// Represents a progress bar.
@@ -61,7 +61,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         /// <param name='kinoko'>Kinoko instance that performs the measurements.</param>
         /// <param name='ui'>Instance used to interact with the user interface.</param>
         /// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-        public KinokoRunner(IKernel kernel, Kinoko kinoko, UI ui)
+        public KinokoRunner(IKernel kernel, IKinoko kinoko, IUI ui)
         {
             if (kernel == null)
                 throw new ArgumentNullException("kernel");

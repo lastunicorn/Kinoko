@@ -76,26 +76,23 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 
         private void CreateOptions()
         {
-            CommandLineOptions options = new CommandLineOptions();
+            options = new CommandLineOptions();
 
             CommandLineParserSettings parserSettings = new CommandLineParserSettings();
             CommandLineParser parser = new CommandLineParser(parserSettings);
 
             parser.ParseArguments(args, options);
-
-            this.options = options;
         }
 
         private void CreateAndConfigureNinjectKernel()
         {
-            IKernel kernel = new StandardKernel();
+            kernel = new StandardKernel();
 
+            kernel.Bind<IKinoko>().To<Kinoko>();
             kernel.Bind<IUI>().To<UI>().InSingletonScope();
             kernel.Bind<IKinokoRunner>().To<KinokoRunner>().InSingletonScope();
             kernel.Bind<IConsole>().To<ConsoleWrapper>().InSingletonScope();
             kernel.Bind<CommandLineOptions>().ToConstant(options);
-
-            this.kernel = kernel;
         }
 
         private void RunApplication()

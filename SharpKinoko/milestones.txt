@@ -22,16 +22,11 @@ ver 2.2
 =====================================================================================
 unit tests todo:
 
-Framework
----------
-
-Kinoko - TaskRunning and TaskRun events
-KinokoResult - constructor tests
-
 Console
 -------
 
-KinokoRunner - unit tests.
+KinokoRunner
+	- StartMeasuring(IEnumerable<string> assemblyFileNames, int repeatMeasurementCount)
 UI - unit tests.
 ProgressBar
 	- Display(int top, int left)

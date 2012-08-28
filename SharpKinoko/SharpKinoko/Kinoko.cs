@@ -25,7 +25,7 @@ namespace DustInTheWind.SharpKinoko
     /// average is calculated.
     /// The class is not thread safe.
     /// </summary>
-    public class Kinoko
+    public class Kinoko : IKinoko
     {
         #region Event Measuring
 

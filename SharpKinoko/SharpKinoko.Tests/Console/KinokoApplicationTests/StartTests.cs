@@ -14,13 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using NUnit.Framework;
-using DustInTheWind.SharpKinoko.SharpKinokoConsole;
-using Moq;
-using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
 using System;
-using CommandLine;
 using System.Collections.Generic;
+using CommandLine;
+using DustInTheWind.SharpKinoko.SharpKinokoConsole;
+using DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls;
+using Moq;
+using NUnit.Framework;
 
 namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoApplicationTests
 {
