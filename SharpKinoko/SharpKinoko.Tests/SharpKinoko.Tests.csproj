@@ -66,9 +66,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Console\CommandArguments\ArgumentsTests\ContainsTests.cs" />
-    <Compile Include="Console\CommandArguments\ArgumentsTests\IndexerTests.cs" />
-    <Compile Include="Console\CommandArguments\ArgumentsTests\CountTests.cs" />
     <Compile Include="Console\ConsoleControls\TemporaryColorSwitcherTests\ConstructorTests.cs" />
     <Compile Include="Framework\Utils\MathTests\AverageArrayTests.cs" />
     <Compile Include="Framework\Utils\MathTests\AverageListTests.cs" />
@@ -89,7 +86,6 @@
     <Compile Include="Console\ConsoleControls\ProgressBarTests\ConstructorTests.cs" />
     <Compile Include="Console\ConsoleControls\ProgressBarTests\DisplayTests.cs" />
     <Compile Include="Console\ConsoleControls\ProgressBarTests\SetProgressTests.cs" />
-    <Compile Include="Console\CommandArguments\ArgumentsTests\ConstructorTests.cs" />
     <Compile Include="Framework\AssemblySubjectsProviderTests\GetKinokoTasksTests.cs" />
     <Compile Include="Console\KinokoApplicationTests\ConstructorTests.cs" />
     <Compile Include="Console\KinokoApplicationTests\StartTests.cs" />
