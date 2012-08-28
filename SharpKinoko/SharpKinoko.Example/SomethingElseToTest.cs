@@ -19,23 +19,23 @@ namespace DustInTheWind.SharpKinoko.Example
 {
     public class SomethingElseToTest
     {
-        public int a;
+        public int A;
 
-        [KinokoSubject]
+        [KinokoTask]
         public void IncrementInForLoop1000000()
         {
-            a = 0;
+            A = 0;
 
             for (int i = 0; i < 1000000; i++)
             {
-                a++;
+                A++;
             }
         }
 
-        [KinokoSubject]
+        [KinokoTask]
         public void CallIncrementMethodInForLoop1000000()
         {
-            a = 0;
+            A = 0;
 
             for (int i = 0; i < 1000000; i++)
             {
@@ -46,7 +46,7 @@ namespace DustInTheWind.SharpKinoko.Example
         private void SomeMethod()
         {
             // Increment a public field so that the compiler should not optimize removing the method.
-            a++;
+            A++;
         }
     }
 }

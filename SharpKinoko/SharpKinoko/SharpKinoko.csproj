@@ -75,7 +75,7 @@
     <Compile Include="KinokoSubject.cs" />
     <Compile Include="Measurer.cs" />
     <Compile Include="TaskRunEventArgs.cs" />
-    <Compile Include="KinokoSubjectAttribute.cs" />
+    <Compile Include="KinokoTaskAttribute.cs" />
     <Compile Include="KinokoTask.cs" />
     <Compile Include="Providers\AssemblyTasksProvider.cs" />
     <Compile Include="Providers\ITasksProvider.cs" />

@@ -24,7 +24,7 @@ namespace AssemblyWithMethodsForTesting
         {
         }
 
-        [KinokoSubject]
+        [KinokoTask]
         public void PublicMethodInClassWithGenericPatameter()
         {
         }

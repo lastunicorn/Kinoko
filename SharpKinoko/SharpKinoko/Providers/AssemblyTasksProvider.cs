@@ -21,7 +21,7 @@ using System.Reflection;
 namespace DustInTheWind.SharpKinoko.Providers
 {
     /// <summary>
-    /// Searches through an assembly for methods marked with <see cref="KinokoSubjectAttribute"/> attribute.
+    /// Searches through an assembly for methods marked with <see cref="KinokoTaskAttribute"/> attribute.
     /// </summary>
     public class AssemblyTasksProvider : ITasksProvider
     {
@@ -86,7 +86,7 @@ namespace DustInTheWind.SharpKinoko.Providers
                     if (method.IsGenericMethod)
                         continue;
 
-                    Attribute attr = Attribute.GetCustomAttribute(method, typeof(KinokoSubjectAttribute), false);
+                    Attribute attr = Attribute.GetCustomAttribute(method, typeof(KinokoTaskAttribute), false);
 
                     if (attr != null)
                         allMethods.Add(method);

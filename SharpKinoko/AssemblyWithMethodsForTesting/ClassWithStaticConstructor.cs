@@ -28,7 +28,7 @@ namespace AssemblyWithMethodsForTesting
         {
         }
 
-        [KinokoSubject]
+        [KinokoTask]
         public void PublicMethodInClassWithStaticConstructor()
         {
         }

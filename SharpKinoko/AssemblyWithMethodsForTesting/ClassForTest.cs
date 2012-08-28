@@ -20,7 +20,7 @@ namespace AssemblyWithMethodsForTesting
 {
     public class ClassForTest
     {
-        [KinokoSubject]
+        [KinokoTask]
         public void PublicMethodWithAttribute()
         {
         }
@@ -29,23 +29,23 @@ namespace AssemblyWithMethodsForTesting
         {
         }
 
-        [KinokoSubject]
+        [KinokoTask]
         public void PublicMethodWithParametersAndAttribute(int a)
         {
         }
 
-        [KinokoSubject]
+        [KinokoTask]
         public void PublicMethodWithGenericParameterAndAttribute<T>()
         {
 
         }
      
-        [KinokoSubject]
+        [KinokoTask]
         private void PrivateMethodWithAttribute()
         {
         }
      
-        [KinokoSubject]
+        [KinokoTask]
         public static void PublicStaticMethodWithAttribute()
         {
         }
@@ -54,7 +54,7 @@ namespace AssemblyWithMethodsForTesting
         {
         }
      
-        [KinokoSubject]
+        [KinokoTask]
         private static void PrivateStaticMethodWithAttribute()
         {
         }
