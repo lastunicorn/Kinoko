@@ -19,8 +19,16 @@ using System.Collections.Generic;
 
 namespace DustInTheWind.SharpKinoko.Utils
 {
+    /// <summary>
+    /// Provides methods to calculate some mathematical values like the average.
+    /// </summary>
     internal class Math
     {
+        /// <summary>
+        /// Calculates the average of the specified values.
+        /// </summary>
+        /// <param name="values">An array of values for which to calculate the average.</param>
+        /// <returns>The average value.</returns>
         public static double Average(double[] values)
         {
             if (values == null)
@@ -33,12 +41,17 @@ namespace DustInTheWind.SharpKinoko.Utils
 
             for (int i = 0; i < values.Length; i++)
             {
-                sum += values [i];
+                sum += values[i];
             }
 
-            return sum / (double)values.Length;
+            return sum / values.Length;
         }
 
+        /// <summary>
+        /// Calculates the average of the specified values.
+        /// </summary>
+        /// <param name="values">A list of values for which to calculate the average.</param>
+        /// <returns>The average value.</returns>
         public static double Average(IList<double> values)
         {
             if (values == null)
@@ -51,12 +64,17 @@ namespace DustInTheWind.SharpKinoko.Utils
 
             for (int i = 0; i < values.Count; i++)
             {
-                sum += values [i];
+                sum += values[i];
             }
 
-            return sum / (double)values.Count;
+            return sum / values.Count;
         }
 
+        /// <summary>
+        /// Calculates the average of the specified values.
+        /// </summary>
+        /// <param name="values">An enumeration of values for which to calculate the average.</param>
+        /// <returns>The average value.</returns>
         public static double Average(IEnumerable<double> values)
         {
             if (values == null)
@@ -74,7 +92,7 @@ namespace DustInTheWind.SharpKinoko.Utils
             if (count == 0)
                 return 0;
 
-            return sum / (double)count;
+            return sum / count;
         }
     }
 }

@@ -81,12 +81,11 @@
     <Compile Include="Framework\MeasurerTests\RunTests.cs" />
     <Compile Include="Framework\MeasurerTests\MeasuredEventTests.cs" />
     <Compile Include="Framework\MeasurerTests\MeasuringEventTests.cs" />
-    <Compile Include="Framework\AssemblySubjectsProviderTests\LoadTests.cs" />
-    <Compile Include="Framework\AssemblySubjectsProviderTests\GetKinokoSubjectsTests.cs" />
+    <Compile Include="Framework\AssemblyTasksProviderTests\LoadTests.cs" />
     <Compile Include="Console\ConsoleControls\ProgressBarTests\ConstructorTests.cs" />
     <Compile Include="Console\ConsoleControls\ProgressBarTests\DisplayTests.cs" />
     <Compile Include="Console\ConsoleControls\ProgressBarTests\SetProgressTests.cs" />
-    <Compile Include="Framework\AssemblySubjectsProviderTests\GetKinokoTasksTests.cs" />
+    <Compile Include="Framework\AssemblyTasksProviderTests\GetKinokoTasksTests.cs" />
     <Compile Include="Console\KinokoApplicationTests\ConstructorTests.cs" />
     <Compile Include="Console\KinokoApplicationTests\StartTests.cs" />
     <Compile Include="Console\ConsoleControls\UITests\ContructorTests.cs" />
@@ -110,5 +109,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Framework\AssemblySubjectsProviderTests\" />
+  </ItemGroup>
 </Project>

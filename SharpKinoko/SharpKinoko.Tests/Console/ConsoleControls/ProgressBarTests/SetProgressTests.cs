@@ -26,7 +26,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.ProgressBarTes
     [TestFixture]
     public class SetProgressTests
     {
-        private Mock<IConsole> console ;
+        private Mock<IConsole> console;
         private ProgressBar progressBar;
 
         [SetUp]

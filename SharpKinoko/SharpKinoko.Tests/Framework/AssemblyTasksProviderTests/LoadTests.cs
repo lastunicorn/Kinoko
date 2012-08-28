@@ -20,12 +20,12 @@ using System.Reflection;
 using DustInTheWind.SharpKinoko.Providers;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.Framework.AssemblySubjectsProviderTests
+namespace DustInTheWind.SharpKinoko.Tests.Framework.AssemblyTasksProviderTests
 {
     /// <summary>
-    /// Unit tests for the <see cref="AssemblyTasksProvider.Load/"/> method.
+    /// Unit tests for the <see cref="AssemblyTasksProvider.Load"/> method.
     /// </summary>
-    [TestFixture()]
+    [TestFixture]
     public class LoadTests
     {
         [Test]

@@ -20,6 +20,9 @@ using NUnit.Framework;
 
 namespace DustInTheWind.SharpKinoko.Tests.Framework.MeasurerTests
 {
+    /// <summary>
+    /// Unit tests for the <see cref="Measurer.Run"/> method.
+    /// </summary>
     [TestFixture]
     public class RunTests
     {
@@ -51,7 +54,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.MeasurerTests
         [Test]
         public void returns_not_null_Result()
         {
-            KinokoSubject subject = () => {};
+            KinokoSubject subject = () => { };
             int repeatMeasurementCount = 10;
             Measurer measurer = new Measurer(subject, repeatMeasurementCount);
 
@@ -63,7 +66,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.MeasurerTests
         [Test]
         public void Result_contains_correct_number_of_measurements([Values(1, 2, 3, 4, 5, 10)]int n)
         {
-            KinokoSubject subject = () => {};
+            KinokoSubject subject = () => { };
             Measurer measurer = new Measurer(subject, n);
 
             KinokoResult result = measurer.Run();

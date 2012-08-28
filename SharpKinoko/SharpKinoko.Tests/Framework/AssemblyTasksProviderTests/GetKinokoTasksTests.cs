@@ -22,10 +22,10 @@ using System.Reflection;
 using DustInTheWind.SharpKinoko.Providers;
 using NUnit.Framework;
 
-namespace DustInTheWind.SharpKinoko.Tests.Framework.AssemblySubjectsProviderTests
+namespace DustInTheWind.SharpKinoko.Tests.Framework.AssemblyTasksProviderTests
 {
     /// <summary>
-    /// Unit tests for the <see cref="AssemblyTasksProvider.GetKinokoTasks/"/> method.
+    /// Unit tests for the <see cref="AssemblyTasksProvider.GetKinokoTasks"/> method.
     /// </summary>
     [TestFixture]
     public class GetKinokoTasksTests
@@ -115,20 +115,14 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.AssemblySubjectsProviderTest
             AssertDoesNotContainTaskForMethod(tasks, "PublicMethodInClassWithStaticConstructor");
         }
 
-        private MethodInfo GetMethodFromAssembly(string methodName)
-        {
-            return assembly.GetType("AssemblyWithMethodsForTesting.ClassForTest")
-             .GetMethod(methodName);
-        }
-
         private void AssertContainsTaskForMethod(IEnumerable<KinokoTask> tasks, string methodName)
         {
-            Assert.True(tasks.Any(x => ((Delegate)x.Subject).Method.Name == methodName));
+            Assert.True(tasks.Any(x => x.Subject.Method.Name == methodName));
         }
 
         private void AssertDoesNotContainTaskForMethod(IEnumerable<KinokoTask> tasks, string methodName)
         {
-            Assert.False(tasks.Any(x => ((Delegate)x.Subject).Method.Name == methodName));
+            Assert.False(tasks.Any(x => x.Subject.Method.Name == methodName));
         }
     }
 }

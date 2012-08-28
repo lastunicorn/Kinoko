@@ -17,3 +17,21 @@ ver 2.2
 - the user is able to specifiy multiple subject methods (-s <methodName1;methodName2;...>)
 - the user is able to run all the valid methods from an assembly.
 - the user is able to run all the marked methods from an assembly.
+
+
+=====================================================================================
+unit tests todo:
+
+Framework
+---------
+
+Kinoko - TaskRunning and TaskRun events
+KinokoResult - constructor tests
+
+Console
+-------
+
+KinokoRunner - unit tests.
+UI - unit tests.
+ProgressBar
+	- Display(int top, int left)

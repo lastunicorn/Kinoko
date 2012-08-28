@@ -23,7 +23,7 @@ using NUnit.Framework;
 namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
 {
     /// <summary>
-    /// Unit tests for the <see cref="Kinoko.Run/"/> method.
+    /// Unit tests for the <see cref="Kinoko.Run(ITasksProvider, int)"/> method.
     /// </summary>
     [TestFixture]
     public class RunFromProviderTests
@@ -134,7 +134,8 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
             int callCount = 0;
             KinokoTask[] tasks = CreateEmptyTasks(1);
             kinokoTasksProvider.Setup(x => x.GetKinokoTasks()).Returns(tasks);
-            kinoko.TaskRunning += (sender, e) => {
+            kinoko.TaskRunning += (sender, e) =>
+            {
                 callCount++;
             };
 
@@ -149,7 +150,8 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
             int callCount = 0;
             KinokoTask[] tasks = CreateEmptyTasks(2);
             kinokoTasksProvider.Setup(x => x.GetKinokoTasks()).Returns(tasks);
-            kinoko.TaskRunning += (sender, e) => {
+            kinoko.TaskRunning += (sender, e) =>
+            {
                 callCount++;
             };
 
@@ -168,7 +170,8 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
             int callCount = 0;
             KinokoTask[] tasks = CreateEmptyTasks(1);
             kinokoTasksProvider.Setup(x => x.GetKinokoTasks()).Returns(tasks);
-            kinoko.TaskRun += (sender, e) => {
+            kinoko.TaskRun += (sender, e) =>
+            {
                 callCount++;
             };
 
@@ -183,7 +186,8 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
             int callCount = 0;
             KinokoTask[] tasks = CreateEmptyTasks(2);
             kinokoTasksProvider.Setup(x => x.GetKinokoTasks()).Returns(tasks);
-            kinoko.TaskRun += (sender, e) => {
+            kinoko.TaskRun += (sender, e) =>
+            {
                 callCount++;
             };
 

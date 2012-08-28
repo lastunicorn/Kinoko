@@ -22,7 +22,7 @@ using NUnit.Framework;
 namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.UITests
 {
     /// <summary>
-    /// Unit tests for the <see cref="UI.DisplayError"/> method.
+    /// Unit tests for the <see cref="UI.DisplayError(string)"/> method.
     /// </summary>
     [TestFixture]
     public class DisplayErrorTests
@@ -39,11 +39,11 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.ConsoleControls.UITests
             console.VerifySet(x => x.ForegroundColor = ConsoleColor.Red, Times.Once());
         }
 
-//      
-//        public void writes_empty_line_at_the_begining()
-//        {
-//
-//        }
+        //      
+        //        public void writes_empty_line_at_the_begining()
+        //        {
+        //
+        //        }
     }
 }
 

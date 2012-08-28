@@ -17,24 +17,17 @@
 
 namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 {
-    class MainClass
+    /// <summary>
+    /// The class containing the <see cref="Main"/> function.
+    /// </summary>
+    internal class Program
     {
-//        static void Test()
-//        {
-//            for (int i = 0; i < 100; i++)
-//            {
-//                Console.WriteLine(i);
-//            }
-//
-//            int top = Console.WindowTop;
-//            int left = Console.WindowLeft;
-//            Console.WriteLine("{0} : {1}", top, left);
-//
-//            Console.Write("Alez");
-//        }
-                
+        /// <summary>
+        /// The entry point of the application.
+        /// </summary>
+        /// <param name="args">The command line arguments with which the application was started.</param>
         public static void Main(string[] args)
-        {            
+        {
             Bootstrapper bootstrapper = new Bootstrapper(args);
             bootstrapper.Start();
         }

@@ -19,6 +19,9 @@ using NUnit.Framework;
 
 namespace DustInTheWind.SharpKinoko.Tests.Framework.MeasurerTests
 {
+    /// <summary>
+    /// Unit testas for the constructor fo the <see cref="Measurer"/> class.
+    /// </summary>
     [TestFixture]
     public class ConstructorTests
     {

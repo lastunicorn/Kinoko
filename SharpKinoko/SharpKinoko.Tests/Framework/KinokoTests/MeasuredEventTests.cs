@@ -20,7 +20,7 @@ using NUnit.Framework;
 namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
 {
     /// <summary>
-    /// Unit tests for the <see cref="Kinoko.Measured/"/> event.
+    /// Unit tests for the <see cref="Kinoko.Measured"/> event.
     /// </summary>
     [TestFixture]
     public class MeasuredEventTests
@@ -33,10 +33,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
         public void SetUp()
         {
             kinoko = new Kinoko();
-            KinokoSubject subject = new KinokoSubject(delegate
-            {
-                Thread.Sleep(10);
-            });
+            KinokoSubject subject = () => Thread.Sleep(10);
             task = new KinokoTask { Subject = subject };
         }
 

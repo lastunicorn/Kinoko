@@ -45,6 +45,10 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole.ConsoleControls
         /// </summary>
         void Pause();
 
+        /// <summary>
+        /// Returns the width of the user interface in columns.
+        /// </summary>
+        /// <returns>The width of the user interface in columns.</returns>
         int GetWindowWidth();
 
         /// <summary>

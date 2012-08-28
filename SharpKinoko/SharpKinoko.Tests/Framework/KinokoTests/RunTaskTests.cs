@@ -13,6 +13,7 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using System.Collections;
 using System.Threading;
@@ -21,7 +22,7 @@ using NUnit.Framework;
 namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
 {
     /// <summary>
-    /// Unit tests for the <see cref="Kinoko.Run/"/> method.
+    /// Unit tests for the <see cref="Kinoko.Run(KinokoTask, int)"/> method.
     /// </summary>
     [TestFixture]
     public class RunTaskTests
@@ -121,7 +122,8 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
         {
             int callCount = 0;
             KinokoTask task = CreateEmptyTask();
-            kinoko.TaskRunning += (sender, e) => {
+            kinoko.TaskRunning += (sender, e) =>
+            {
                 callCount++;
             };
 
@@ -135,7 +137,8 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
         {
             KinokoTask actualTask = null;
             KinokoTask task = CreateEmptyTask();
-            kinoko.TaskRunning += (sender, e) => {
+            kinoko.TaskRunning += (sender, e) =>
+            {
                 actualTask = e.Task;
             };
 
@@ -149,7 +152,8 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
         {
             int callCount = 0;
             KinokoTask task = CreateEmptyTask();
-            kinoko.TaskRun += (sender, e) => {
+            kinoko.TaskRun += (sender, e) =>
+            {
                 callCount++;
             };
 
@@ -163,7 +167,8 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
         {
             TaskRunEventArgs eva = null;
             KinokoTask task = CreateEmptyTask();
-            kinoko.TaskRun += (sender, e) => {
+            kinoko.TaskRun += (sender, e) =>
+            {
                 eva = e;
             };
 
@@ -179,12 +184,12 @@ namespace DustInTheWind.SharpKinoko.Tests.Framework.KinokoTests
             return new KinokoTask { Subject = () => { } };
         }
 
-        private KinokoTask CreateSleepTask (int[] timeIntervals)
+        private KinokoTask CreateSleepTask(int[] timeIntervals)
         {
             int callIndex = 0;
             return new KinokoTask
             {
-                Subject = () => Thread.Sleep (callIndex < timeIntervals.Length ? timeIntervals [callIndex++] : 0)
+                Subject = () => Thread.Sleep(callIndex < timeIntervals.Length ? timeIntervals[callIndex++] : 0)
             };
         }
 

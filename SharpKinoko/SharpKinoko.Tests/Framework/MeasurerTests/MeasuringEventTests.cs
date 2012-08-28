@@ -19,6 +19,9 @@ using NUnit.Framework;
 
 namespace DustInTheWind.SharpKinoko.Tests.Framework.MeasurerTests
 {
+    /// <summary>
+    /// Unit tests for the <see cref="Measurer.Measuring"/> event.
+    /// </summary>
     [TestFixture]
     public class MeasuringEventTests
     {
