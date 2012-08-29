@@ -1,66 +1,72 @@
 SharpKinoko v2.0
 ================
 
+
 1) Description
 --------------
 
-- Kinoko was born to do one thing: measure the time taken to run a method you indicate.
-
-2) How to use
--------------
-
-There are two ways in which you can run the measurement:
-	a) You can mark the method you want to measure with a special attribute (KinokoSubject attribute)
-	b) You can start the console and pass the name of the methods as parameter.
-In both cases you can only test public methods that have no parameters, return no value and exists in a public static class or a class with parameterless constructor.
-
-a: Using KinokoSubject attribute
---------------------------------
-
-Step 1
-Create a method and add [KinokoSubject] attribute on it.
-
-The methods that can be tested can be static or not, but should fulfill these requirements:
-Instance methods:
-	- should be contained in a public class that has a public parameterless constructor;
-	- should be public;
-	- should have no parameters;
-	- should return no value.
-
-Static methods:
-	- should be contained in a public class
-	- should be public.
-	- should have no parameters;
-	- should return no value.
+	Kinoko was created to do one thing: measure the time taken to run a method that you indicate.
 
 
-Step 2
-Load the assembly using KinokoConsole. It will perform the measurements on all the marked methods and will display the results.
-	KinokoKonsole.exe -a "assembly_file_name_1;assembly_file_name_2"
+2) How to use - Short description
+---------------------------------
+
+	There are two ways in which you can specify the methods you want to be measured:
+		a) at compile time - mark the methods with KinokoTask attribute
+		b) at run time - pass the name of the methods as command line parameter to the console.
+	In both cases you can only test public methods that have no parameters, return no value and exists in a public static class or a class with parameterless constructor.
 
 
-b: Without KinokoSubject attribute
--------------------------------------------
+3) How to use - Detailed description
+------------------------------------
 
-A method can be measured even if is not marked with the [KinokoSubject] attribute. To do so, you need to specify the method name as parameter to the KinokoConsole app.
-	KinokoKonsole.exe -a "assembly_file_name_1;assembly_file_name_2" -t "namespace.classname.methodname1;namespace.classname.methodname2"
+	a: Specify methods at compile time - Using KinokoTask attribute
+	---------------------------------------------------------------
 
-This method is usefull if you are not allowed to change the code of the assembly you want to measure.
+	Step 1
+	Create a method and add [KinokoTask] attribute on it.
+
+	The methods that can be tested can be static or not, but should fulfill these requirements:
+	Instance methods:
+		- should be contained in a public class that has a public parameterless constructor;
+		- should be public;
+		- should have no parameters;
+		- should have no return type.
+
+	Static methods:
+		- should be contained in a public class
+		- should be public.
+		- should have no parameters;
+		- should have no return type.
 
 
-3) SharpKinokoConsole
+	Step 2
+	Load the assembly using KinokoConsole. It will perform the measurements on all the marked methods and will display the results.
+		KinokoConsole.exe -a "assembly_file_name_1;assembly_file_name_2"
+
+
+	b: Specify methods at run time - Without KinokoTask attribute
+	-------------------------------------------------------------
+
+	A method can be measured even if is not marked with the [KinokoTask] attribute. To do so, you need to specify the method name as parameter to the KinokoConsole app.
+		KinokoConsole.exe -a "assembly_file_name_1;assembly_file_name_2" -s "namespace.classname.methodname1;namespace.classname.methodname2"
+
+	This method is usefull if you are not allowed to change the code of the assembly you want to measure.
+
+
+4) SharpKinokoConsole
 ---------------------
 
-KinokoKonsole.exe <Options>
+	KinokoConsole.exe <Options>
 	
-Options
-	-a --assemblies <assemblyFileName[;assemblyFileName[...]]>
-		Specifies the name of the assembly file to be loaded.
-		Multiple files can be specified separated by ';'
+	Options
+		-a --assemblies <assemblyFileName[;assemblyFileName[...]]>
+			Specifies the name of the assembly file to be loaded.
+			Multiple files can be specified separated by ';'
 		
-	-s --subjects <methodName[;methodName[...]]>
-		Specifies the full name of the method (including the class name and the namespace) to be measured.
-		Multiple methods can be specified separated by ';'
+		-s --subjects <methodName[;methodName[...]]>
+			Specifies the full name of the method (including the class name and the namespace) to be measured.
+			Multiple methods can be specified separated by ';'
 
 		
 		
@@ -93,7 +99,7 @@ Framework
 - implement Run method.
 - create KinokoTask class. - contains the delegate and the category name.
 - create KinokoResult class. - contains the list of measurements and the calculated values (average until now.)
-- raise TaskStart and TaskEnd events.
+- raise TaskRunning and TaskRun events.
 - raise Measuring and Measured events.
 
 - implement provider that loads all the valid methods from a list of assemblies.
