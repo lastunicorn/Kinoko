@@ -90,6 +90,7 @@
     <Compile Include="Console\KinokoApplicationTests\StartTests.cs" />
     <Compile Include="Console\ConsoleControls\UITests\ContructorTests.cs" />
     <Compile Include="Console\ConsoleControls\UITests\DisplayErrorTests.cs" />
+    <Compile Include="Console\ConsoleControls\ProgressBarFactoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpKinoko.Console\SharpKinoko.Console.csproj">

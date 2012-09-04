@@ -29,16 +29,18 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoRunnerTests
     [TestFixture]
     public class ConstructorTests
     {
-        private Mock<IKernel> kernel;
+        private Mock<IConsole> console;
         private Mock<IKinoko> kinoko;
         private Mock<IUI> ui;
+        private ProgressBarFactory progressBarFactory;
 
         [SetUp]
         public void SetUp()
         {
-            kernel = new Mock<IKernel>();
+            console = new Mock<IConsole>();
             kinoko = new Mock<IKinoko>();
             ui = new Mock<IUI>();
+            progressBarFactory = new ProgressBarFactory(console.Object);
         }
 
         [Test]
@@ -51,7 +53,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoRunnerTests
             }
             catch (ArgumentNullException ex)
             {
-                Assert.That(ex.ParamName, Is.EqualTo("kernel"));
+                Assert.That(ex.ParamName, Is.EqualTo("progressBarFactory"));
                 throw;
             }
         }
@@ -62,7 +64,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoRunnerTests
         {
             try
             {
-                new KinokoRunner(kernel.Object, null, ui.Object);
+                new KinokoRunner(progressBarFactory, null, ui.Object);
             }
             catch (ArgumentNullException ex)
             {
@@ -77,7 +79,7 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoRunnerTests
         {
             try
             {
-                new KinokoRunner(kernel.Object, kinoko.Object, null);
+                new KinokoRunner(progressBarFactory, kinoko.Object, null);
             }
             catch (ArgumentNullException ex)
             {

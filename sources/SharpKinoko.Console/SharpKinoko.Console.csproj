@@ -110,6 +110,7 @@
     <Compile Include="ConsoleControls\IConsole.cs" />
     <Compile Include="ConsoleControls\IUI.cs" />
     <Compile Include="IKinokoRunner.cs" />
+    <Compile Include="ConsoleControls\ProgressBarFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

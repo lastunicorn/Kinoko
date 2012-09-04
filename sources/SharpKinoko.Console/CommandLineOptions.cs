@@ -49,5 +49,10 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         {
             get { return LastPostParsingState.Errors.Count > 0; }
         }
+
+        public IEnumerable<ParsingError> GetParsingErrors()
+        {
+            return LastPostParsingState.Errors;
+        }
     }
 }

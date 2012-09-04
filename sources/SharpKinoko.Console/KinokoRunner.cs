@@ -30,9 +30,9 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
     internal class KinokoRunner : IKinokoRunner
     {
         /// <summary>
-        /// The IOC container.
+        /// The factory class that creates new instances of <see cref="ProgressBar"/> class.
         /// </summary>
-        private readonly IKernel kernel;
+        private readonly ProgressBarFactory progressBarFactory;
 
         /// <summary>
         /// Instance used to interact with the user interface.
@@ -57,14 +57,14 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
         /// <summary>
         /// Initializes a new instance of the <see cref="DustInTheWind.SharpKinoko.SharpKinokoConsole.KinokoRunner"/> class.
         /// </summary>
-        /// <param name='kernel'>The IOC container.</param>
+        /// <param name='progressBarFactory'>The factory class that creates new instances of <see cref="ProgressBar"/> class.</param>
         /// <param name='kinoko'>Kinoko instance that performs the measurements.</param>
         /// <param name='ui'>Instance used to interact with the user interface.</param>
         /// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-        public KinokoRunner(IKernel kernel, IKinoko kinoko, IUI ui)
+        public KinokoRunner(ProgressBarFactory progressBarFactory, IKinoko kinoko, IUI ui)
         {
-            if (kernel == null)
-                throw new ArgumentNullException("kernel");
+            if (progressBarFactory == null)
+                throw new ArgumentNullException("progressBarFactory");
 
             if (kinoko == null)
                 throw new ArgumentNullException("kinoko");
@@ -72,7 +72,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
             if (ui == null)
                 throw new ArgumentNullException("ui");
 
-            this.kernel = kernel;
+            this.progressBarFactory = progressBarFactory;
             this.kinoko = kinoko;
             this.ui = ui;
 
@@ -119,7 +119,7 @@ namespace DustInTheWind.SharpKinoko.SharpKinokoConsole
 
         private ProgressBar CreateProgressBar()
         {
-            ProgressBar progressBar = kernel.Get<ProgressBar>();
+            ProgressBar progressBar = progressBarFactory.CreateProgressBar();
 
             progressBar.Width = ui.GetWindowWidth();
             progressBar.ForegroundColor = ConsoleColor.Yellow;

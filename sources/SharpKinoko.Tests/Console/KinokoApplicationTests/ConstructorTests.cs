@@ -31,20 +31,20 @@ namespace DustInTheWind.SharpKinoko.Tests.Console.KinokoApplicationTests
     {
         private KinokoRunner kinokoWrapper;
         private Mock<IConsole> console;
-        private Mock<IKernel> kernel;
         private UI ui;
         private Kinoko kinoko;
         private CommandLineOptions options;
+        private ProgressBarFactory progressBarFactory;
 
         [SetUp]
         public void SetUp()
         {
             options = new CommandLineOptions();
             console = new Mock<IConsole>();
-            kernel = new Mock<IKernel>();
             ui = new UI(console.Object);
             kinoko = new Kinoko();
-            kinokoWrapper = new KinokoRunner(kernel.Object, kinoko, ui);
+            progressBarFactory = new ProgressBarFactory(console.Object);
+            kinokoWrapper = new KinokoRunner(progressBarFactory, kinoko, ui);
         }
 
         [Test]
