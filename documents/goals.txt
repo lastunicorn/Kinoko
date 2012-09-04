@@ -1,0 +1,18 @@
+- Create a console application:
+	- parse command line arguments.
+	- call the Kinoko framework.
+	- display progress bars for each measurement.
+	- display the results.
+
+- Try a TDD approach.
+	- unit tests - find an appropriate unit test and mock frameworks.
+
+- Create a clean code.
+	- self describing code - no need for comments.
+	- usefull doc comments for public methods. - put yourself in the place of a programmer that calls your method.
+	  Is there sufficient information to understant what the method is doing?
+	- short classes that does one thing - a class should have only one reason to change.
+	- one class/interface/enum/delegate per file
+
+- Generate xml doc.
+	- this should be discoused for each project.
