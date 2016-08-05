@@ -14,24 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.Kinoko;
+using System.Collections.Generic;
 
-namespace AssemblyWithMethodsForTesting
+namespace DustInTheWind.Kinoko.Providers
 {
-    public class ClassWithStaticConstructor
+    /// <summary>
+    /// Provides a list of kinoko tasks to be run by <see cref="Kinoko"/>.
+    /// </summary>
+    public interface ITasksProvider
     {
-        public ClassWithStaticConstructor(int a)
-        {
-        }
-
-        static ClassWithStaticConstructor()
-        {
-        }
-
-        [KinokoTask]
-        public void PublicMethodInClassWithStaticConstructor()
-        {
-        }
+        /// <summary>
+        /// Returns a list of <see cref="KinokoTask"/>s for all methods that are marked as kinoko subjects.
+        /// </summary>
+        /// <returns>A list of <see cref="KinokoTask"/> objects.</returns>
+        IEnumerable<KinokoTask> GetKinokoTasks();
     }
+
 }
 

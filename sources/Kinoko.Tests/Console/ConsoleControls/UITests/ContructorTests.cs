@@ -14,23 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.Kinoko;
+using System;
+using DustInTheWind.Kinoko.KinokoConsole.ConsoleControls;
+using NUnit.Framework;
 
-namespace AssemblyWithMethodsForTesting
+namespace DustInTheWind.Kinoko.Tests.Console.ConsoleControls.UITests
 {
-    public class ClassWithStaticConstructor
+    /// <summary>
+    /// Unit tests for the constructor function of the <see cref="UI"/> class.
+    /// </summary>
+    [TestFixture]
+    public class ContructorTests
     {
-        public ClassWithStaticConstructor(int a)
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void throws_if_console_is_null()
         {
-        }
-
-        static ClassWithStaticConstructor()
-        {
-        }
-
-        [KinokoTask]
-        public void PublicMethodInClassWithStaticConstructor()
-        {
+            try
+            {
+                new UI(null);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.That(ex.ParamName, Is.EqualTo("console"));
+                throw;
+            }
         }
     }
 }

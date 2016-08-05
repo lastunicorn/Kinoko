@@ -1,4 +1,4 @@
-// SharpKinoko
+﻿// SharpKinoko
 // Copyright (C) 2010 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -14,50 +14,49 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.Kinoko;
+using System.Threading;
 
-namespace AssemblyWithMethodsForTesting
+namespace DustInTheWind.Kinoko.Example
 {
-    public class ClassForTest
+    public class SomethingToTest
     {
-        [KinokoTask]
-        public void PublicMethodWithAttribute()
-        {
-        }
-
-        public void PublicMethod()
-        {
-        }
+        public object O;
 
         [KinokoTask]
-        public void PublicMethodWithParametersAndAttribute(int a)
+        public void Sleep30()
         {
+            Thread.Sleep(30);
         }
 
         [KinokoTask]
-        public void PublicMethodWithGenericParameterAndAttribute<T>()
+        public void EmptyForLoop1000000()
         {
+            for (int i = 0; i < 1000000; i++)
+            {
+            }
+        }
 
-        }
-     
         [KinokoTask]
-        private void PrivateMethodWithAttribute()
+        public void CallEmptyMethodInForLoop1000000()
+        {
+            for (int i = 0; i < 1000000; i++)
+            {
+                SomeMethod();
+            }
+        }
+
+        private void SomeMethod()
         {
         }
-     
+
         [KinokoTask]
-        public static void PublicStaticMethodWithAttribute()
+        public void InstanciateObjects1000000()
         {
-        }
-     
-        public static void PublicStaticMethod()
-        {
-        }
-     
-        [KinokoTask]
-        private static void PrivateStaticMethodWithAttribute()
-        {
+            for (int i = 0; i < 1000000; i++)
+            {
+                O = new object();
+            }
         }
     }
-}
 
+}

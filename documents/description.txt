@@ -5,7 +5,7 @@ SharpKinoko v2.0
 1) Description
 --------------
 
-	Kinoko was created to do one thing: measure the time taken to run a method that you indicate.
+	Kinoko takes a method, runs it multiple times, measures the time intervals and displays an average.
 
 
 2) How to use - Short description

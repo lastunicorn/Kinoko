@@ -14,24 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.Kinoko;
+using System.Collections.Generic;
 
-namespace AssemblyWithMethodsForTesting
+namespace DustInTheWind.Kinoko.KinokoConsole
 {
-    public class ClassWithStaticConstructor
+    /// <summary>
+    /// Runs the tasks and displays the results to the UI.
+    /// </summary>
+    public interface IKinokoRunner
     {
-        public ClassWithStaticConstructor(int a)
-        {
-        }
-
-        static ClassWithStaticConstructor()
-        {
-        }
-
-        [KinokoTask]
-        public void PublicMethodInClassWithStaticConstructor()
-        {
-        }
+        /// <summary>
+        /// Starts to run the tasks from the specified assemblies and displays the results to the UI.
+        /// </summary>
+        /// <param name='assemblyFileNames'>The file names of the assemblies to load.</param>
+        /// <param name='repeatMeasurementCount'>The number of times the measurements are performed on a single subject (method).</param>
+        void StartMeasuring(IEnumerable<string> assemblyFileNames, int repeatMeasurementCount);
     }
 }
 
