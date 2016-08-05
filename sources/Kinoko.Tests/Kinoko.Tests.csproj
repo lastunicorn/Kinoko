@@ -85,6 +85,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyInfo.Shared.cs">
+      <Link>Properties\AssemblyInfo.Shared.cs</Link>
+    </Compile>
     <Compile Include="Console\ConsoleControls\TemporaryColorSwitcherTests\ConstructorTests.cs" />
     <Compile Include="Console\KinokoRunnerTests\ConstructorTests.cs" />
     <Compile Include="Framework\KinokoResultTests\ConstructorTests.cs" />
