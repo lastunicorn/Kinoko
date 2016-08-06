@@ -12,8 +12,8 @@
     <Target Name="Default" DependsOnTargets="Publish;CleanUp"></Target>
 
     <Target Name="Publish">
-        <RemoveDir Directories="$(SolutionDir)Publish\AssemblyWithMethodsForTesting"/>
-        <Copy SourceFiles="@(Files)" DestinationFolder="$(SolutionDir)Publish\AssemblyWithMethodsForTesting" />
+        <RemoveDir Directories="$(SolutionDir)\Publish\AssemblyWithMethodsForTesting"/>
+        <Copy SourceFiles="@(Files)" DestinationFolder="$(SolutionDir)\Publish\AssemblyWithMethodsForTesting" />
     </Target>
 
     <Target Name="CleanUp">

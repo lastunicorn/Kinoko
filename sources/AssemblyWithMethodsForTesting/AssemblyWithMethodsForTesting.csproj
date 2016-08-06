@@ -75,6 +75,6 @@
     </Content>
   </ItemGroup>
   <PropertyGroup>
-    <PostBuildEvent>"$(MSBuildBinPath)\msbuild.exe" postbuild.xml /p:SolutionDir="$(SolutionDir)\"</PostBuildEvent>
+    <PostBuildEvent>"$(MSBuildBinPath)\msbuild.exe" postbuild.xml "/p:SolutionDir=$(SolutionDir)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

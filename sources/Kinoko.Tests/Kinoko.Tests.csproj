@@ -138,6 +138,6 @@
     </Content>
   </ItemGroup>
   <PropertyGroup>
-    <PostBuildEvent>"$(MSBuildBinPath)\msbuild.exe" postbuild.xml /p:SolutionDir="$(SolutionDir)\";ConfigurationName=$(ConfigurationName)</PostBuildEvent>
+    <PostBuildEvent>"$(MSBuildBinPath)\msbuild.exe" postbuild.xml "/p:SolutionDir=$(SolutionDir);ConfigurationName=$(ConfigurationName)"</PostBuildEvent>
   </PropertyGroup>
 </Project>
