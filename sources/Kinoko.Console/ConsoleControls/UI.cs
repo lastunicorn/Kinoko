@@ -110,7 +110,7 @@ namespace DustInTheWind.Kinoko.KinokoConsole.ConsoleControls
         {
             using (new TemporaryColorSwitcher(console, ConsoleColor.Green))
             {
-                Assembly assembly = Assembly.GetAssembly(typeof(DustInTheWind.Kinoko.Kinoko));
+                Assembly assembly = Assembly.GetAssembly(typeof(DustInTheWind.Kinoko.KinokoContext));
                 console.WriteLine("Kinoko Console ver. {0}", assembly.GetName().Version.ToString(3));
                 WriteFullLine('=');
                 console.WriteLine();

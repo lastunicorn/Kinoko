@@ -19,7 +19,7 @@ using System.Collections.Generic;
 namespace DustInTheWind.Kinoko.Providers
 {
     /// <summary>
-    /// Provides a list of kinoko tasks to be run by <see cref="Kinoko"/>.
+    /// Provides a list of kinoko tasks to be run by <see cref="KinokoContext"/>.
     /// </summary>
     public interface ITasksProvider
     {

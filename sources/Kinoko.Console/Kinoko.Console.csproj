@@ -10,7 +10,7 @@
     <RootNamespace>DustInTheWind.Kinoko.KinokoConsole</RootNamespace>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <AssemblyName>Kinoko.Console</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>

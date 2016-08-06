@@ -64,10 +64,10 @@ namespace DustInTheWind.Kinoko
         /// <param name="e">An <see cref="MeasuringEventArgs"/> object that contains the event data.</param>
         protected virtual void OnMeasuring(MeasuringEventArgs e)
         {
-            if (Measuring != null)
-            {
-                Measuring(this, e);
-            }
+            EventHandler<MeasuringEventArgs> eventHandler = Measuring;
+
+            if (eventHandler != null)
+                eventHandler(this, e);
         }
 
         #endregion
@@ -85,15 +85,13 @@ namespace DustInTheWind.Kinoko
         /// <param name="e">An <see cref="MeasuredEventArgs"/> object that contains the event data.</param>
         protected virtual void OnMeasured(MeasuredEventArgs e)
         {
-            if (Measured != null)
-            {
-                Measured(this, e);
-            }
+            EventHandler<MeasuredEventArgs> eventHandler = Measured;
+
+            if (eventHandler != null)
+                eventHandler(this, e);
         }
 
         #endregion
-
-        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Measurer"/> class with
@@ -115,10 +113,6 @@ namespace DustInTheWind.Kinoko
             this.subject = subject;
             this.repeatCount = repeatCount;
         }
-
-        #endregion
-
-        #region Run
 
         /// <summary>
         /// Runs the subject multiple times and measures the time intervals spent.
@@ -165,9 +159,5 @@ namespace DustInTheWind.Kinoko
 
             return stopwatch.Elapsed.TotalMilliseconds;
         }
-
-        #endregion
     }
-
 }
-

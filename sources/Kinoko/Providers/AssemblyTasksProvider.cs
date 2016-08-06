@@ -54,9 +54,7 @@ namespace DustInTheWind.Kinoko.Providers
             IEnumerable<MethodInfo> methods = SearchForAllValidMethods();
 
             foreach (MethodInfo method in methods)
-            {
                 tasks.Add(CreateKinokoTask(method));
-            }
 
             return tasks;
         }
@@ -96,7 +94,7 @@ namespace DustInTheWind.Kinoko.Providers
             return allMethods;
         }
 
-        private bool IsValidClass(Type type)
+        private static bool IsValidClass(Type type)
         {
             ConstructorInfo constructor = type.GetConstructor(new Type[0]);
             //return constructor != null && !constructor.IsStatic;
@@ -125,17 +123,13 @@ namespace DustInTheWind.Kinoko.Providers
         private KinokoSubject CreateKinokoSubject(MethodInfo method)
         {
             if (method.IsStatic)
-            {
                 return Delegate.CreateDelegate(typeof(KinokoSubject), method) as KinokoSubject;
-            }
-            else
-            {
-                object obj = InstanciateParentClassForMethod(method);
-                return Delegate.CreateDelegate(typeof(KinokoSubject), obj, method.Name) as KinokoSubject;
-            }
+
+            object obj = InstanciateParentClassForMethod(method);
+            return Delegate.CreateDelegate(typeof(KinokoSubject), obj, method.Name) as KinokoSubject;
         }
 
-        private object InstanciateParentClassForMethod(MethodInfo method)
+        private static object InstanciateParentClassForMethod(MethodInfo method)
         {
             ConstructorInfo constructor = method.ReflectedType.GetConstructor(new Type[0]);
             return constructor.Invoke(new object[0]);

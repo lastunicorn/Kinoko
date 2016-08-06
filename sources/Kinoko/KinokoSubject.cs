@@ -17,7 +17,7 @@
 namespace DustInTheWind.Kinoko
 {
     /// <summary>
-    /// Represents the subject method that is measured by <see cref="Kinoko"/>.
+    /// Represents the subject method that is measured by <see cref="KinokoContext"/>.
     /// </summary>
     public delegate void KinokoSubject();
 }

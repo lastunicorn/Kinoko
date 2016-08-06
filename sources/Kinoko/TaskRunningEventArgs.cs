@@ -19,7 +19,7 @@ using System;
 namespace DustInTheWind.Kinoko
 {
     /// <summary>
-    /// Provides data for <see cref="Kinoko.TaskRunning"/> event.
+    /// Provides data for <see cref="KinokoContext.TaskRunning"/> event.
     /// </summary>
     public class TaskRunningEventArgs : EventArgs
     {

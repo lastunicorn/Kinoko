@@ -26,7 +26,7 @@ namespace DustInTheWind.Kinoko.Tests.Console.KinokoRunnerTests
     public class ConstructorTests
     {
         private Mock<IConsole> console;
-        private Mock<IKinoko> kinoko;
+        private Mock<IKinokoContext> kinoko;
         private Mock<IUI> ui;
         private ProgressBarFactory progressBarFactory;
 
@@ -34,7 +34,7 @@ namespace DustInTheWind.Kinoko.Tests.Console.KinokoRunnerTests
         public void SetUp()
         {
             console = new Mock<IConsole>();
-            kinoko = new Mock<IKinoko>();
+            kinoko = new Mock<IKinokoContext>();
             ui = new Mock<IUI>();
             progressBarFactory = new ProgressBarFactory(console.Object);
         }

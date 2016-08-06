@@ -25,7 +25,7 @@ namespace DustInTheWind.Kinoko
     /// average is calculated.
     /// The class is not thread safe.
     /// </summary>
-    public class Kinoko : IKinoko
+    public class KinokoContext : IKinokoContext
     {
         #region Event Measuring
 
@@ -40,10 +40,10 @@ namespace DustInTheWind.Kinoko
         /// <param name="e">An <see cref="MeasuringEventArgs"/> object that contains the event data.</param>
         protected virtual void OnMeasuring(MeasuringEventArgs e)
         {
-            if (Measuring != null)
-            {
-                Measuring(this, e);
-            }
+            EventHandler<MeasuringEventArgs> eventHandler = Measuring;
+
+            if (eventHandler != null)
+                eventHandler(this, e);
         }
 
         #endregion
@@ -61,10 +61,10 @@ namespace DustInTheWind.Kinoko
         /// <param name="e">An <see cref="MeasuredEventArgs"/> object that contains the event data.</param>
         protected virtual void OnMeasured(MeasuredEventArgs e)
         {
-            if (Measured != null)
-            {
-                Measured(this, e);
-            }
+            EventHandler<MeasuredEventArgs> eventHandler = Measured;
+
+            if (eventHandler != null)
+                eventHandler(this, e);
         }
 
         #endregion
@@ -82,10 +82,10 @@ namespace DustInTheWind.Kinoko
         /// <param name="e">An <see cref="TaskRunningEventArgs"/> object that contains the event data.</param>
         protected virtual void OnTaskRunning(TaskRunningEventArgs e)
         {
-            if (TaskRunning != null)
-            {
-                TaskRunning(this, e);
-            }
+            EventHandler<TaskRunningEventArgs> eventHandler = TaskRunning;
+
+            if (eventHandler != null)
+                eventHandler(this, e);
         }
 
         #endregion
@@ -103,15 +103,13 @@ namespace DustInTheWind.Kinoko
         /// <param name="e">An <see cref="TaskRunEventArgs"/> object that contains the event data.</param>
         protected virtual void OnTaskRun(TaskRunEventArgs e)
         {
-            if (TaskRun != null)
-            {
-                TaskRun(this, e);
-            }
+            EventHandler<TaskRunEventArgs> eventHandler = TaskRun;
+
+            if (eventHandler != null)
+                eventHandler(this, e);
         }
 
         #endregion
-
-        #region Run
 
         /// <summary>
         /// Runs the task multiple times and measures the time intervals spent.
@@ -130,7 +128,7 @@ namespace DustInTheWind.Kinoko
             if (repeatCount < 1)
                 throw new ArgumentOutOfRangeException("repeatCount", "The repeat count should be an integer greater then 0.");
 
-            return RunTaskAndRunEvents(task, repeatCount);
+            return RunTaskAndRaiseEvents(task, repeatCount);
         }
 
         /// <summary>
@@ -154,7 +152,8 @@ namespace DustInTheWind.Kinoko
 
             foreach (KinokoTask task in tasks)
             {
-                results.Add(RunTaskAndRunEvents(task, repeatCount));
+                KinokoResult result = RunTaskAndRaiseEvents(task, repeatCount);
+                results.Add(result);
             }
 
             return results;
@@ -167,7 +166,7 @@ namespace DustInTheWind.Kinoko
         /// <returns>A <see cref="KinokoResult"/> object containing the measured data.</returns>
         /// <param name='task'>The kinoko task to be run.</param>
         /// <param name='repeatCount'>The number of times to repeat the measurement.</param>
-        private KinokoResult RunTaskAndRunEvents(KinokoTask task, int repeatCount)
+        private KinokoResult RunTaskAndRaiseEvents(KinokoTask task, int repeatCount)
         {
             OnTaskRunning(new TaskRunningEventArgs(task));
             KinokoResult result = RunTask(task, repeatCount);
@@ -202,7 +201,5 @@ namespace DustInTheWind.Kinoko
         {
             OnMeasured(e);
         }
-
-        #endregion
     }
 }

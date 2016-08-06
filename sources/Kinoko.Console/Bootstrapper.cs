@@ -88,7 +88,7 @@ namespace DustInTheWind.Kinoko.KinokoConsole
         {
             kernel = new StandardKernel();
 
-            kernel.Bind<IKinoko>().To<DustInTheWind.Kinoko.Kinoko>();
+            kernel.Bind<IKinokoContext>().To<DustInTheWind.Kinoko.KinokoContext>();
             kernel.Bind<IUI>().To<UI>().InSingletonScope();
             kernel.Bind<IKinokoRunner>().To<KinokoRunner>().InSingletonScope();
             kernel.Bind<IConsole>().To<ConsoleWrapper>().InSingletonScope();

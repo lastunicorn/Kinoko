@@ -41,7 +41,7 @@ namespace DustInTheWind.Kinoko.KinokoConsole
         /// <summary>
         /// Kinoko instance that performs the measurements.
         /// </summary>
-        private readonly IKinoko kinoko;
+        private readonly IKinokoContext kinokoContext;
 
         /// <summary>
         /// Represents a progress bar.
@@ -57,27 +57,27 @@ namespace DustInTheWind.Kinoko.KinokoConsole
         /// Initializes a new instance of the <see cref="KinokoRunner"/> class.
         /// </summary>
         /// <param name='progressBarFactory'>The factory class that creates new instances of <see cref="ProgressBar"/> class.</param>
-        /// <param name='kinoko'>Kinoko instance that performs the measurements.</param>
+        /// <param name='kinokoContext'>Kinoko instance that performs the measurements.</param>
         /// <param name='ui'>Instance used to interact with the user interface.</param>
         /// <exception cref="ArgumentNullException">Thrown if one of the parameters is null.</exception>
-        public KinokoRunner(ProgressBarFactory progressBarFactory, IKinoko kinoko, IUI ui)
+        public KinokoRunner(ProgressBarFactory progressBarFactory, IKinokoContext kinokoContext, IUI ui)
         {
             if (progressBarFactory == null)
                 throw new ArgumentNullException("progressBarFactory");
 
-            if (kinoko == null)
-                throw new ArgumentNullException("kinoko");
+            if (kinokoContext == null)
+                throw new ArgumentNullException("kinokoContext");
 
             if (ui == null)
                 throw new ArgumentNullException("ui");
 
             this.progressBarFactory = progressBarFactory;
-            this.kinoko = kinoko;
+            this.kinokoContext = kinokoContext;
             this.ui = ui;
 
-            kinoko.Measured += HandleKinokoMeasured;
-            kinoko.TaskRunning += HandleKinokoTaskRunning;
-            kinoko.TaskRun += HandleKinokoTaskRun;
+            kinokoContext.Measured += HandleKinokoMeasured;
+            kinokoContext.TaskRunning += HandleKinokoTaskRunning;
+            kinokoContext.TaskRun += HandleKinokoTaskRun;
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace DustInTheWind.Kinoko.KinokoConsole
                 ui.WriteAssemblyLoadingInformation(assemblyFileName);
 
                 ITasksProvider tasksProvider = CreateTasksProvider(assemblyFileName);
-                kinoko.Run(tasksProvider, repeatMeasurementCount);
+                kinokoContext.Run(tasksProvider, repeatMeasurementCount);
             }
         }
 

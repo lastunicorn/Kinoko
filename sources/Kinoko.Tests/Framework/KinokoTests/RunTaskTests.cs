@@ -22,17 +22,17 @@ using NUnit.Framework;
 namespace DustInTheWind.Kinoko.Tests.Framework.KinokoTests
 {
     /// <summary>
-    /// Unit tests for the <see cref="Kinoko.Run(KinokoTask, int)"/> method.
+    /// Unit tests for the <see cref="KinokoContext.Run(KinokoTask, int)"/> method.
     /// </summary>
     [TestFixture]
     public class RunTaskTests
     {
-        private DustInTheWind.Kinoko.Kinoko kinoko;
+        private KinokoContext kinokoContext;
 
         [SetUp]
         public void SetUp()
         {
-            kinoko = new DustInTheWind.Kinoko.Kinoko();
+            kinokoContext = new KinokoContext();
         }
 
         #region Run(KinokoSubject subject, int repeatCount)
@@ -43,7 +43,7 @@ namespace DustInTheWind.Kinoko.Tests.Framework.KinokoTests
         {
             try
             {
-                kinoko.Run(null as KinokoTask, 10);
+                kinokoContext.Run(null as KinokoTask, 10);
             }
             catch (ArgumentNullException ex)
             {
@@ -60,7 +60,7 @@ namespace DustInTheWind.Kinoko.Tests.Framework.KinokoTests
             {
                 KinokoTask task = CreateEmptyTask();
 
-                kinoko.Run(task, 0);
+                kinokoContext.Run(task, 0);
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -74,7 +74,7 @@ namespace DustInTheWind.Kinoko.Tests.Framework.KinokoTests
         {
             KinokoTask task = CreateEmptyTask();
 
-            KinokoResult result = kinoko.Run(task, 10);
+            KinokoResult result = kinokoContext.Run(task, 10);
 
             Assert.That(result, Is.Not.Null);
         }
@@ -84,7 +84,7 @@ namespace DustInTheWind.Kinoko.Tests.Framework.KinokoTests
         {
             KinokoTask task = CreateEmptyTask();
 
-            KinokoResult result = kinoko.Run(task, n);
+            KinokoResult result = kinokoContext.Run(task, n);
 
             Assert.That(result.Measurements, Is.Not.Null);
             Assert.That(result.Measurements.Length, Is.EqualTo(n));
@@ -97,7 +97,7 @@ namespace DustInTheWind.Kinoko.Tests.Framework.KinokoTests
             int[] timeIntervals = new int[] { 60, 80, 40 };
             KinokoTask task = CreateSleepTask(timeIntervals);
 
-            KinokoResult result = kinoko.Run(task, timeIntervals.Length);
+            KinokoResult result = kinokoContext.Run(task, timeIntervals.Length);
 
             AssertAreEqual(timeIntervals, result.Measurements);
         }
@@ -108,7 +108,7 @@ namespace DustInTheWind.Kinoko.Tests.Framework.KinokoTests
             int[] timeIntervals = new int[] { 60, 80, 40 };
             KinokoTask task = CreateSleepTask(timeIntervals);
 
-            KinokoResult result = kinoko.Run(task, timeIntervals.Length);
+            KinokoResult result = kinokoContext.Run(task, timeIntervals.Length);
 
             Assert.That(result.Average, Is.EqualTo(60).Within(1));
         }
@@ -122,12 +122,12 @@ namespace DustInTheWind.Kinoko.Tests.Framework.KinokoTests
         {
             int callCount = 0;
             KinokoTask task = CreateEmptyTask();
-            kinoko.TaskRunning += (sender, e) =>
+            kinokoContext.TaskRunning += (sender, e) =>
             {
                 callCount++;
             };
 
-            kinoko.Run(task, 3);
+            kinokoContext.Run(task, 3);
 
             Assert.That(callCount, Is.EqualTo(1));
         }
@@ -137,12 +137,12 @@ namespace DustInTheWind.Kinoko.Tests.Framework.KinokoTests
         {
             KinokoTask actualTask = null;
             KinokoTask task = CreateEmptyTask();
-            kinoko.TaskRunning += (sender, e) =>
+            kinokoContext.TaskRunning += (sender, e) =>
             {
                 actualTask = e.Task;
             };
 
-            kinoko.Run(task, 3);
+            kinokoContext.Run(task, 3);
 
             Assert.That(actualTask, Is.SameAs(task));
         }
@@ -156,12 +156,12 @@ namespace DustInTheWind.Kinoko.Tests.Framework.KinokoTests
         {
             int callCount = 0;
             KinokoTask task = CreateEmptyTask();
-            kinoko.TaskRun += (sender, e) =>
+            kinokoContext.TaskRun += (sender, e) =>
             {
                 callCount++;
             };
 
-            kinoko.Run(task, 3);
+            kinokoContext.Run(task, 3);
 
             Assert.That(callCount, Is.EqualTo(1));
         }
@@ -171,12 +171,12 @@ namespace DustInTheWind.Kinoko.Tests.Framework.KinokoTests
         {
             TaskRunEventArgs eva = null;
             KinokoTask task = CreateEmptyTask();
-            kinoko.TaskRun += (sender, e) =>
+            kinokoContext.TaskRun += (sender, e) =>
             {
                 eva = e;
             };
 
-            kinoko.Run(task, 3);
+            kinokoContext.Run(task, 3);
 
             Assert.That(eva.Result, Is.Not.Null);
         }
@@ -190,12 +190,12 @@ namespace DustInTheWind.Kinoko.Tests.Framework.KinokoTests
         {
             int callCount = 0;
             KinokoTask task = CreateEmptyTask();
-            kinoko.Measuring += (sender, e) =>
+            kinokoContext.Measuring += (sender, e) =>
             {
                 callCount++;
             };
 
-            kinoko.Run(task, 3);
+            kinokoContext.Run(task, 3);
 
             Assert.That(callCount, Is.EqualTo(3));
         }
@@ -205,14 +205,14 @@ namespace DustInTheWind.Kinoko.Tests.Framework.KinokoTests
         {
             object senderObject = null;
             KinokoTask task = CreateEmptyTask();
-            kinoko.Measuring += (sender, e) =>
+            kinokoContext.Measuring += (sender, e) =>
             {
                 senderObject = sender;
             };
 
-            kinoko.Run(task, 1);
+            kinokoContext.Run(task, 1);
 
-            Assert.That(senderObject, Is.SameAs(kinoko));
+            Assert.That(senderObject, Is.SameAs(kinokoContext));
         }
 
         [Test]
@@ -220,12 +220,12 @@ namespace DustInTheWind.Kinoko.Tests.Framework.KinokoTests
         {
             MeasuringEventArgs eventArgs = null;
             KinokoTask task = CreateEmptyTask();
-            kinoko.Measuring += (sender, e) =>
+            kinokoContext.Measuring += (sender, e) =>
             {
                 eventArgs = e;
             };
 
-            kinoko.Run(task, 1);
+            kinokoContext.Run(task, 1);
 
             Assert.That(eventArgs, Is.Not.Null);
         }
@@ -239,12 +239,12 @@ namespace DustInTheWind.Kinoko.Tests.Framework.KinokoTests
         {
             int callCount = 0;
             KinokoTask task = CreateEmptyTask();
-            kinoko.Measured += (sender, e) =>
+            kinokoContext.Measured += (sender, e) =>
             {
                 callCount++;
             };
 
-            kinoko.Run(task, 3);
+            kinokoContext.Run(task, 3);
 
             Assert.That(callCount, Is.EqualTo(3));
         }
@@ -254,14 +254,14 @@ namespace DustInTheWind.Kinoko.Tests.Framework.KinokoTests
         {
             object senderObject = null;
             KinokoTask task = CreateEmptyTask();
-            kinoko.Measured += (sender, e) =>
+            kinokoContext.Measured += (sender, e) =>
             {
                 senderObject = sender;
             };
 
-            kinoko.Run(task, 1);
+            kinokoContext.Run(task, 1);
 
-            Assert.That(senderObject, Is.SameAs(kinoko));
+            Assert.That(senderObject, Is.SameAs(kinokoContext));
         }
 
         [Test]
@@ -269,12 +269,12 @@ namespace DustInTheWind.Kinoko.Tests.Framework.KinokoTests
         {
             MeasuredEventArgs eventArgs = null;
             KinokoTask task = CreateEmptyTask();
-            kinoko.Measured += (sender, e) =>
+            kinokoContext.Measured += (sender, e) =>
             {
                 eventArgs = e;
             };
 
-            kinoko.Run(task, 1);
+            kinokoContext.Run(task, 1);
 
             Assert.That(eventArgs, Is.Not.Null);
         }

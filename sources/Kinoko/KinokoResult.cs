@@ -20,7 +20,7 @@ using DustInTheWind.Kinoko.Utils;
 namespace DustInTheWind.Kinoko
 {
     /// <summary>
-    /// Contains the measurements taken by <see cref="Kinoko"/> after it runs the subjects.
+    /// Contains the measurements taken by <see cref="KinokoContext"/> after it measures the subjects.
     /// </summary>
     public class KinokoResult
     {

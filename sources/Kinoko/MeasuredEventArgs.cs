@@ -19,7 +19,7 @@ using System;
 namespace DustInTheWind.Kinoko
 {
     /// <summary>
-    /// Provides data for <see cref="Kinoko.Measured"/> event.
+    /// Provides data for <see cref="KinokoContext.Measured"/> event.
     /// </summary>
     public class MeasuredEventArgs : EventArgs
     {

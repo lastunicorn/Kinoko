@@ -24,12 +24,5 @@ namespace DustInTheWind.Kinoko
     [AttributeUsage(AttributeTargets.Method)]
     public class KinokoTaskAttribute : Attribute
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KinokoTaskAttribute"/> class.
-        /// </summary>
-        public KinokoTaskAttribute()
-        {
-        }
     }
-
 }

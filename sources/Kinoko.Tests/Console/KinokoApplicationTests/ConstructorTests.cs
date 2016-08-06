@@ -31,7 +31,7 @@ namespace DustInTheWind.Kinoko.Tests.Console.KinokoApplicationTests
         private KinokoRunner kinokoWrapper;
         private Mock<IConsole> console;
         private UI ui;
-        private DustInTheWind.Kinoko.Kinoko kinoko;
+        private KinokoContext kinokoContext;
         private CommandLineOptions options;
         private ProgressBarFactory progressBarFactory;
 
@@ -41,9 +41,9 @@ namespace DustInTheWind.Kinoko.Tests.Console.KinokoApplicationTests
             options = new CommandLineOptions();
             console = new Mock<IConsole>();
             ui = new UI(console.Object);
-            kinoko = new DustInTheWind.Kinoko.Kinoko();
+            kinokoContext = new KinokoContext();
             progressBarFactory = new ProgressBarFactory(console.Object);
-            kinokoWrapper = new KinokoRunner(progressBarFactory, kinoko, ui);
+            kinokoWrapper = new KinokoRunner(progressBarFactory, kinokoContext, ui);
         }
 
         [Test]

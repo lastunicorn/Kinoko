@@ -24,7 +24,7 @@ namespace DustInTheWind.Kinoko
     /// Measures the time needed to run the provided subjects. The measurement is performed multiple times and an
     /// average is calculated.
     /// </summary>
-    public interface IKinoko
+    public interface IKinokoContext
     {
         /// <summary>
         /// Event raised before every measuring of a subject.

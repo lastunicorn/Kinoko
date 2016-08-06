@@ -4,13 +4,13 @@
         <name>Kinoko</name>
     </assembly>
     <members>
-        <member name="T:DustInTheWind.Kinoko.IKinoko">
+        <member name="T:DustInTheWind.Kinoko.IKinokoContext">
             <summary>
             Measures the time needed to run the provided subjects. The measurement is performed multiple times and an
             average is calculated.
             </summary>
         </member>
-        <member name="M:DustInTheWind.Kinoko.IKinoko.Run(DustInTheWind.Kinoko.KinokoTask,System.Int32)">
+        <member name="M:DustInTheWind.Kinoko.IKinokoContext.Run(DustInTheWind.Kinoko.KinokoTask,System.Int32)">
             <summary>
             Runs the task multiple times and measures the time intervals spent.
             </summary>
@@ -21,7 +21,7 @@
             After the measurements are finished, additional values (for example the average) are calculated from the measured data.
             </remarks>
         </member>
-        <member name="M:DustInTheWind.Kinoko.IKinoko.Run(DustInTheWind.Kinoko.Providers.ITasksProvider,System.Int32)">
+        <member name="M:DustInTheWind.Kinoko.IKinokoContext.Run(DustInTheWind.Kinoko.Providers.ITasksProvider,System.Int32)">
             <summary>
             Measures the time spent to run the subjects received from the subjectProvider.
             </summary>
@@ -31,22 +31,22 @@
             <exception cref="T:System.ArgumentNullException">Is thrown when the subjectProvider or the repeatCount are <see langword="null"/>.</exception>
             <exception cref="T:System.ArgumentOutOfRangeException">Is thrown when the repeatCount is less then 1.</exception>
         </member>
-        <member name="E:DustInTheWind.Kinoko.IKinoko.Measuring">
+        <member name="E:DustInTheWind.Kinoko.IKinokoContext.Measuring">
             <summary>
             Event raised before every measuring of a subject.
             </summary>
         </member>
-        <member name="E:DustInTheWind.Kinoko.IKinoko.Measured">
+        <member name="E:DustInTheWind.Kinoko.IKinokoContext.Measured">
             <summary>
             Event raised after every measuring of a subject.
             </summary>
         </member>
-        <member name="E:DustInTheWind.Kinoko.IKinoko.TaskRunning">
+        <member name="E:DustInTheWind.Kinoko.IKinokoContext.TaskRunning">
             <summary>
             Event raised before a task is started. A task is represented by the multiple measurements of a subject.
             </summary>
         </member>
-        <member name="E:DustInTheWind.Kinoko.IKinoko.TaskRun">
+        <member name="E:DustInTheWind.Kinoko.IKinokoContext.TaskRun">
             <summary>
             Event raised after a task is finished. A task is represented by the multiple measurements of a subject.
             </summary>
@@ -89,7 +89,7 @@
         </member>
         <member name="T:DustInTheWind.Kinoko.KinokoResult">
             <summary>
-            Contains the measurements taken by <see cref="T:DustInTheWind.Kinoko.Kinoko"/> after it runs the subjects.
+            Contains the measurements taken by <see cref="T:DustInTheWind.Kinoko.KinokoContext"/> after it measures the subjects.
             </summary>
         </member>
         <member name="F:DustInTheWind.Kinoko.KinokoResult.measurements">
@@ -128,38 +128,38 @@
             Gets the average value in miliseconds of the time measurements.
             </summary>
         </member>
-        <member name="T:DustInTheWind.Kinoko.Kinoko">
+        <member name="T:DustInTheWind.Kinoko.KinokoContext">
             <summary>
             Measures the time needed to run the provided subjects. The measurement is performed multiple times and an
             average is calculated.
             The class is not thread safe.
             </summary>
         </member>
-        <member name="M:DustInTheWind.Kinoko.Kinoko.OnMeasuring(DustInTheWind.Kinoko.MeasuringEventArgs)">
+        <member name="M:DustInTheWind.Kinoko.KinokoContext.OnMeasuring(DustInTheWind.Kinoko.MeasuringEventArgs)">
             <summary>
-            Raises the <see cref="E:DustInTheWind.Kinoko.Kinoko.Measuring"/> event.
+            Raises the <see cref="E:DustInTheWind.Kinoko.KinokoContext.Measuring"/> event.
             </summary>
             <param name="e">An <see cref="T:DustInTheWind.Kinoko.MeasuringEventArgs"/> object that contains the event data.</param>
         </member>
-        <member name="M:DustInTheWind.Kinoko.Kinoko.OnMeasured(DustInTheWind.Kinoko.MeasuredEventArgs)">
+        <member name="M:DustInTheWind.Kinoko.KinokoContext.OnMeasured(DustInTheWind.Kinoko.MeasuredEventArgs)">
             <summary>
-            Raises the <see cref="E:DustInTheWind.Kinoko.Kinoko.Measured"/> event.
+            Raises the <see cref="E:DustInTheWind.Kinoko.KinokoContext.Measured"/> event.
             </summary>
             <param name="e">An <see cref="T:DustInTheWind.Kinoko.MeasuredEventArgs"/> object that contains the event data.</param>
         </member>
-        <member name="M:DustInTheWind.Kinoko.Kinoko.OnTaskRunning(DustInTheWind.Kinoko.TaskRunningEventArgs)">
+        <member name="M:DustInTheWind.Kinoko.KinokoContext.OnTaskRunning(DustInTheWind.Kinoko.TaskRunningEventArgs)">
             <summary>
-            Raises the <see cref="E:DustInTheWind.Kinoko.Kinoko.TaskRunning"/> event.
+            Raises the <see cref="E:DustInTheWind.Kinoko.KinokoContext.TaskRunning"/> event.
             </summary>
             <param name="e">An <see cref="T:DustInTheWind.Kinoko.TaskRunningEventArgs"/> object that contains the event data.</param>
         </member>
-        <member name="M:DustInTheWind.Kinoko.Kinoko.OnTaskRun(DustInTheWind.Kinoko.TaskRunEventArgs)">
+        <member name="M:DustInTheWind.Kinoko.KinokoContext.OnTaskRun(DustInTheWind.Kinoko.TaskRunEventArgs)">
             <summary>
-            Raises the <see cref="E:DustInTheWind.Kinoko.Kinoko.TaskRun"/> event.
+            Raises the <see cref="E:DustInTheWind.Kinoko.KinokoContext.TaskRun"/> event.
             </summary>
             <param name="e">An <see cref="T:DustInTheWind.Kinoko.TaskRunEventArgs"/> object that contains the event data.</param>
         </member>
-        <member name="M:DustInTheWind.Kinoko.Kinoko.Run(DustInTheWind.Kinoko.KinokoTask,System.Int32)">
+        <member name="M:DustInTheWind.Kinoko.KinokoContext.Run(DustInTheWind.Kinoko.KinokoTask,System.Int32)">
             <summary>
             Runs the task multiple times and measures the time intervals spent.
             </summary>
@@ -170,7 +170,7 @@
             After the measurements are finished, additional values (for example the average) are calculated from the measured data.
             </remarks>
         </member>
-        <member name="M:DustInTheWind.Kinoko.Kinoko.Run(DustInTheWind.Kinoko.Providers.ITasksProvider,System.Int32)">
+        <member name="M:DustInTheWind.Kinoko.KinokoContext.Run(DustInTheWind.Kinoko.Providers.ITasksProvider,System.Int32)">
             <summary>
             Measures the time spent to run the subjects received from the subjectProvider.
             </summary>
@@ -180,7 +180,7 @@
             <exception cref="T:System.ArgumentNullException">Is thrown when the subjectProvider or the repeatCount are <see langword="null"/>.</exception>
             <exception cref="T:System.ArgumentOutOfRangeException">Is thrown when the repeatCount is less then 1.</exception>
         </member>
-        <member name="M:DustInTheWind.Kinoko.Kinoko.RunTaskAndRunEvents(DustInTheWind.Kinoko.KinokoTask,System.Int32)">
+        <member name="M:DustInTheWind.Kinoko.KinokoContext.RunTaskAndRaiseEvents(DustInTheWind.Kinoko.KinokoTask,System.Int32)">
             <summary>
             Measures the subject and also raises the needed events.
             The additional values are calculated from the measured data.
@@ -189,22 +189,22 @@
             <param name="task">The kinoko task to be run.</param>
             <param name="repeatCount">The number of times to repeat the measurement.</param>
         </member>
-        <member name="E:DustInTheWind.Kinoko.Kinoko.Measuring">
+        <member name="E:DustInTheWind.Kinoko.KinokoContext.Measuring">
             <summary>
             Event raised before every measuring of a subject.
             </summary>
         </member>
-        <member name="E:DustInTheWind.Kinoko.Kinoko.Measured">
+        <member name="E:DustInTheWind.Kinoko.KinokoContext.Measured">
             <summary>
             Event raised after every measuring of a subject.
             </summary>
         </member>
-        <member name="E:DustInTheWind.Kinoko.Kinoko.TaskRunning">
+        <member name="E:DustInTheWind.Kinoko.KinokoContext.TaskRunning">
             <summary>
             Event raised before a task is started. A task is represented by the multiple measurements of a subject.
             </summary>
         </member>
-        <member name="E:DustInTheWind.Kinoko.Kinoko.TaskRun">
+        <member name="E:DustInTheWind.Kinoko.KinokoContext.TaskRun">
             <summary>
             Event raised after a task is finished. A task is represented by the multiple measurements of a subject.
             </summary>
@@ -237,7 +237,7 @@
         </member>
         <member name="T:DustInTheWind.Kinoko.MeasuringEventArgs">
             <summary>
-            Provides data for <see cref="E:DustInTheWind.Kinoko.Kinoko.Measuring"/> event.
+            Provides data for <see cref="E:DustInTheWind.Kinoko.KinokoContext.Measuring"/> event.
             </summary>
         </member>
         <member name="F:DustInTheWind.Kinoko.MeasuringEventArgs.stepIndex">
@@ -258,7 +258,7 @@
         </member>
         <member name="T:DustInTheWind.Kinoko.MeasuredEventArgs">
             <summary>
-            Provides data for <see cref="E:DustInTheWind.Kinoko.Kinoko.Measured"/> event.
+            Provides data for <see cref="E:DustInTheWind.Kinoko.KinokoContext.Measured"/> event.
             </summary>
         </member>
         <member name="F:DustInTheWind.Kinoko.MeasuredEventArgs.stepIndex">
@@ -290,7 +290,7 @@
         </member>
         <member name="T:DustInTheWind.Kinoko.TaskRunningEventArgs">
             <summary>
-            Provides data for <see cref="E:DustInTheWind.Kinoko.Kinoko.TaskRunning"/> event.
+            Provides data for <see cref="E:DustInTheWind.Kinoko.KinokoContext.TaskRunning"/> event.
             </summary>
         </member>
         <member name="F:DustInTheWind.Kinoko.TaskRunningEventArgs.task">
@@ -311,7 +311,7 @@
         </member>
         <member name="T:DustInTheWind.Kinoko.KinokoSubject">
             <summary>
-            Represents the subject method that is measured by <see cref="T:DustInTheWind.Kinoko.Kinoko"/>.
+            Represents the subject method that is measured by <see cref="T:DustInTheWind.Kinoko.KinokoContext"/>.
             </summary>
         </member>
         <member name="T:DustInTheWind.Kinoko.Measurer">
@@ -396,7 +396,7 @@
         </member>
         <member name="T:DustInTheWind.Kinoko.TaskRunEventArgs">
             <summary>
-            Provides data for <see cref="E:DustInTheWind.Kinoko.Kinoko.TaskRunning"/> event.
+            Provides data for <see cref="E:DustInTheWind.Kinoko.KinokoContext.TaskRunning"/> event.
             </summary>
         </member>
         <member name="F:DustInTheWind.Kinoko.TaskRunEventArgs.result">
@@ -419,11 +419,6 @@
         <member name="T:DustInTheWind.Kinoko.KinokoTaskAttribute">
             <summary>
             Used to mark the methods that should be measured by Kinoko.
-            </summary>
-        </member>
-        <member name="M:DustInTheWind.Kinoko.KinokoTaskAttribute.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:DustInTheWind.Kinoko.KinokoTaskAttribute"/> class.
             </summary>
         </member>
         <member name="T:DustInTheWind.Kinoko.KinokoTask">
@@ -449,7 +444,7 @@
         </member>
         <member name="T:DustInTheWind.Kinoko.Providers.ITasksProvider">
             <summary>
-            Provides a list of kinoko tasks to be run by <see cref="T:DustInTheWind.Kinoko.Kinoko"/>.
+            Provides a list of kinoko tasks to be run by <see cref="T:DustInTheWind.Kinoko.KinokoContext"/>.
             </summary>
         </member>
         <member name="M:DustInTheWind.Kinoko.Providers.ITasksProvider.GetKinokoTasks">
