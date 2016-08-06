@@ -68,4 +68,13 @@
       <Name>Kinoko</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="postbuild.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <PropertyGroup>
+    <PostBuildEvent>"$(MSBuildBinPath)\msbuild.exe" postbuild.xml /p:SolutionDir="$(SolutionDir)\"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

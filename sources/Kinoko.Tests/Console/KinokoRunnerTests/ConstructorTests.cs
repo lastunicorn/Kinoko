@@ -64,7 +64,7 @@ namespace DustInTheWind.Kinoko.Tests.Console.KinokoRunnerTests
             }
             catch (ArgumentNullException ex)
             {
-                Assert.That(ex.ParamName, Is.EqualTo("kinoko"));
+                Assert.That(ex.ParamName, Is.EqualTo("kinokoContext"));
                 throw;
             }
         }
